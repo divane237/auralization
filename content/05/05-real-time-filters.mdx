@@ -1,0 +1,449 @@
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+
+<section className="intro-lesson">
+
+# Partitioned Convolution & Real-Time Filters  
+*Chapter 5 – Signal Processing for Auralization*
+
+<Callout type="info" title="How to Use This Subchapter">
+Work through the sections in order, holding on to the latency and computational constraints. Revisit the callouts whenever you want a quick reminder of the trade-offs that follow.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">
+    Real-time auralization depends on convolution with impulse responses that can stretch across hundreds of thousands of samples. Offline renderers can process them leisurely, but interactive systems must balance CPU, memory, and latency.
+  </div>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">After completing this subchapter, you will be able to:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Explain why direct convolution becomes impractical for long impulse responses</li>
+    <li>Relate convolution complexity to real-time audio constraints</li>
+    <li>Describe the fundamental idea behind partitioned convolution</li>
+    <li>Compare uniform and non-uniform partitioning strategies</li>
+    <li>Understand how latency emerges from block-based processing</li>
+    <li>Explain how real-time filters are structured in modern auralization systems</li>
+  </ul>
+</section>
+
+---
+
+## 1. Long Impulse Responses in Auralization
+
+In many auralization applications, impulse responses are inherently long. This is not a technical artifact, but a physical necessity.
+
+Examples include:
+
+- **Room impulse responses** with long reverberation tails  
+- **Binaural impulse responses** that include head-related filtering and reflections  
+- **Combined room–HRTF responses**, which merge spatial and environmental effects  
+
+In large or reverberant spaces, impulse responses can last several seconds. At a sampling rate of 48 kHz, a 3-second impulse response already contains more than 140,000 samples.
+
+Such lengths pose no problem for offline convolution, but they quickly overwhelm real-time systems.
+
+<Callout type="success" title="Key Insight">
+Impulse responses encode direct sound plus reflections, so their length is dictated by physical acoustics rather than compute limitations.
+</Callout>
+
+---
+
+## 2. Computational Cost of Direct Convolution
+
+Direct time-domain convolution computes each output sample as a weighted sum of the impulse response:
+
+<MathFormula>
+{"y[n] = \\sum_{k=0}^{M-1} x[n-k] \\, h[k]"}
+</MathFormula>
+
+For each output sample:
+- <MathFormula inline> {"M"} </MathFormula> multiplications are required  
+- <MathFormula inline> {"M - 1"} </MathFormula>  additions are required  
+
+This leads to a computational complexity of:
+
+<MathFormula> {"O = N \\cdot M"} </MathFormula>
+
+In real-time audio:
+- <MathFormula inline> {"N"} </MathFormula> grows continuously as audio streams in  
+- <MathFormula inline> {"M"} </MathFormula>  is fixed but very large  
+
+Even on modern processors, this quickly exceeds what can be computed within the tight timing constraints of an audio callback.
+
+<div className="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Characteristic</th>
+        <th>Direct convolution</th>
+        <th>FFT-based convolution</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Complexity</td>
+        <td><MathFormula inline> {"O = N \\cdot M"} </MathFormula></td>
+        <td><MathFormula inline> {"\\approx O ( N \\log N)"} </MathFormula></td>
+      </tr>
+      <tr>
+        <td>Latency</td>
+        <td>Minimal but CPU bound</td>
+        <td>Buffer dependent</td>
+      </tr>
+      <tr>
+        <td>Memory</td>
+        <td>Impulse response + input buffer</td>
+        <td>Additional FFT buffers</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+---
+
+## 3. Real-Time Constraints and Latency
+
+Real-time audio systems operate on **blocks of samples**, not individual samples. Audio hardware typically requests new data every few milliseconds.
+
+This introduces two key constraints:
+
+1. **Processing time constraint**  
+   All computations for a block must be completed before the next block is due.
+
+2. **Latency constraint**  
+   Any buffering or block processing introduces delay between input and output.
+
+From a perceptual perspective:
+- delays below 10 ms are usually imperceptible  
+- delays between 10 and 20 ms are often acceptable  
+- delays above 30 ms degrade interactivity and realism  
+
+Convolution strategies for real-time auralization must therefore minimize both computation time *and* latency.
+
+<Callout type="warning" title="Latency Watch">
+Even efficient algorithms must meet the callback deadline—if a block takes too long, you get dropouts or audible lag. Keep the latency budget firmly in mind when sizing FFT blocks.
+</Callout>
+
+---
+
+## 4. Frequency-Domain Convolution and Block Processing
+
+The convolution theorem provides an alternative formulation:
+
+<MathFormula>
+{"y[n] = \\mathcal{F}^{-1}\\{X(e^{j\\omega}) \\cdot H(e^{j\\omega})\\}"}
+</MathFormula>
+
+By transforming signals into the frequency domain:
+- convolution becomes pointwise multiplication  
+- computational complexity is reduced to <MathFormula inline> {"\\approx O ( N \\log N)"} </MathFormula>
+
+However, FFT-based convolution requires:
+- buffering input samples into blocks  
+- transforming each block  
+- transforming the result back to the time domain  
+
+The **block size** determines:
+- computational efficiency  
+- memory usage  
+- system latency  
+
+Large blocks are efficient but introduce large delays. Small blocks reduce latency but increase overhead.
+
+---
+
+## 5. Motivation for Partitioned Convolution
+
+Partitioned convolution resolves this trade-off by recognizing an important property of impulse responses:
+
+> Not all parts of an impulse response are perceptually or temporally equally important.
+
+Early parts of the impulse response:
+- contain the direct sound and early reflections  
+- strongly affect localization and clarity  
+- require low latency  
+
+Later parts:
+- correspond to late reverberation  
+- evolve slowly  
+- tolerate larger delays  
+
+Partitioned convolution exploits this structure.
+
+<Callout type="info" title="Design Insight">
+Partitioned convolution dedicates its tightest latency budget to the parts of the impulse response that listeners are most sensitive to, while outsourcing the slow tail to large, efficient blocks.
+</Callout>
+
+---
+
+## 6. Core Principle of Partitioned Convolution
+
+Instead of treating the impulse response as a single long filter, it is decomposed into multiple segments:
+
+<MathFormula>
+{String.raw`h[n] = h_0[n] + h_1[n] + h_2[n] + \dots`}
+</MathFormula>
+
+Each segment:
+
+   <ul className="list-disc">
+      <li>
+      - has a finite length  
+      </li>
+      <li>
+      - is processed using its own convolution engine  
+      </li>
+      <li>
+      - contributes to the final output through summation  
+      </li>
+   </ul>
+
+
+By choosing different block sizes for different segments, the system achieves low latency where it matters most and efficiency where possible.
+
+---
+
+## 7. Uniform Partitioned Convolution
+
+In **uniform partitioned convolution**, all segments have the same length.
+
+### Characteristics
+
+- straightforward implementation  
+- uniform FFT sizes  
+- predictable computational load  
+
+### Limitations
+
+- latency is equal to the partition length  
+- early impulse response components may be delayed unnecessarily  
+
+Uniform partitioning is therefore suitable for:
+- offline rendering  
+- non-interactive convolution reverbs  
+- systems where latency is not critical  
+
+---
+
+## 8. Non-Uniform (Hybrid) Partitioned Convolution
+
+Non-uniform partitioning uses **multiple partition sizes**.
+
+Typical strategy:
+- very small partitions for the first milliseconds  
+- medium partitions for early reflections  
+- large partitions for late reverberation  
+
+<ImageSection src="/images/chapter05/subchapter05-8.1.png" caption="Hybrid partition sizes align latency with perceptual importance" />
+
+This approach aligns signal processing with auditory perception and enables high-quality real-time auralization.
+
+<Callout type="info" title="Perceptual Match">
+Hybrid partition sizes put the early response in the lowest-latency path while letting the reverberant tail be processed efficiently with large blocks.
+</Callout>
+
+---
+
+## 9. Latency–Efficiency Trade-Off in Detail
+
+Each partition introduces a delay approximately equal to its block size. The total perceived latency is dominated by the smallest partitions used for early response components.
+
+Designers must therefore balance:
+- number of partitions  
+- partition lengths  
+- FFT sizes  
+- available CPU resources  
+
+The result is a system that behaves perceptually like a low-latency filter, even though most of the impulse response is processed with large blocks.
+
+---
+
+## 10. Real-Time Filters as Multi-Stage Systems
+
+In modern auralization engines, real-time filtering is often implemented as a **multi-stage system**:
+
+- stage 1: direct sound and HRTF filtering  
+- stage 2: early reflections  
+- stage 3: late reverberation  
+
+Each stage uses its own convolution parameters and operates on different time scales.
+
+---
+
+## 11. Binaural Rendering and Partitioned Convolution
+
+Binaural rendering doubles the computational load, since separate impulse responses are required for the left and right ears.
+
+Additional complexity arises when:
+- sound sources move  
+- the listener rotates their head  
+- impulse responses must be updated dynamically  
+
+Partitioned convolution allows updates to affect only early partitions, while late partitions continue processing smoothly.
+
+---
+
+## 12. Conceptual Example of a Real-Time Pipeline
+
+A practical binaural auralization pipeline may operate as follows:
+
+1. Input signal enters the system  
+2. Early partitions generate immediate output with minimal delay  
+3. Later partitions contribute progressively to the reverberant tail  
+4. All partition outputs are summed sample-by-sample  
+
+The listener perceives a coherent acoustic response without noticeable delay or artifacts.
+
+---
+
+## 13. Implementation Concepts (High-Level)
+
+Although implementations differ, most systems rely on:
+
+- overlap-add or overlap-save methods  
+- precomputed FFTs of impulse response partitions  
+- careful scheduling within the audio callback  
+
+These techniques ensure deterministic timing and stable performance.
+
+---
+
+## 14. Broader Significance for Auralization
+
+Partitioned convolution enables:
+- interactive virtual acoustics  
+- real-time binaural rendering  
+- dynamic sound scenes  
+
+Without it, convolution-based auralization would remain limited to offline rendering and post-production.
+
+---
+
+## 15. Summary
+
+Partitioned convolution transforms long impulse responses into a form that can be processed efficiently in real time. By dividing impulse responses into multiple segments and assigning appropriate block sizes to each, real-time auralization systems achieve low latency, high efficiency, and perceptual accuracy. This technique underpins modern convolution reverbs, binaural renderers, and interactive acoustic simulations.
+
+---
+
+<Quiz chapterId="05-partitioned-convolution" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

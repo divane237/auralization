@@ -1,0 +1,789 @@
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+
+<section className="wave-equation-lesson">
+
+<header className="lesson-hero">
+  <div className="module-label">Module 01 – Fundamentals of Acoustics</div>
+  <div className="subchapter-label">Subchapter: FA-wave-equation</div>
+  <h1>The Acoustic Wave Equation</h1>
+  <div className="hero-lede">
+    Sound is a dynamic field whose pressure, density, and velocity are tightly coupled in time and
+    space. The acoustic wave equation cements that link by tying spatial curvature to temporal
+    acceleration, letting us predict how disturbances travel.
+  </div>
+  <div className="hero-pills">
+    <span className="hero-pill">Linear Acoustics</span>
+    <span className="hero-pill">PDEs</span>
+    <span className="hero-pill">Wave Physics</span>
+  </div>
+</header>
+
+<section className="objectives-card">
+  <h2>🎯 Learning Objectives</h2>
+  <p>After this lesson, you should be able to:</p>
+  <ul>
+    <li>Describe how <strong>sound propagation</strong> follows from Newton’s law and mass conservation.</li>
+    <li>Understand the <strong>assumptions of linear acoustics</strong> and why “small perturbations” matter.</li>
+    <li>Explain the relationships between <strong>pressure</strong>, <strong>density</strong>, and <strong>particle velocity</strong>.</li>
+    <li>Follow the full derivation from basic fluid laws → <strong>1D wave equation</strong>.</li>
+    <li>Interpret the <strong>physical meaning</strong> of the wave equation as linking spatial and temporal curvature.</li>
+    <li>Recognize <strong>travelling waves</strong> and <strong>standing waves</strong> as key solutions.</li>
+    <li>Understand how <strong>boundary conditions</strong> produce resonances and modes.</li>
+    <li>Extend the 1D equation to the <strong>3D acoustic wave equation</strong>.</li>
+    <li>Connect the theory to <strong>rooms, ducts, auralization, and binaural rendering</strong>.</li>
+  </ul>
+</section>
+
+---
+
+## 1. Motivation: Sound as a Dynamic Field
+
+Sound is not a static quantity — it is a **dynamic field** that evolves in time and spreads across space.  
+Pressure at one point influences pressure at neighboring points, producing a **propagating disturbance**.
+
+We want a mathematical model that expresses:
+
+- How pressure at a location **changes over time**, and  
+- How this change is linked to the **spatial distribution** of pressure.
+
+This naturally leads to a **partial differential equation (PDE)**, because both space and time are involved.  
+The simplest PDE that captures **small-signal acoustic propagation** is the **acoustic wave equation**.
+
+---
+
+## 2. Assumptions of Linear Acoustics
+
+The derivation uses the assumptions of **linear acoustics**:
+
+- Acoustic pressure is tiny compared to ambient pressure  
+- Density variations are small  
+- Particle velocities are much smaller than the speed of sound  
+
+We write:
+
+<MathFormula>
+  {`|p'(x,t)| \\ll p_0,\\quad |\\rho'(x,t)| \\ll \\rho_0,\\quad |u(x,t)| \\ll c`}
+</MathFormula>
+
+Here:
+
+- <MathFormula inline>{`p_0`}</MathFormula> = ambient atmospheric pressure  
+- <MathFormula inline>{`p'(x,t)`}</MathFormula> = acoustic pressure fluctuation  
+- <MathFormula inline>{`\\rho_0`}</MathFormula> = equilibrium density  
+- <MathFormula inline>{`\\rho'(x,t)`}</MathFormula> = density fluctuation  
+- <MathFormula inline>{`u(x,t)`}</MathFormula> = particle velocity  
+- <MathFormula inline>{`c`}</MathFormula> = speed of sound  
+
+Real-world values justify this:
+
+- Atmospheric pressure: ≈ 101 325 Pa  
+- Loud rock concert: ~2 Pa acoustic fluctuation  
+
+So even loud sounds produce only about **0.002 %** variation of ambient pressure → linear acoustics is valid.
+
+These assumptions allow:
+
+- Linearization of nonlinear fluid equations  
+- Use of **superposition** (very important for auralization & DSP)  
+- Neglect of terms of order <MathFormula inline>{`(p')^2`}</MathFormula>, etc.
+
+---
+
+## 3. Acoustic Field Quantities (1D View)
+
+To derive the wave equation, we consider a 1D situation: sound propagating along the **x-axis**, e.g. in a narrow tube.
+
+---
+
+### 3.1 Sound Pressure
+
+We decompose pressure into:
+
+<MathFormula>
+  {`p(x,t) = p_0 + p'(x,t)`}
+</MathFormula>
+
+- <MathFormula inline>{`p_0`}</MathFormula> is the static ambient pressure  
+- <MathFormula inline>{`p'(x,t)`}</MathFormula> is the time-varying acoustic part  
+
+Only <MathFormula inline>{`p'(x,t)`}</MathFormula> is relevant for sound perception and measurement.
+
+---
+
+### 3.2 Particle Velocity
+
+Particles in the medium (air) oscillate about equilibrium:
+
+<MathFormula>
+  {`u(x,t) = \\frac{\\partial \\xi(x,t)}{\\partial t}`}
+</MathFormula>
+
+where <MathFormula inline>{`\\xi(x,t)`}</MathFormula> is particle displacement.
+
+Typical values:
+
+- For normal sounds, <MathFormula inline>{`u`}</MathFormula> is in the mm/s range.  
+- Pressure is what microphones pick up; velocity is crucial for **energy flow**.
+
+---
+
+### 3.3 Density Fluctuation
+
+Similarly, density is:
+
+<MathFormula>
+  {`\\rho(x,t) = \\rho_0 + \\rho'(x,t)`}
+</MathFormula>
+
+where:
+
+- <MathFormula inline>{`\\rho_0`}</MathFormula> = average density  
+- <MathFormula inline>{`\\rho'(x,t)`}</MathFormula> = small acoustic fluctuation  
+
+Pressure and density are linked via the **equation of state** (thermodynamics).
+
+---
+
+## 4. Fundamental Equations of Acoustics (1D)
+
+The wave equation is obtained from three fundamental relations:
+
+1. **Euler’s equation** (Newton’s law)  
+2. **Continuity equation** (mass conservation)  
+3. **Equation of state** (thermodynamic relation between <MathFormula inline>{`p'`}</MathFormula> and <MathFormula inline>{`\\rho'`}</MathFormula>)
+
+---
+
+### 4.1 Euler’s Equation (Force Balance)
+
+For small-signal acoustics in 1D:
+
+<MathFormula>
+  {`\\rho_0 \\frac{\\partial u}{\\partial t} = -\\frac{\\partial p'}{\\partial x}`}
+</MathFormula>
+
+Interpretation:
+
+- A pressure gradient (difference in pressure over distance) accelerates air particles.  
+- Regions of high pressure push particles towards low pressure, causing **particle acceleration**.
+
+---
+
+### 4.2 Continuity Equation (Mass Conservation)
+
+Conservation of mass in 1D leads to:
+
+<MathFormula>
+  {`\\frac{\\partial \\rho'}{\\partial t} + \\rho_0 \\frac{\\partial u}{\\partial x} = 0`}
+</MathFormula>
+
+Interpretation:
+
+- If particles diverge (spread apart) in a region, density decreases there.  
+- If they converge, density increases.  
+- This enforces that mass cannot simply appear or disappear.
+
+---
+
+### 4.3 Equation of State (Linear, Adiabatic)
+
+For small acoustic fluctuations under adiabatic conditions:
+
+<MathFormula>
+  {`p' = c^2 \\rho'`}
+</MathFormula>
+
+Here <MathFormula inline>{`c`}</MathFormula> is the **speed of sound**, which for air (approximate ideal gas) can be expressed as:
+
+<MathFormula>
+  {`c = \\sqrt{\\gamma R T}`}
+</MathFormula>
+
+with:
+
+- <MathFormula inline>{`\\gamma`}</MathFormula> = ratio of specific heats  
+- <MathFormula inline>{`R`}</MathFormula> = specific gas constant  
+- <MathFormula inline>{`T`}</MathFormula> = absolute temperature  
+
+At 20 °C in air, <MathFormula inline>{`c \\approx 343\\,\\mathrm{m/s}`}</MathFormula>.
+
+---
+
+## 5. Deriving the 1D Acoustic Wave Equation
+
+Now we combine the three equations to eliminate <MathFormula inline>{`u`}</MathFormula> and <MathFormula inline>{`\\rho'`}</MathFormula>, leaving a single equation in terms of **pressure only**.
+
+---
+
+#### Step 1 – Differentiate Euler’s Equation w.r.t. x
+
+Start from:
+
+<MathFormula>
+  {`\\rho_0 \\frac{\\partial u}{\\partial t} = -\\frac{\\partial p'}{\\partial x}`}
+</MathFormula>
+
+Differentiate both sides with respect to <MathFormula inline>{`x`}</MathFormula>:
+
+<MathFormula>
+  {`\\rho_0 \\frac{\\partial^2 u}{\\partial x\\,\\partial t} = -\\frac{\\partial^2 p'}{\\partial x^2}`}
+</MathFormula>
+
+---
+
+#### Step 2 – Differentiate Continuity Equation w.r.t. t
+
+Continuity equation:
+
+<MathFormula>
+  {`\\frac{\\partial \\rho'}{\\partial t} + \\rho_0 \\frac{\\partial u}{\\partial x} = 0`}
+</MathFormula>
+
+Differentiate with respect to <MathFormula inline>{`t`}</MathFormula>:
+
+<MathFormula>
+  {`\\frac{\\partial^2 \\rho'}{\\partial t^2} + \\rho_0 \\frac{\\partial^2 u}{\\partial x\\,\\partial t} = 0`}
+</MathFormula>
+
+---
+
+#### Step 3 – Eliminate the Mixed Derivative
+
+From Step 1, we have:
+
+<MathFormula>
+  {`\\rho_0 \\frac{\\partial^2 u}{\\partial x\\,\\partial t} = -\\frac{\\partial^2 p'}{\\partial x^2}`}
+</MathFormula>
+
+Substitute into Step 2:
+
+<MathFormula>
+  {`\\frac{\\partial^2 \\rho'}{\\partial t^2} - \\frac{\\partial^2 p'}{\\partial x^2} = 0`}
+</MathFormula>
+
+or:
+
+<MathFormula>
+  {`\\frac{\\partial^2 \\rho'}{\\partial t^2} = \\frac{\\partial^2 p'}{\\partial x^2}`}
+</MathFormula>
+
+If we keep <MathFormula inline>{`\\rho_0`}</MathFormula> explicit:
+
+<MathFormula>
+  {`\\frac{\\partial^2 \\rho'}{\\partial t^2} = \\frac{1}{\\rho_0}\\frac{\\partial^2 p'}{\\partial x^2}`}
+</MathFormula>
+
+---
+
+#### Step 4 – Use the Equation of State
+
+From the equation of state:
+
+<MathFormula>
+  {`p' = c^2 \\rho'`}
+</MathFormula>
+
+Therefore:
+
+<MathFormula>
+  {`\\frac{\\partial^2 p'}{\\partial t^2} = c^2 \\frac{\\partial^2 \\rho'}{\\partial t^2}`}
+</MathFormula>
+
+Substitute for <MathFormula inline>{`\\partial^2 \\rho'/\\partial t^2`}</MathFormula>:
+
+<MathFormula>
+  {`\\frac{\\partial^2 p'}{\\partial t^2} = c^2 \\frac{1}{\\rho_0} \\frac{\\partial^2 p'}{\\partial x^2}`}
+</MathFormula>
+
+Rearrange:
+
+<MathFormula>
+  {`\\frac{\\partial^2 p'}{\\partial x^2} = \\frac{\\rho_0}{c^2} \\frac{\\partial^2 p'}{\\partial t^2}`}
+</MathFormula>
+
+In most acoustics texts, <MathFormula inline>{`\\rho_0`}</MathFormula> is absorbed into definitions so that we can write the standard form:
+
+<MathFormula>
+  {`\\frac{\\partial^2 p'(x,t)}{\\partial x^2} = \\frac{1}{c^2} \\frac{\\partial^2 p'(x,t)}{\\partial t^2}`}
+</MathFormula>
+
+---
+
+## 6. The 1D Acoustic Wave Equation (Final Form)
+
+We have obtained the **1D acoustic wave equation**:
+
+<MathFormula>
+  {`\\boxed{ \\frac{\\partial^2 p'(x,t)}{\\partial x^2} = \\frac{1}{c^2} \\frac{\\partial^2 p'(x,t)}{\\partial t^2} }`}
+</MathFormula>
+
+This is the central equation of **linear acoustics in 1D**.
+
+Interpretation:
+
+- The **second spatial derivative** (curvature in space) controls the **second time derivative** (acceleration in time).  
+- Non-uniform pressure distributions must evolve in time, causing **wave propagation**.
+
+---
+
+## 7. Physical Meaning of the Wave Equation
+
+The wave equation encodes the following ideas:
+
+- Sound waves propagate with **finite speed** <MathFormula inline>{`c`}</MathFormula>.  
+- If pressure is perfectly uniform in space, nothing changes in time.  
+- If pressure has spatial “bumps” (curvature), these disturbances spread out over time.
+
+You can think of this as the acoustic analogue of:
+
+- A stretched string that moves if it is curved  
+- A membrane that vibrates when displaced  
+
+The wave equation is simply the **fluid version** of these familiar situations.
+
+---
+
+## 8. Travelling Wave Solutions
+
+A key class of solutions:
+
+<MathFormula>
+  {`p'(x,t) = A \\sin(\\omega t - kx + \\varphi)`}
+</MathFormula>
+
+with:
+
+<MathFormula>
+  {`\\omega = 2\\pi f, \\qquad k = \\frac{\\omega}{c} = \\frac{2\\pi}{\\lambda}`}
+</MathFormula>
+
+- <MathFormula inline>{`A`}</MathFormula> = amplitude  
+- <MathFormula inline>{`f`}</MathFormula> = frequency  
+- <MathFormula inline>{`\\omega`}</MathFormula> = angular frequency  
+- <MathFormula inline>{`k`}</MathFormula> = wave number  
+- <MathFormula inline>{`\\lambda`}</MathFormula> = wavelength  
+- <MathFormula inline>{`\\varphi`}</MathFormula> = phase offset  
+
+---
+
+### 8.1 Direction of Propagation
+
+- <MathFormula inline>{`p'(x,t) = A \\sin(\\omega t - kx)`}</MathFormula> → travels in **+x** direction  
+- <MathFormula inline>{`p'(x,t) = A \\sin(\\omega t + kx)`}</MathFormula> → travels in **−x** direction  
+
+The sign in front of <MathFormula inline>{`kx`}</MathFormula> determines the direction of propagation.
+
+---
+
+### 8.2 Dispersion Relation
+
+The relation between wavelength and frequency is:
+
+<MathFormula>
+  {`c = \\lambda f`}
+</MathFormula>
+
+This holds for sound in a homogeneous, non-dispersive medium (like air in most audio ranges).
+
+Consequences:
+
+- Higher frequency → shorter wavelength  
+- Lower frequency → longer wavelength  
+
+This is important when comparing frequency to **room dimensions** (room modes, etc.).
+
+---
+
+## 9. Standing Waves
+
+Standing waves arise when two waves traveling in opposite directions superimpose.  
+Consider:
+
+<MathFormula>
+  {`p_1'(x,t) = A \\sin(\\omega t - kx), \\quad p_2'(x,t) = A \\sin(\\omega t + kx)`}
+</MathFormula>
+
+Using trigonometric identities:
+
+<MathFormula>
+  {`p_1' + p_2' = 2A \\cos(kx) \\sin(\\omega t)`}
+</MathFormula>
+
+Thus, a standing wave solution:
+
+<MathFormula>
+  {`p'(x,t) = 2A \\cos(kx)\\,\\sin(\\omega t)`}
+</MathFormula>
+
+Features:
+
+- **Nodes** where <MathFormula inline>{`\\cos(kx) = 0`}</MathFormula> → pressure is always zero  
+- **Antinodes** where <MathFormula inline>{`\\cos(kx) = \\pm 1`}</MathFormula> → maximum oscillation  
+
+Standing waves occur in:
+
+- Tubes and pipes  
+- Room modes  
+- Any bounded acoustic domain  
+
+They are crucial for understanding **resonance** and **modal behavior**.
+
+---
+
+## 10. Boundary Conditions and Modes
+
+The form of acoustic modes depends on the **boundary conditions** at the ends.
+
+---
+
+### 10.1 Rigid Boundary (Closed End)
+
+At a perfectly rigid wall, normal particle velocity is zero:
+
+<MathFormula>
+  {`u = 0`}
+</MathFormula>
+
+Using Euler’s equation, this typically implies:
+
+<MathFormula>
+  {`\\frac{\\partial p'}{\\partial x} = 0`}
+</MathFormula>
+
+So the spatial derivative of pressure is zero at the wall.
+
+---
+
+### 10.2 Pressure Release (Open End)
+
+At an ideal open end exposed to the atmosphere, we often approximate:
+
+<MathFormula>
+  {`p' = 0`}
+</MathFormula>
+
+This is an idealization, but useful for basic mode analysis.
+
+---
+
+## 11. Tube Modes and Resonant Frequencies
+
+Consider a 1D tube of length <MathFormula inline>{`L`}</MathFormula>.
+
+---
+
+### 11.1 Tube with Two Open or Two Closed Ends
+
+Standing-wave condition:
+
+<MathFormula>
+  {`\\lambda_n = \\frac{2L}{n}, \\quad n = 1,2,3,\\dots`}
+</MathFormula>
+
+Modal frequencies:
+
+<MathFormula>
+  {`f_n = \\frac{n c}{2L}`}
+</MathFormula>
+
+This leads to a series of harmonics spaced by <MathFormula inline>{`\\Delta f = c/(2L)`}</MathFormula>.
+
+---
+
+### 11.2 Tube with One Open and One Closed End
+
+In this configuration:
+
+<MathFormula>
+  {`\\lambda_n = \\frac{4L}{2n - 1}, \\quad n = 1,2,3,\\dots`}
+</MathFormula>
+
+Only odd harmonics appear in the modal series (as in some wind instruments).
+
+These relations are directly relevant later for:
+
+- Room modes (rectangular rooms treated as 3 orthogonal 1D problems)  
+- Ducts and waveguides  
+- Basic loudspeaker ports and resonators  
+
+---
+
+## 12. Extension to 3D: The Full Acoustic Wave Equation
+
+In three dimensions, the acoustic wave equation becomes:
+
+<MathFormula>
+  {`\\nabla^2 p' = \\frac{1}{c^2} \\frac{\\partial^2 p'}{\\partial t^2}`}
+</MathFormula>
+
+where:
+
+<MathFormula>
+  {`\\nabla^2 = \\frac{\\partial^2}{\\partial x^2} + \\frac{\\partial^2}{\\partial y^2} + \\frac{\\partial^2}{\\partial z^2}`}
+</MathFormula>
+
+Solutions include:
+
+- **Plane waves** (used heavily in basic acoustics analysis)  
+- **Spherical waves** (monopole sources, point source models)  
+- **Cylindrical waves** (line sources)  
+- **Modal fields** (e.g. in rooms, cavities, waveguides)
+
+The 3D equation is the starting point for:
+
+- Room acoustic modeling  
+- Outdoor sound propagation  
+- Complex boundary conditions  
+- Numerical methods (FDTD, FEM, BEM in advanced modules)
+
+---
+
+## 13. Acoustic Intensity and Energy Flow
+
+From Euler’s equation, we can express particle velocity in terms of pressure gradient.  
+In 1D and for harmonic steady-state, one often uses the characteristic impedance:
+
+<MathFormula>
+  {`Z_0 = \\rho_0 c`}
+</MathFormula>
+
+For plane waves:
+
+<MathFormula>
+  {`u(x,t) \\approx \\frac{p'(x,t)}{Z_0}`}
+</MathFormula>
+
+The **instantaneous acoustic intensity**:
+
+<MathFormula>
+  {`I(x,t) = p'(x,t)\\,u(x,t)`}
+</MathFormula>
+
+For sinusoidal steady-state, the **time-averaged intensity**:
+
+<MathFormula>
+  {`\\overline{I} = \\frac{p_{\\mathrm{rms}}^2}{\\rho_0 c}`}
+</MathFormula>
+
+This connects:
+
+- Measurable pressure (from microphones)  
+- Propagated power (sound power, sound power level)  
+- Human perception (through levels & decibels in a later subchapter)
+
+---
+
+## 14. Why the Wave Equation is Central to Auralization
+
+Almost everything in auralization and acoustic simulation ultimately comes from the wave equation:
+
+- **Room impulse responses (RIRs)** are solutions to the wave equation with an impulsive source.  
+- **Convolution reverb** models how arbitrary signals propagate through a wave-equation-governed system.  
+- **HRTFs** are directional impulse responses respecting the same underlying physics.  
+- **Room modes**, **reverberation time**, and **spatial impression** are all consequences of wave propagation and boundary conditions.
+
+The assumption of **linearity** (from small perturbations) plus **time invariance** (static boundary conditions) leads to:
+
+- LTI system behavior → convolution in time (Module 5)  
+- Frequency-domain analysis → transfer functions and filters  
+- System representations that can be implemented efficiently in DSP
+
+In other words:
+
+> The wave equation is the bridge between **physical acoustics** and **digital signal processing** for sound.
+
+---
+
+<section className="summary-card">
+  <h2>15. Summary</h2>
+  <ul>
+    <li>The <strong>acoustic wave equation</strong> follows from Euler, continuity, and the equation of state under small-signal assumptions.</li>
+    <li>
+      In 1D it reads:
+      <MathFormula>
+        {`\\frac{\\partial^2 p'}{\\partial x^2} = \\frac{1}{c^2} \\frac{\\partial^2 p'}{\\partial t^2}`}
+      </MathFormula>
+    </li>
+    <li>Solutions include <strong>travelling waves</strong>, <strong>standing waves</strong>, and modal shapes tied to boundaries.</li>
+    <li><strong>Boundary conditions</strong> and geometry set discrete modal frequencies in bounded domains.</li>
+    <li>The 3D form uses the Laplacian to describe realistic acoustic spaces.</li>
+    <li>Wave-equation thinking underpins propagation, room acoustics, psychoacoustics, auralization, and immersive audio.</li>
+  </ul>
+</section>
+
+---
+
+<Quiz chapterId="01-wave-equation" />
+
+</section>
+
+<style>{`
+  .wave-equation-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.72;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 76ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .wave-equation-lesson .lesson-hero {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(129, 140, 248, 0.15));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 2rem;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+    margin-bottom: 2.5rem;
+  }
+
+  .wave-equation-lesson .lesson-hero h1 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .wave-equation-lesson .module-label,
+  .wave-equation-lesson .subchapter-label {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: rgba(15, 23, 42, 0.65);
+    margin: 0;
+  }
+
+  .wave-equation-lesson .hero-lede {
+    max-width: 60ch;
+    margin-bottom: 1.5rem;
+    color: rgba(15, 23, 42, 0.85);
+  }
+
+  .wave-equation-lesson .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .wave-equation-lesson .hero-pill {
+    background: rgba(59, 130, 246, 0.12);
+    border-radius: 999px;
+    padding: 0.2rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1d4ed8;
+  }
+
+  .wave-equation-lesson .objectives-card {
+    border-radius: 1.75rem;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: rgba(238, 242, 255, 0.7);
+    padding: 2rem;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .wave-equation-lesson .objectives-card ul {
+    margin-top: 1rem;
+    padding-left: 1.4rem;
+  }
+
+  .wave-equation-lesson .objectives-card li {
+    margin-bottom: 0.65rem;
+  }
+
+  .wave-equation-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 700;
+    margin: 2.5rem 0 1rem;
+    line-height: 1.2;
+  }
+
+  .wave-equation-lesson h3 {
+    font-size: clamp(1.45rem, 2.5vw, 1.9rem);
+    margin: 2rem 0 0.75rem;
+    font-weight: 600;
+  }
+
+  .wave-equation-lesson h4 {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.5rem;
+    font-weight: 600;
+  }
+
+  .wave-equation-lesson p {
+    margin: 0.85rem 0;
+  }
+
+  .wave-equation-lesson ul,
+  .wave-equation-lesson ol {
+    margin: 1rem 0 1.75rem;
+    padding-left: 1.5rem;
+  }
+
+  .wave-equation-lesson li {
+    margin-bottom: 0.45rem;
+  }
+
+  .wave-equation-lesson strong {
+    color: #4338ca;
+  }
+
+  .wave-equation-lesson hr {
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+    margin: 2.5rem 0;
+  }
+
+  .wave-equation-lesson .summary-card {
+    border-radius: 1.5rem;
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    background: rgba(236, 254, 255, 0.7);
+    padding: 2rem;
+    box-shadow: 0 15px 40px rgba(14, 165, 233, 0.15);
+  }
+
+  .wave-equation-lesson .summary-card ul {
+    margin: 1rem 0 0;
+  }
+
+  .dark .wave-equation-lesson {
+    color: #f8fafc;
+  }
+
+  .dark .wave-equation-lesson .lesson-hero {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(129, 140, 248, 0.25));
+    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.55);
+  }
+
+  .dark .wave-equation-lesson .module-label,
+  .dark .wave-equation-lesson .subchapter-label,
+  .dark .wave-equation-lesson .hero-lede {
+    color: rgba(248, 250, 252, 0.8);
+  }
+
+  .dark .wave-equation-lesson .hero-pill {
+    background: rgba(59, 130, 246, 0.25);
+    color: #bfdbfe;
+  }
+
+  .dark .wave-equation-lesson .objectives-card {
+    background: rgba(76, 29, 149, 0.35);
+    border-color: rgba(167, 139, 250, 0.4);
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.65);
+  }
+
+  .dark .wave-equation-lesson strong {
+    color: #c7d2fe;
+  }
+
+  .dark .wave-equation-lesson hr {
+    border-color: rgba(248, 250, 252, 0.2);
+  }
+
+  .dark .wave-equation-lesson .summary-card {
+    background: rgba(8, 47, 73, 0.55);
+    border-color: rgba(14, 165, 233, 0.45);
+    box-shadow: 0 25px 60px rgba(8, 47, 73, 0.6);
+  }
+`}</style>

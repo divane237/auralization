@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Auralization Interactive Web App
 
-## Getting Started
+An interactive educational web application for exploring acoustics, sound propagation, and auralization concepts. Built with Next.js, this app provides hands-on tools and visualizations to understand fundamental principles of audio engineering and spatial sound.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Decibel Calculator**: Interactive tool for understanding sound levels and decibel calculations
+- **Directivity Explorer**: Visualize and explore sound source directivity patterns
+- **Frequency Band Explorer**: Analyze different frequency ranges and their acoustic properties
+- **Head Tracking Demo**: Experience binaural audio with head movement simulation
+- **Localization Explorer**: Interactive exploration of sound localization principles
+- **Masking Explorer**: Understand auditory masking effects
+- **Noise Map Explorer**: Visualize noise distribution in environments
+- **Plane Wave Visualizer**: 3D visualization of plane wave propagation
+- **Pure Tone Explorer**: Generate and analyze pure tone signals
+- **RT60 Explorer**: Room acoustics reverberation time analysis
+- **Spatial Perception Explorer**: Interactive spatial audio perception tools
+- **Spectrum Visualizer**: Real-time frequency spectrum analysis
+- **Time Domain Visualizer**: Waveform visualization and analysis
+- **Time-Frequency Explorer**: Combined time and frequency domain analysis
+- **3D Explorers**: Beamforming, room acoustics, and wave propagation in 3D space
+- **Educational Content**: Structured learning modules with quizzes and interactive examples
+
+## Technologies Used
+
+- **Framework**: Next.js 14 with App Router
+- **Styling**: Tailwind CSS
+- **3D Graphics**: Three.js for interactive visualizations
+- **Audio Processing**: Web Audio API
+- **Content**: MDX for rich educational content
+- **State Management**: Zustand for theme and application state
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd auralization
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Usage
+
+Navigate through the different sections using the menu:
+- **Explore**: Interactive tools and visualizations
+- **Learn**: Educational content organized by chapters
+- **Python**: Python-based demonstrations and examples
+
+Each explorer provides interactive controls to manipulate parameters and observe real-time changes in visualizations and audio output.
+
+## Project Structure
+
+```
+├── app/                 # Next.js app directory
+├── components/          # React components
+│   ├── 3d/             # 3D visualization components
+│   └── ...             # Interactive explorers
+├── content/            # MDX educational content
+├── lib/                # Utility functions and data
+├── public/             # Static assets
+└── stores/             # State management
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contributing
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Contributions are welcome! Please feel free to submit issues and pull requests.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-To learn more about Next.js, take a look at the following resources:
+## Acknowledgments
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built for educational purposes to demonstrate acoustics and auralization concepts through interactive web technologies.

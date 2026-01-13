@@ -1,0 +1,309 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+
+<section className="intro-lesson">
+
+# Room Impulse Responses & Auralization  
+*Module 03 – Propagation & Rooms*
+
+<Callout type="info" title="How to Use This Lesson">
+Review the learning objectives, then follow the numbered sections in order. Use the callouts as checkpoints and refer to the illustration and formulas when the narrative leans on intuition.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this lesson you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Define a <strong>Room Impulse Response (RIR)</strong> and explain the physical meaning of each temporal region.</li>
+    <li>Spot direct sound, early reflections, and reverberation in an impulse trace.</li>
+    <li>Link RIR features to descriptors such as <strong>RT60</strong>, <strong>clarity</strong>, and <strong>DRR</strong>.</li>
+    <li>Explain <strong>auralization</strong> via convolution between a dry signal and an RIR.</li>
+    <li>Understand whether an RIR was captured or simulated and why that choice matters.</li>
+    <li>Justify why RIRs are central to <strong>virtual acoustics</strong> and <strong>spatial audio rendering</strong>.</li>
+  </ul>
+</section>
+
+<Callout type="success" title="Key Idea">
+A room impulse response is the acoustic fingerprint between one source and one listener. Everything we hear from that room flows through this single trace.
+</Callout>
+
+---
+
+## 1. What Is a Room Impulse Response?
+
+A Room Impulse Response (RIR) is the time-domain output of a room when it receives an ideal impulse. Conceptually, the impulse excites all frequencies at once and the room responds with the sum of every propagation path.
+
+### 1.1 Temporal Landmarks
+
+- **Direct sound** arrives first along the shortest path and carries localization cues.
+- **Early reflections** are discrete peaks from nearby surfaces that shape clarity and spaciousness.
+- **Late reverberation** is a dense, noise-like tail whose slope encodes how quickly energy decays.
+
+<Callout type="warning" title="Watch Out">
+The direct sound peak shifts a few milliseconds when the listener moves just a little; measuring with fine resolution and low noise is essential for localization-sensitive applications.
+</Callout>
+
+---
+
+## 2. Physical Interpretation of an RIR
+
+Every surface, edge, and absorber in the room leaves a trace in the RIR. The timing of each peak reveals the path length, while the amplitude reflects absorption and scattering.
+
+<ImageSection src="/images/chapter05/subchapt05-2.1.jpg" caption="Direct sound, reflections, and reverberation overlay to form the full room impulse response" />
+
+### 2.1 Distances, materials, and modal behavior
+
+- Delay between peaks reveals the geometry of the path, including any reflections or diffractions.
+- Peak amplitude is shaped by surface absorption, source power, and microphone sensitivity.
+- The reverberant tail, especially at low frequencies, also carries modal resonances that affect bass warmth.
+
+---
+
+## 3. Mathematical Viewpoint
+
+Under the assumption that the room is linear and time-invariant, the RIR acts as the impulse response for the acoustic system. Any incoming dry signal passes through the RIR via convolution to produce the heard sound.
+
+If:
+- <MathFormula inline>{"x(t)"}</MathFormula> is the source signal  
+- <MathFormula inline>{"h(t)"}</MathFormula> is the RIR  
+
+then the received signal is:
+
+<MathFormula>
+{"y(t) = x(t) * h(t)"}
+</MathFormula>
+
+<Callout type="info" title="LTI Perspective">
+The convolution relationship is the mathematical backbone of auralization—filters, waveguides, and RIRs all behave like linear time-invariant systems under this model.
+</Callout>
+
+---
+
+## 4. What Information Is Encoded in an RIR?
+
+An RIR carries multiple layers of acoustic information simultaneously:
+
+- **Distance information** is embedded in the delay of the direct path.
+- **Reflection geometry** shows up as early peaks whose spacing hints at wall orientations.
+- **Absorption characteristics** are visible in the decay slope of the tail.
+- **Modal behavior** contributes low-frequency ringing and influences the perceived bass.
+- **Frequency-dependent reverberation** appears when different bands decay at different rates.
+
+From one RIR we can derive:
+- RT60  
+- Clarity indices (C50, C80)  
+- Definition (D50)  
+- DRR (Direct-to-Reverberant Ratio)
+
+---
+
+## 5. Measuring Room Impulse Responses
+
+RIRs are captured using either impulsive sources or coded signals and then deconvolved to isolate the room response.
+
+Measurement techniques include:
+- Exponential sine sweeps (ESS)
+- Maximum length sequences (MLS)
+- Impulsive sources (balloon pops, starter pistols)
+
+The captured signal is deconvolved using the known excitation to extract the RIR precisely.
+
+<Callout type="warning" title="Watch the noise">
+Good signal-to-noise ratio is non-negotiable. Background noise, HVAC hum, or microphone self-noise can distort the reverberant tail and derail descriptors such as RT60.
+</Callout>
+
+---
+
+## 6. Simulating Room Impulse Responses
+
+Virtual acoustics often requires synthetic RIRs that can be updated in real time as geometry, source positions, or materials change.
+
+- **Geometrical methods** (image source, ray tracing) reproduce early reflections with deterministic paths.
+- **Statistical models** synthesize the dense late reverberation tail as filtered noise.
+- **Hybrid approaches** combine geometry for the early part and statistical synthesis for the late tail.
+
+Simulated RIRs let designers explore room variations without physically building them.
+
+<Callout type="info" title="Why simulate?">
+Simulation makes it possible to audition rooms in VR/AR, test HRTF-fed renderers, and iterate on materials without running multiple measurement campaigns.
+</Callout>
+
+---
+
+## 7. What Is Auralization?
+
+Auralization is the act of rendering audible sound from an acoustic model: take any dry signal and convolve it with the appropriate RIR to place that signal inside a room.
+
+<MathFormula>
+{"\\text{Auralized sound} = \\text{Dry signal} * \\text{RIR}"}
+</MathFormula>
+
+This allows listeners to hear a space before it exists.
+
+<Callout type="success" title="Experience Real Rooms">
+Because convolution preserves directional and temporal cues, auralization lets designers, architects, and audio engineers demo room acoustics before construction begins.
+</Callout>
+
+---
+
+## 8. Perceptual Meaning of Auralization
+
+Listeners perceive a room through cues encoded in the auralized signal:
+
+- Room size and source distance
+- Material absorption and diffusion
+- Spatial impression and envelopment
+- Clarity versus smear
+
+Errors in the RIR show up as unnatural decay, wrong distance cues, or poor externalization, so perceptual realism demands accuracy in both measurement and simulation.
+
+---
+
+## 9. Mono, Binaural, and Multichannel RIRs
+
+RIRs come in different flavors depending on the playback setup:
+
+- **Monaural** — single microphone, useful for measuring or modeling room energy.
+- **Binaural** — two ear positions, often paired with HRTFs for headphone listening.
+- **Multichannel** — multiple loudspeaker feeds, such as Ambisonics or surround to recreate spatial energy.
+
+Choosing the right format keeps convolution aligned with the target reproduction chain.
+
+---
+
+## 10. RIRs in Virtual Acoustics Pipelines
+
+RIRs glue together propagation modeling, signal processing, and perception. In VR/AR and gaming pipelines they are updated as sources and listeners move, while head tracking or scene changes trigger new convolutions.
+
+- Propagation modeling feeds the RIR generator.
+- Signal processing runs the convolution or convolutionless alternative.
+- Perception evaluation ensures the resulting audio matches spatial cues.
+
+This joint workflow keeps the virtual environment sounding grounded.
+
+<Callout type="info" title="Next Up">
+Continue with <strong>03-reverberation</strong> to study how acousticians measure and control the decay that lives inside every RIR.
+</Callout>
+
+<Quiz chapterId="03-room-impulse-responses" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

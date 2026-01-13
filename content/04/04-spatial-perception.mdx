@@ -1,0 +1,225 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import Quiz from "@/components/Quiz";
+import SpatialPerceptionExplorer from "@/components/SpatialPerceptionExplorer";
+
+<section className="intro-lesson">
+
+# Spatial Perception  
+*Module 4 – Psychoacoustics & Perception*
+
+<Callout type="info" title="How to Use This Lesson">
+This subchapter tracks the cues that make a sound feel anchored in space. Read the learning objectives first, pause at each callout, and keep the interactive explorer open so you can listen while you read.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">
+    Spatial perception describes not only direction but also distance, width, and envelopment—everything that convinces you that a sound exists outside your head.
+  </div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Distinguish **localization** from the richer experience of **spatial perception**.</li>
+    <li>Explain how **distance perception** relies on multiple acoustic cues.</li>
+    <li>Understand the mechanics of **externalization** and what breaks the illusion.</li>
+    <li>Describe **apparent source width (ASW)** and **listener envelopment (LEV)**.</li>
+    <li>Relate spatial cues to room acoustics and immersive auralization.</li>
+  </ul>
+</section>
+
+---
+
+## 1. From Localization to Spatial Perception
+
+Localization answers “Where is the sound?” Spatial perception answers questions about distance, width, envelopment, and whether a signal feels internal or external.
+
+<Callout type="success" title="Key Idea">
+Spatial perception is an emergent property: localization cues combine with spectral shaping, reflections, and context to paint a believable spatial image.
+</Callout>
+
+- The same azimuth can feel near or far depending on how loud the direct sound is and how many reflections arrive.
+- Spectral richness, motion, and context (room size, object expectations) determine whether a source feels inside the head or outside it.
+- Spatial perception is what makes a recorded rehearsal sound alive instead of flat.
+
+## 2. Distance Perception
+
+Distance is **never encoded by a single cue**—it is inferred from how the direct and reflected components of a sound interact.
+
+<Callout type="success" title="Distance depends on multiple cues">
+Our brains monitor level, spectral balance, and the relationship between direct and reverberant energy to judge how far away a source is.
+</Callout>
+
+<ImageSection
+  src="/images/chapter04/subchapter04-2.1.jpg"
+  caption="Direct sound decays quickly while reverberant energy persists, so the direct-to-reverberant ratio (DRR) shifts with distance."
+/>
+
+- **Sound level** drops with distance, but source power can disguise this cue.
+- **Direct-to-reverberant ratio (DRR)** shrinks as the listener moves farther from the source.
+- **High-frequency attenuation** grows because air absorption and surface reflections roll off the treble.
+- **Temporal structure** (early reflections, onset build-up) also signals how the wavefront evolved.
+
+<Callout type="warning" title="Watch Out">
+Level cues can be misleading if a powerful nearby source and a quiet distant source have similar levels; pairing level with DRR and spectral cues is safer.
+</Callout>
+
+## 3. Externalization
+
+If a signal lacks realistic spatial cues, it collapses and sounds “inside the head.” Externalization succeeds when the cues point outward and stay consistent with the room.
+
+- Accurate **interaural timing (ITD)** and **level (ILD)** cues anchor the azimuth.
+- **Spectral shaping** (pinna and head filtering) encodes elevation and front/back.
+- **Early reflections** and the precedence effect make the source feel fused with the room.
+- Inconsistencies between the expected room and the delivered reflections will pull the source inside the head again.
+
+## 4. Role of Early Reflections
+
+Early reflections that arrive within roughly 50 ms reinforce both distance and externalization without breaking the direct sound’s dominance.
+
+- They “paint” the room’s size and hardness while staying fused to the direct path.
+- They support externalization by adding spatial context without sounding like discrete echoes.
+- The **precedence effect** keeps later arrivals from shifting perceived direction.
+
+<ImageSection
+  src="/images/chapter04/subchapter04-4.1.jpg"
+  caption="Early reflections (blue) arrive shortly after the direct sound (white) and strengthen the sense of space."
+/>
+
+## 5. Apparent Source Width (ASW)
+
+ASW is how wide a source feels—one speaker can sound point-like or as broad as a barricade.
+
+- Low interaural correlation (IACC) and **early lateral reflections** spread the image.
+- Dense, diffuse reflections exaggerate width without moving the source direction.
+- Source bandwidth and motion also influence perceived width: broader spectra feel wider.
+
+## 6. Listener Envelopment (LEV)
+
+LEV measures how much late energy surrounds the listener. It depends on the diffuse reflections that arrive from many directions.
+
+- Late reverberation after ~80 ms fills in the tails of the impulse response.
+- Diffuse energy coming from above and behind energizes the “surround” of the listener.
+- Rooms with longer decay and richer late energy feel more enveloping.
+
+## 7. Spatial Perception in Auralization
+
+A convincing auralization reproduces distance, width, and envelopment while keeping the source externalized.
+
+- Match **HRTFs** to the listener and integrate **room impulse responses (RIRs)** that capture both early and late energy.
+- Blend **reflection modeling** with direct sound so the DRR and timing stay consistent as the listener moves.
+- Use **head tracking** or subtle motion cues to keep the perception stable across orientations.
+
+---
+
+## 🔊 Interactive Exploration: Distance & Externalization
+
+<Callout type="info" title="Try This">
+Watch how the direct/reverb balance, early reflections, and reverberant tails change the distance, externalization, and width. Adjust one parameter at a time to see which cues dominate.
+</Callout>
+
+<SpatialPerceptionExplorer />
+
+While exploring, notice:
+- how adding early reflections strengthens externalization
+- how reducing the DRR makes the source feel farther away
+- how reverberation tail length affects envelopment
+
+---
+
+## 8. Summary
+
+- Spatial perception layers distance, width, and envelopment on top of localization.
+- Distance relies on level, DRR, spectral tilt, and reflection timing.
+- Externalization succeeds when binaural cues, reflections, and spectral shaping all agree.
+- Early reflections anchor the room, while ASW and LEV describe width and immersion.
+- Convincing auralization requires careful tuning of HRTFs, reflections, and head tracking.
+
+<Callout type="info" title="Next Up">
+Pair these spatial cues with timbral and loudness chapters to assemble a complete perceptual model for your auralizations.
+</Callout>
+
+<Quiz chapterId="04-spatial-perception" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.3rem, 2vw, 1.5rem);
+    font-weight: 600;
+  }
+
+  .intro-lesson h4 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0;
+    padding-left: 1.25rem;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

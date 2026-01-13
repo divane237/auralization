@@ -1,0 +1,669 @@
+import ImageSection from "@/components/ImageSection";
+import MathFormula from "@/components/MathFormula";
+import PlaneWaveVisualizer from "@/components/PlaneWaveVisualizer";
+import Quiz from "@/components/Quiz";
+import Callout from "@/components/Callout";
+
+export const planeWaveSliceCode = String.raw`
+import io
+import base64
+import numpy as np
+import matplotlib.pyplot as plt
+
+c = 343
+f = 200
+A = 1
+omega = 2 * np.pi * f
+lambda_ = c / f
+k = 2 * np.pi / lambda_
+
+x = np.linspace(0, 2, 1000)
+t = 0.001
+p = A * np.cos(k * x - omega * t)
+
+plt.figure(figsize=(7, 3.5))
+plt.plot(x, p, color="midnightblue", linewidth=2)
+plt.xlabel("x (m)")
+plt.ylabel("Pressure p'(x,t)")
+plt.title("1D Plane Wave Slice")
+plt.grid(True)
+plt.tight_layout()
+
+buffer = io.BytesIO()
+plt.savefig(buffer, format="png", dpi=120)
+buffer.seek(0)
+encoded = base64.b64encode(buffer.read()).decode("ascii")
+print("IMGDATA:" + encoded)
+plt.close()
+
+print(f"Speed of sound: {c} m/s")
+print(f"Wavelength: {lambda_:.2f} m")
+print(f"Pressure range: {p.min():.3f} to {p.max():.3f}")
+`;
+
+<section className="plane-waves-lesson">
+
+
+# Plane Waves in Fluids & Speed of Sound  
+*Module 1 – Fundamentals of Acoustics*  
+
+
+---
+
+<section className="learning-objectives-card">
+## 🎯 Learning Objectives
+<div className="learning-objectives-subtitle">By the end of this chapter, you will be able to:</div>
+<ul className="learning-objectives-list">
+  <li>Understand the <strong>physical nature</strong> of plane waves and why they are fundamental solutions of the wave equation.</li>
+  <li>Describe the <strong>mathematical structure</strong> of plane waves using real and complex forms.</li>
+  <li>Explain how plane waves propagate in <strong>1D, 2D, and 3D</strong> spaces.</li>
+  <li>Use the <strong>wave vector</strong> <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula> to describe direction, wavelength, and phase velocity.</li>
+  <li>Understand the relationship between <strong>pressure</strong> and <strong>particle velocity</strong> in plane waves.</li>
+  <li>Apply plane-wave concepts to real acoustics: ducts, rooms, boundaries, reflections, and source radiation.</li>
+  <li>Explain the meaning of the <strong>speed of sound</strong> and derive its formula from thermodynamic principles.</li>
+  <li>Connect plane wave theory to <strong>auralization</strong>, <strong>HRTFs</strong>, <strong>room acoustics</strong>, and <strong>wave-based simulation</strong>.</li>
+</ul>
+</section>
+
+---
+
+# 1. Introduction: The Importance of Plane Waves
+
+Plane waves are among the most fundamental concepts in acoustics.  
+Although *perfect* plane waves cannot exist in a finite room or physical environment, they form the **building blocks** of real sound fields.
+
+Why?
+
+Because:
+
+<Callout type="info" title="Why plane waves again">
+Plane waves give us a structured vocabulary for phase, direction, and energy. For many problems we substitute complicated fields with a spectrum of plane waves, so mastering them unlocks every wave-based simulation or auralization pipeline.
+</Callout>
+
+### ✔ The wave equation admits plane waves as exact solutions  
+### ✔ Any complex sound field can be decomposed into a sum of plane waves  
+### ✔ They capture the essence of wave propagation:  
+<div className="plane-wave-attributes-card">
+  <ul className="plane-wave-attributes-grid">
+    <li>phase</li>
+    <li>direction</li>
+    <li>amplitude</li>
+    <li>energy flow</li>
+    <li>wavelength</li>
+  </ul>
+</div>
+
+### ✔ They naturally lead to the **Helmholtz equation** and **frequency-domain acoustics**  
+### ✔ They are the basis for:  
+Geometrical acoustics, Boundary conditions, Scattering, HRTFs, Auralization algorithms and Room modes.  
+
+In many acoustic systems—ducts, waveguides, long corridors—the lowest-order mode is **almost exactly a plane wave**.
+
+Before exploring room acoustics and signal processing, you must first master the plane wave.
+
+---
+
+# 2. Physical Picture: What Is a Plane Wave?
+
+A plane wave consists of **parallel planar surfaces** (wavefronts) that carry constant phase.  
+At a given time, all points on one plane have identical acoustic pressure.
+
+Represented visually:
+
+<ImageSection src="/images/chapter01/subchp03-2.png" caption="Illustration of plane wavefronts" />
+
+Key features:
+
+Wavefronts are straight parallel lines (in 2D) or parallel planes (in 3D).
+
+The wave propagates perpendicularly to these planes.
+
+Pressure varies only with distance along the direction of propagation.
+
+There is no variation laterally.
+
+You may imagine a synchronized “wall” of pressure moving through space.
+
+<Callout type="warning" title="Ideal yet instructive">
+  Real environments only host partial plane waves, so use this picture as an organizing principle—plane waves dominate when you are in the far-field or when you isolate a single propagation direction.
+</Callout>
+
+<div className="plane-wave-requirements">
+  <p className="plane-wave-requirements-label">Plane waves require</p>
+  <ul className="plane-wave-requirements-list">
+    <li>A homogeneous medium</li>
+    <li>No obstacles</li>
+    <li>Sufficient distance from the source (far-field region)</li>
+  </ul>
+</div>
+
+In reality, spherical waves radiated from sources approximate plane waves when sufficiently far.
+
+---
+
+# 3. Mathematical Representation of Plane Waves
+
+The wave equation in 1D:
+
+<MathFormula>{String.raw`\frac{\partial^2 p'}{\partial x^2} = \frac{1}{c^2} \frac{\partial^2 p'}{\partial t^2}`}</MathFormula>
+
+has solutions of the form:
+
+<MathFormula>{String.raw`p'(x,t) = A \cos(\omega t - kx + \varphi).`}</MathFormula>
+
+Where:
+
+<MathFormula inline>{String.raw`A`}</MathFormula> = amplitude
+
+<MathFormula inline>{String.raw`\omega = 2\pi f`}</MathFormula> (angular frequency)
+
+<MathFormula inline>{String.raw`k = \frac{\omega}{c}`}</MathFormula> (wave number)
+
+<MathFormula inline>{String.raw`\lambda = \frac{2\pi}{k}`}</MathFormula> (wavelength)
+
+<MathFormula inline>{String.raw`\varphi`}</MathFormula> = phase offset
+
+This expresses a wave traveling in the +x direction.
+
+## 3.1 Complex Exponential Form (Elegant and Powerful)
+
+Using Euler’s identity:
+
+<MathFormula>{String.raw`p'(x,t) = \Re \{ \tilde{P} e^{j(\omega t - kx)} \}`}</MathFormula>
+
+where:
+
+<MathFormula>{String.raw`\tilde{P} = A e^{j\varphi}`}</MathFormula>
+
+This form is deeply useful for:
+
+<div className="plane-wave-grid">
+  <ul className="plane-wave-grid-list">
+    <li>frequency-domain acoustics</li>
+    <li>wave superposition</li>
+    <li>scattering</li>
+    <li>linear systems</li>
+    <li>room modal analysis</li>
+  </ul>
+</div>
+
+It allows us to treat complex pressure fields as phasors.
+
+---
+
+# 4. Plane Waves in 3D: The Wave Vector
+
+In 3D, a plane wave generalizes to:
+
+<MathFormula>{String.raw`p'(\mathbf{r}, t) = A \cos(\omega t - \mathbf{k} \cdot \mathbf{r} + \varphi)`}</MathFormula>
+
+where:
+
+<MathFormula inline>{String.raw`\mathbf{r} = (x,y,z)`}</MathFormula>
+
+<MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula> = wave vector
+
+<MathFormula inline>{String.raw`|\mathbf{k}| = k = \frac{2\pi}{\lambda}`}</MathFormula>
+
+The dot product:
+
+<MathFormula>{String.raw`\mathbf{k}\cdot\mathbf{r} = k_x x + k_y y + k_z z`}</MathFormula>
+
+encodes how phase accumulates in any direction.
+
+✔ Direction of propagation = direction of <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula>
+✔ Speed of propagation = <MathFormula inline>{String.raw`c`}</MathFormula>
+✔ Wavelength = <MathFormula inline>{String.raw`\frac{2\pi}{k}`}</MathFormula>
+
+This representation is essential in:
+
+<div className="plane-wave-grid">
+  <ul className="plane-wave-grid-list">
+    <li>room acoustics</li>
+    <li>boundary reflections</li>
+    <li>modal expansions</li>
+    <li>wave-based simulation (FDTD / FEM)</li>
+    <li>beamforming</li>
+    <li>spatial audio rendering</li>
+  </ul>
+</div>
+
+## 4.1 Direction Cosines
+
+We can express <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula> components as:
+
+<MathFormula>{String.raw`k_x = k \cos(\theta_x), \quad k_y = k \cos(\theta_y), \quad k_z = k \cos(\theta_z).`}</MathFormula>
+
+These cosines describe how the wave travels in each coordinate direction.
+
+---
+
+# 5. Propagation Speed: Deriving the Speed of Sound
+
+The speed of sound is determined by the medium’s elasticity and inertia.
+
+In adiabatic conditions:
+
+<MathFormula>{String.raw`c = \sqrt{\gamma R T}`}</MathFormula>
+
+In general fluid mechanics:
+
+<MathFormula>{String.raw`c = \sqrt{\frac{K}{\rho_0}}`}</MathFormula>
+
+Where:
+
+<MathFormula inline>{String.raw`K`}</MathFormula> = bulk modulus
+
+<MathFormula inline>{String.raw`\rho_0`}</MathFormula> = equilibrium density
+
+This explains:
+
+Sound travels faster in stiff media (high <MathFormula inline>{String.raw`K`}</MathFormula>).
+
+Sound travels slower in dense media (high <MathFormula inline>{String.raw`\rho_0`}</MathFormula>).
+
+Typical speeds:
+
+Air (20°C): <MathFormula inline>{String.raw`c \approx 343 \text{ m/s}`}</MathFormula>
+
+Water: ~1500 m/s
+
+Steel: ~5000 m/s
+
+
+<VideoSection src="https://www.youtube.com/embed/yF4cvbAYjwI" caption="Speed of sound across materials" />
+
+---
+
+# 6. Pressure–Velocity Relationship in Plane Waves
+
+Using Euler’s equation:
+
+<MathFormula>{String.raw`\rho_0 \frac{\partial u}{\partial t} = -\frac{\partial p'}{\partial x}`}</MathFormula>
+
+For a plane wave:
+
+<MathFormula>{String.raw`u(x,t) = \frac{p'(x,t)}{\rho_0 c}`}</MathFormula>
+
+This leads to the characteristic impedance:
+
+<MathFormula>{String.raw`Z_0 = \rho_0 c`}</MathFormula>
+
+This relation is crucial in: Absorption, Boundary reflection, Room acoustics, Loudspeaker radiation and Duct acoustics.
+
+Pressure and velocity are in phase in a plane wave — a key simplification.
+
+---
+
+# 7. Acoustic Intensity
+
+Acoustic intensity expresses rate of sound energy transport:
+
+<MathFormula>{String.raw`I(x,t) = p'(x,t) u(x,t)`}</MathFormula>
+
+For a plane wave:
+
+<MathFormula>{String.raw`\overline{I} = \frac{p_{\mathrm{rms}}^2}{\rho_0 c}`}</MathFormula>
+
+This formula underpins: sound power calculations, directional radiation, energy-based room models, level and decibel calculations.
+
+--- 
+
+# 8. Plane Waves and the Helmholtz Equation
+
+Time-harmonic acoustics eliminates explicit time dependence:
+
+<MathFormula>{String.raw`p'(x,t) = \Re\{ \tilde{P} e^{j\omega t} \}`}</MathFormula>
+
+Substituting into the wave equation gives:
+
+<MathFormula>{String.raw`\nabla^2 \tilde{P} + k^2 \tilde{P} = 0`}</MathFormula>
+
+This Helmholtz equation is the fundamental PDE of:
+
+room acoustics
+
+duct acoustics
+
+scattering
+
+absorption modeling
+
+simulation (FEM/BEM/FDTD frequency domain)
+
+Plane waves are its canonical simplest solution.
+
+---
+
+# 9. Oblique Incidence & Angle of Propagation
+
+In 2D:
+
+<MathFormula>{String.raw`p'(x,y,t) = A \cos(\omega t - k(x\cos\theta + y\sin\theta))`}</MathFormula>
+
+Angle <MathFormula inline>{String.raw`\theta`}</MathFormula> determines:
+
+how waves reflect
+
+how absorption varies
+
+how boundary conditions behave
+
+Why angle matters:
+
+Real reflections depend on the angle of incidence.
+
+Many wall materials absorb differently at different angles.
+
+Specular reflection laws derive from plane-wave incidence.
+
+This is the foundation of:
+
+<div className="plane-wave-grid">
+  <ul className="plane-wave-grid-list">
+    <li>image source method</li>
+    <li>ray tracing</li>
+    <li>boundary impedance models</li>
+    <li>scattering equations</li>
+  </ul>
+</div>
+
+---
+
+# 10. Visual Demonstration (Interactive)
+
+####
+####
+
+<div className="my-4">
+  <PlaneWaveVisualizer />
+</div>
+
+
+This will make abstract concepts visible.
+
+---
+
+# 11. Python Simulation: Plane Wave Slices
+
+Run the interactive Python lab to plot the 1D slice and inspect the pressure bounds from Pyodide.
+
+<PythonDemo
+  id="plane-wave-slice"
+  title="Plane wave slice"
+  description="Plot the instantaneous pressure slice and view its range directly in the browser."
+  defaultCode={planeWaveSliceCode}
+/>
+
+This produces a pressure slice at time *t*, identical to theoretical diagrams.
+
+---
+
+# 13. Applications in Real Acoustics
+
+Plane waves are not abstract mathematical tricks — they form the foundation of EVERYTHING in acoustics.
+
+### ✔ Far-field of loudspeakers  
+Where wavefront curvature is small and approximates a plane.
+
+### ✔ Room acoustics and reflections  
+Each reflection can be modeled as a plane wave.
+
+### ✔ Impulse responses  
+High-frequency early reflections behave like plane waves.
+
+### ✔ Binaural rendering (HRTFs)  
+Plane waves form the canonical “incoming direction” model.
+
+### ✔ Duct acoustics  
+Below the cutoff frequency, only the plane-wave mode propagates.
+
+### ✔ Absorption & boundary modeling  
+Reflection and absorption formulas assume plane-wave incidence.
+
+### ✔ Mode analysis  
+Modes can be expressed as sums of plane waves.
+
+---
+
+# 14. Summary
+
+<ul className="plane-waves-summary-list">
+  <li>Plane waves are exact solutions of the acoustic wave equation.</li>
+  <li>They have constant-phase wavefronts and travel in the direction of <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula>.</li>
+  <li>Pressure and velocity are simply related by <MathFormula inline>{String.raw`u = \frac{p'}{\rho_0 c}`}</MathFormula>.</li>
+  <li>Acoustic intensity is expressible directly as <MathFormula inline>{String.raw`\overline{I} = p_{\mathrm{rms}}^2/(\rho_0 c)`}</MathFormula>.</li>
+  <li>The speed of sound emerges from thermodynamic or elastic properties.</li>
+  <li>The Helmholtz equation governs plane-wave spatial fields.</li>
+  <li>Angle of incidence controls reflection and absorption.</li>
+  <li>Plane waves underpin most of acoustic modeling, simulation, and rendering.</li>
+</ul>
+
+---
+
+
+<Quiz chapterId="01-plane-waves" />
+
+</section>
+
+<style>{`
+  .plane-waves-lesson {
+    font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.65;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 2.5rem 1rem 4rem;
+  }
+
+  .plane-waves-lesson h1 {
+    font-size: clamp(2.75rem, 3.5vw, 3.6rem);
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    line-height: 1.15;
+  }
+
+  .plane-waves-lesson h2 {
+    margin-top: 3.5rem;
+    font-size: clamp(2rem, 2.8vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .plane-waves-lesson h3 {
+    margin-top: 1.75rem;
+    font-size: clamp(1.35rem, 2vw, 1.9rem);
+    font-weight: 600;
+  }
+
+  .plane-waves-lesson h4 {
+    font-size: clamp(1.2rem, 1.7vw, 1.65rem);
+  }
+
+  .plane-waves-lesson p,
+  .plane-waves-lesson li {
+    font-size: 1.05rem;
+  }
+
+  .plane-waves-lesson hr {
+    border-top: 1px solid rgba(15, 23, 42, 0.15);
+    margin: 3.5rem 0;
+  }
+
+  .learning-objectives-card {
+    border: 1px solid rgba(79, 70, 229, 0.25);
+    background: rgba(99, 102, 241, 0.08);
+    padding: 1.75rem 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 80px rgba(99, 102, 241, 0.18);
+    margin-bottom: 2rem;
+  }
+
+  .learning-objectives-card h2 {
+    margin-top: 0;
+  }
+
+  .learning-objectives-subtitle {
+    color: #4338ca;
+    font-size: 1rem;
+    margin-top: 0.35rem;
+  }
+
+  .learning-objectives-list {
+    margin: 1rem 0 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .learning-objectives-list li {
+    line-height: 1.5;
+  }
+
+  .plane-wave-attributes-card {
+    margin: 0.75rem 0 1.5rem;
+    background: rgba(14, 165, 233, 0.05);
+    border: 1px solid rgba(14, 165, 233, 0.45);
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .plane-wave-attributes-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.65rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .plane-wave-attributes-grid li {
+    background: rgba(14, 165, 233, 0.15);
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid rgba(14, 165, 233, 0.4);
+  }
+
+  .plane-wave-requirements {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: rgba(236, 72, 153, 0.08);
+    border-left: 4px solid #ec4899;
+    border-radius: 1rem;
+  }
+
+  .plane-wave-grid {
+    margin: 0.75rem 0 1.25rem;
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 1rem;
+  }
+
+  .plane-wave-grid-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.45rem;
+  }
+
+  .plane-wave-grid-list li {
+    background: rgba(59, 130, 246, 0.12);
+    border-radius: 0.75rem;
+    padding: 0.45rem 0.75rem;
+    font-weight: 600;
+    color: #1e40af;
+    text-align: center;
+    border: 1px solid rgba(37, 99, 235, 0.4);
+  }
+
+  .plane-wave-requirements-label {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.35rem;
+    color: #be185d;
+  }
+
+  .plane-wave-requirements-list {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .plane-wave-requirements-list li {
+    line-height: 1.5;
+  }
+
+  .plane-waves-lesson img {
+    border-radius: 1rem;
+  }
+
+  .plane-waves-summary-list {
+    margin: 1.5rem 0 2rem;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .plane-waves-summary-list li {
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .dark .plane-waves-lesson {
+    color: #e2e8f0;
+  }
+
+  .dark .plane-waves-lesson h1,
+  .dark .plane-waves-lesson h2,
+  .dark .plane-waves-lesson h3,
+  .dark .plane-waves-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .learning-objectives-card {
+    border-color: rgba(129, 140, 248, 0.4);
+    box-shadow: 0 25px 80px rgba(30, 64, 175, 0.5);
+    background: rgba(71, 85, 105, 0.1);
+  }
+
+  .dark .learning-objectives-subtitle {
+    color: #c7d2fe;
+  }
+
+  .dark .plane-wave-attributes-card {
+    background: rgba(14, 165, 233, 0.1);
+    border-color: rgba(14, 165, 233, 0.6);
+  }
+
+  .dark .plane-wave-attributes-grid li {
+    background: rgba(14, 165, 233, 0.2);
+    border-color: rgba(14, 165, 233, 0.6);
+  }
+
+  .dark .plane-wave-requirements {
+    background: rgba(236, 72, 153, 0.1);
+  }
+
+  .dark .plane-wave-requirements-label {
+    color: #f472b6;
+  }
+
+  .dark .plane-wave-grid {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.65);
+  }
+
+  .dark .plane-wave-grid-list li {
+    background: rgba(59, 130, 246, 0.25);
+    border-color: rgba(59, 130, 246, 0.8);
+    color: #c7d2fe;
+  }
+`}</style>

@@ -1,0 +1,334 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import Quiz from "@/components/Quiz";
+import NoiseMapExplorer from "@/components/NoiseMapExplorer";
+import RT60Explorer from "@/components/RT60Explorer";
+import VideoSection from "@/components/VideoSection";
+
+<section className="intro-lesson">
+
+# Simulation Applications  
+*Chapter 7 – Simulation Methods (Advanced)*  
+
+<Callout type="info" title="How to Use This Lesson">
+This chapter pairs concise context, interactive tools, and real-world examples. Scan the learning objectives, explore the widgets, and revisit the visuals whenever you want to test an idea.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Understand <strong>how acoustic simulation is applied in real engineering contexts</strong>.</li>
+    <li>Identify which <strong>simulation methods</strong> are used for room, environmental, and structure-borne problems.</li>
+    <li>Describe the role of simulation in <strong>design, prediction, and optimization</strong>.</li>
+    <li>Recognize how simulation outputs support <strong>auralization and decision-making</strong>.</li>
+    <li>Interpret simulation results critically and know their <strong>limitations</strong>.</li>
+  </ul>
+</section>
+
+---
+
+## 1. Why Simulation Applications Matter
+
+Simulation becomes valuable when it answers real engineering questions before a physical prototype exists. That foresight saves time, reduces risk, and helps teams make confident decisions.
+
+<Callout type="success" title="Key Idea">
+Simulation delivers answers to the most pressing acoustics questions—room targets, noise impacts, and listener experience—while the project is still on paper.
+</Callout>
+
+Simulation is often the only practical tool because:
+- *measurements are impossible before construction*
+- *prototyping is expensive or infeasible*
+- *scenarios are too large, complex, or unsafe to test physically*
+
+---
+
+## 2. Room and Building Acoustics Applications
+
+Room and building acoustics are among the most common simulation areas. Engineers use them to shape spaces where music, speech, and comfort need to work together.
+
+### Typical use cases
+- concert halls and theaters  
+- classrooms and lecture rooms  
+- recording studios and control rooms  
+- offices and residential buildings  
+
+### What simulations predict
+- SPL distribution (coverage maps)  
+- reverberation time (RT60 / T20 / T30)  
+- clarity and definition (C50, C80)  
+- impulse responses for auralization  
+
+<ImageSection
+  src="/images/chapter07/subchapter03-2.1.png"
+  alt="Simulated SPL coverage map inside a room"
+  caption="Room acoustics coverage map showing SPL distribution and reflection patterns."
+/>
+
+---
+
+## 3. Interactive Exploration: Reverberation and RT60
+
+Even without running a full simulator, learners can build intuition for how reverberation shifts when absorption or room size changes.
+
+<Callout type="success" title="Explore Reverberation">
+Adjust absorption, volume, and source-receiver positions to see how RT60 reacts. Think about why the metric helps identify problematic reflections but doesn’t capture every perceptual detail.
+</Callout>
+
+<RT60Explorer />
+
+While using the tool, focus on:
+- how increased absorption reduces reverberation
+- how larger volumes tend to increase reverberation (all else equal)
+- why RT60 is a useful design metric but not the whole story
+
+---
+
+## 4. Environmental and Outdoor Noise Applications
+
+Environmental acoustics relies on simulation when real-world testing would disrupt communities or violate regulations.
+
+<Callout type="info" title="Why It Matters">
+Simulation enables transparent noise maps, lets stakeholders compare interventions, and keeps everyone informed before a single shovel touches the ground.
+</Callout>
+
+### Typical use cases
+- road and railway noise  
+- airport noise mapping  
+- industrial site noise impact studies  
+- urban planning and zoning  
+
+### Common outputs
+- predicted SPL or LAeq maps over neighborhoods  
+- barrier and mitigation effectiveness estimates  
+- scenario comparisons (with and without interventions)
+
+<ImageSection
+  src="/images/chapter07/subchapter03-4.1.png"
+  alt="Environmental noise map"
+  caption="Outdoor noise map highlighting predicted sound levels across an urban area."
+/>
+
+---
+
+## 5. Interactive Exploration: Noise Mapping Intuition
+
+This tool helps you develop intuition about noise mapping outputs and how they respond to typical parameters.
+
+<NoiseMapExplorer />
+
+<Callout type="success" title="Investigate Parameters">
+Try increasing distance from the source, adding a barrier, and switching ground types. Observe how the level drops, how shadow zones form, and how ground absorption alters the propagation.
+</Callout>
+
+---
+
+## 🎥 Video Insight: Noise Barrier Effectiveness
+
+This short clip highlights how a well-placed barrier diffracts and absorbs highway noise, so you can see the same principles that underlie the exploration above in action.
+
+<VideoSection
+  src="https://www.youtube.com/embed/C_2BBzBykpc"
+  caption="Short explainer on how barriers deflect and absorb roadway noise."
+/>
+
+<Callout type="info" title="Visual Reinforcement">
+Pause the video to note where you see diffraction and where absorption dominates—then compare those patterns to what you explored in the tool.
+</Callout>
+
+---
+
+## 6. Structure-Borne Noise and Vibration Applications
+
+Many noise problems originate from structure vibration rather than airborne propagation.
+
+### Typical use cases
+- impact noise in buildings (floors, stairs)  
+- machinery vibration control  
+- automotive and aerospace structures  
+- rail/metro vibration into nearby buildings  
+
+Simulation goals include:
+- predicting vibration transmission paths
+- identifying resonances
+- evaluating isolation, damping, or stiffening strategies
+
+<ImageSection
+  src="/images/chapter07/subchapter03-6.1.png"
+  alt="Structure-borne vibration pathways"
+  caption="Structure-borne vibration model tracing transmission paths through a building element."
+/>
+
+---
+
+## 7. Virtual Acoustics and Auralization
+
+In advanced applications, simulation results are turned into audio so they can be evaluated perceptually.
+
+### Auralization examples
+- architectural acoustic previews  
+- VR training and immersive media  
+- perceptual comparisons between designs  
+
+Simulation provides:
+- impulse responses
+- directional information
+- time-varying updates (in dynamic scenes)
+
+<ImageSection
+  src="/images/chapter07/subchapter03-7.1.png"
+  alt="Auralization rendering preview"
+  caption="Virtual acoustics scene that illustrates how auralization conveys the listener’s perception."
+/>
+
+<Callout type="success" title="Perceptual Check">
+Listening to an auralization reveals whether the simulation output feels realistic and whether adjustments to materials or geometry are necessary.
+</Callout>
+
+---
+
+## 8. Design Optimization and Decision Support
+
+Simulation supports iterative design by enabling “what-if” exploration.
+
+- adjust materials and check RT60 targets  
+- move or redesign barriers and compare level reductions  
+- modify structural mounts to reduce vibration transmission  
+- test multiple layouts quickly before construction  
+
+Instead of trial-and-error in the real world, engineers compare many variants efficiently.
+
+---
+
+## 9. Interpretation and Responsibility
+
+Simulation outputs depend on geometry accuracy, material models, boundary conditions, and the chosen method’s validity range.
+
+<Callout type="warning" title="Responsible Practice">
+- validate results against measurements when possible  
+- run sensitivity analyses to understand how uncertain inputs affect outputs  
+- interpret predictions cautiously when a model approaches its limits
+</Callout>
+
+---
+
+## 10. Summary
+
+Simulation applications span room acoustics, environmental noise, structure-borne vibration, and auralization. Interactive exploration builds intuition for RT60 and noise maps while the real world demands careful method selection and responsible interpretation.
+
+- Simulation answers real questions before physical prototypes exist.  
+- Interactive explorers reinforce how parameters influence RT60 and noise maps.  
+- Responsible practice includes validation, sensitivity checks, and honest communication.  
+- Auralization lets teams hear what the simulation predicts.
+
+<Callout type="info" title="Next Steps">
+Pair these learnings with your favorite simulation software or revisit the interactive tools when you need to explain outcomes to a team.
+</Callout>
+
+<Quiz chapterId="07-applications" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+`}</style>
