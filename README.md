@@ -35,7 +35,7 @@ An interactive educational web application for exploring acoustics, sound propag
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://gitlab.tu-ilmenau.de/cm586qy/auralization.git
    cd auralization
    ```
 
