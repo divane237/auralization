@@ -1,0 +1,370 @@
+import MathFormula from "@/components/MathFormula";
+import DecibelCalculator from "@/components/DecibelCalculator";
+import FrequencyBandExplorer from "@/components/FrequencyBandExplorer";
+import Quiz from "@/components/Quiz";
+import ImageSection from "@/components/ImageSection";
+import PythonDemo from "@/components/PythonDemo";
+
+
+<section className="levels-decibels-lesson">
+
+# Sound Levels, Decibels & Frequency Bands  
+*Module 1 – Fundamentals of Acoustics*  
+
+
+---
+
+<section className="learning-objectives-card">
+🎯 Learning Objectives
+
+In this chapter, we develop a practical and intuitive understanding of acoustic levels.
+Rather than working directly with raw physical quantities, we will learn how acousticians describe sound using logarithmic measures that reflect both physical reality and human perception.
+
+After completing this chapter, you will be able to:
+
+Distinguish clearly between sound pressure, sound intensity, and sound power
+
+Explain why acoustic quantities are almost always expressed in decibels
+
+Derive and interpret sound pressure level, intensity level, and sound power level
+
+Correctly add, subtract, and average sound levels
+
+Understand the role of frequency weighting in sound measurements
+
+Use octave and third-octave bands to describe spectral content
+
+Apply these concepts to real-world acoustics problems using interactive tools
+</section>
+
+## 1. Introduction: Why Do We Use Levels?
+
+Acoustic quantities span an extraordinarily wide range of magnitudes.
+Some sounds are so weak that they are barely detectable by the human ear, while others are intense enough to cause discomfort or permanent hearing damage. Describing such extremes using ordinary linear numbers quickly becomes impractical.
+
+To illustrate this, consider sound pressure, one of the most fundamental acoustic quantities.
+The quietest sound that a healthy human ear can perceive corresponds to pressure fluctuations on the order of only a few tens of micro–Pascals. At the other extreme, very loud sources such as jet engines can generate pressure variations of several hundred Pascals.
+
+<MathFormula> {"p_{\\min} \\approx 20\\,\\mu\\mathrm{Pa} \\qquad p_{\\max} \\approx 200\\,\\mathrm{Pa}"} </MathFormula>
+
+When these two extremes are compared, the resulting ratio is enormous:
+
+<MathFormula> {"\\frac{p_{\\max}}{p_{\\min}} \\approx 10^7"} </MathFormula>
+
+Working directly with numbers that differ by factors of millions is inconvenient and unintuitive.
+Fortunately, the human auditory system does not respond linearly to sound energy. Instead, perceived loudness grows approximately logarithmically with physical intensity. This natural characteristic of hearing provides the key motivation for using logarithmic units in acoustics.
+
+By expressing sound quantities as levels, acousticians compress wide dynamic ranges into manageable numbers that align well with perception. As a result, everyday sounds fall into familiar numerical ranges:
+
+Whisper: ~30 dB
+
+Conversation: ~60 dB
+
+Traffic: ~70–80 dB
+
+Rock concert: ~110 dB
+
+The decibel scale therefore serves both practical and perceptual purposes.
+
+## 2. Physical Foundations: Pressure, Intensity, and Power
+
+Before introducing acoustic levels, it is essential to distinguish between three related but fundamentally different physical quantities: sound pressure, sound intensity, and sound power.
+
+### 2.1 Sound Pressure
+
+Sound propagates through a medium as small fluctuations around the ambient (static) pressure.
+These fluctuations are described by the sound pressure deviation:
+
+<MathFormula> {"p'(t) = p(t) - p_0"} </MathFormula>
+
+Microphones respond directly to this quantity. However, because sound pressure varies with time, a single instantaneous value is not sufficient to characterize its strength. Instead, acoustics relies on the root-mean-square (RMS) value, which captures the effective magnitude of the fluctuations over time.
+
+<MathFormula> {"p_{\\mathrm{rms}} = \\sqrt{\\frac{1}{T} \\int_0^T \\left(p'(t)\\right)^2 \\, dt}"} </MathFormula>
+
+The RMS pressure is the fundamental quantity used in defining sound pressure levels.
+
+### 2.2 Sound Intensity
+
+While sound pressure describes local pressure variations, sound intensity quantifies how much acoustic energy flows through space. It is defined as the acoustic power transmitted per unit area.
+
+For plane waves, intensity can be expressed as the product of RMS pressure and RMS particle velocity:
+
+<MathFormula> {"I = p_{\\mathrm{rms}}\\,u_{\\mathrm{rms}}"} </MathFormula>
+
+Using the plane-wave relationship between pressure and particle velocity, <MathFormula inline>{"u = \\frac{p'}{\\rho_0 c}"}</MathFormula>
+
+this simplifies to:
+
+<MathFormula> {"I = \\frac{p_{\\mathrm{rms}}^2}{\\rho_0 c}"} </MathFormula>
+
+Sound intensity therefore represents the energy transport of a sound wave.
+
+### 2.3 Sound Power
+
+Sound power describes the total acoustic energy emitted per unit time by a source, independent of distance or environment. It is obtained by integrating the intensity over a closed surface surrounding the source:
+
+<MathFormula> {"W = \\iint I\\, dA"} </MathFormula>
+
+Unlike sound pressure, sound power is a property of the source itself and does not depend on where the receiver is located.
+
+## 3. Why Logarithmic Scales Are Used
+
+The use of logarithmic scales in acoustics is motivated by three key reasons. First, human hearing is approximately logarithmic. A sound must increase in intensity by roughly a factor of ten to be perceived as twice as loud. Second, acoustic quantities span enormous physical ranges, often exceeding factors of 10^12 in intensity. Third, logarithmic representation simplifies calculations. For example, combining two identical independent sound sources results in an increase of only 3 dB, rather than requiring explicit summation of pressures or intensities.
+
+<MathFormula> {"L_{\\text{total}} = L + 3\\,\\mathrm{dB}"} </MathFormula>
+
+## 4. The Decibel Concept
+
+The decibel (dB) is not an absolute unit but a way of expressing the ratio between a quantity and a reference value. In general, a level is defined as:
+
+<MathFormula> {"L = 10\\log_{10}\\left(\\frac{Q}{Q_0}\\right)"} </MathFormula>
+
+Because acoustic power and intensity are proportional to the square of sound pressure, pressure-based levels use a factor of 20 instead of 10:
+
+<MathFormula> {"L_p = 20\\log_{10}\\left(\\frac{p_{\\mathrm{rms}}}{p_0}\\right)"} </MathFormula>
+
+
+## 5. Sound Pressure Level (SPL)
+
+The sound pressure level (SPL) is defined using the internationally standardized reference pressure: <MathFormula inline>{"p_0 = 20\\,\\mu\\mathrm{Pa}"}</MathFormula>.
+
+<MathFormula> {"L_p = 20\\log_{10}\\left(\\frac{p_{\\mathrm{rms}}}{20\\,\\mu\\mathrm{Pa}}\\right)"} </MathFormula>
+
+This definition maps a wide range of pressures into a compact and interpretable scale.
+
+<ImageSection
+  src="/images/chapter01/subchapter_last_5-1.jpg"
+  caption="Illustrates the reference pressure that anchors the SPL scale."
+/>
+
+<ImageSection
+  src="/images/chapter01/subchapter_last_5-2.png"
+  caption="Supports the concept with a complementary acoustic visualization."
+/>
+
+## 6. Sound Intensity Level
+
+The sound intensity level is defined analogously:
+
+<MathFormula> {"L_I = 10\\log_{10}\\left(\\frac{I}{I_0}\\right)"} </MathFormula>
+
+with the reference intensity: <MathFormula inline> {"I_0 = 10^{-12}\\,\\mathrm{W/m^2}"} </MathFormula>
+
+For plane waves, sound pressure level and intensity level are numerically equal: <MathFormula inline> {"L_I = L_p"} </MathFormula>
+
+## 7. Sound Power Level
+
+Sound power level characterizes sources and is defined as:
+
+<MathFormula> {"L_W = 10\\log_{10}\\left(\\frac{W}{W_0}\\right)"} </MathFormula>
+
+with reference power: <MathFormula inline> {"W_0 = 10^{-12}\\,\\mathrm{W}"} </MathFormula>
+
+## 8. Level Arithmetic
+
+Because decibels are logarithmic, levels cannot be added directly.
+To combine multiple independent sources, levels must first be converted back to linear quantities.
+
+<MathFormula> {"L_{\\text{total}} = 10\\log_{10}\\left(\\sum_i 10^{L_i/10}\\right)"} </MathFormula>
+
+A particularly important result is that doubling acoustic energy produces a 3 dB increase.
+
+## 9. Interactive Exploration: Decibel Calculator
+
+To make level arithmetic tangible, the following interactive tool allows you to convert between pressures and levels, combine multiple sources, and visualize the effect of logarithmic scaling.
+
+<DecibelCalculator />
+
+## 10. Frequency Weighting
+
+Human hearing sensitivity varies strongly with frequency. To account for this, standardized frequency weighting curves are used in sound measurements.
+
+<ImageSection
+  src="/images/chapter01/subchapter_last_10-1.png"
+  caption="A-weighting curve emphasizing mid-frequency sensitivity."
+/>
+
+<ImageSection
+  src="/images/chapter01/subchapter_last_10-2.png"
+  caption="C-weighting preserving low-frequency energy."
+/>
+
+<ImageSection
+  src="/images/chapter01/subchapter_last_10-3.png"
+  caption="Z-weighting (flat response) used for unweighted measurements."
+/>
+
+A-weighting (dBA) emphasizes mid frequencies
+C-weighting (dBC) preserves low-frequency energy
+Z-weighting (dBZ) applies no frequency weighting
+
+## 11. Octave and Third-Octave Bands
+
+Many acoustic analyses require frequency-resolved information.
+Rather than using narrowband spectra, acoustics often relies on octave and third-octave bands.
+
+The center frequency of an octave band is given by:
+
+<MathFormula> {"f_c = \\sqrt{f_{\\text{low}} f_{\\text{high}}}"} </MathFormula> <FrequencyBandExplorer />
+
+
+## 12. Python Demonstration: Combining Levels
+
+Use the sandboxed Python lab below to experiment with combining multiple SPL readings into a single aggregated level.
+
+<div className="python-demo">
+  <PythonDemo
+    id="levels-combining"
+    title="Combine dB‑level sources"
+    description="Convert several pressures to linear energy, sum them, and read the resulting SPL."
+    defaultCode={String.raw`
+import numpy as np
+
+p0 = 20e-6  # reference pressure (Pa)
+levels = [60, 65, 70]  # SPL values in dB
+
+# convert each level to pressure amplitude
+pressures = [p0 * 10 ** (L / 20) for L in levels]
+
+# sum energies assuming incoherent sources
+p_total = np.sqrt(sum(p ** 2 for p in pressures))
+
+# convert back to SPL
+L_total = 20 * np.log10(p_total / p0)
+
+print("Input levels:", levels)
+print("Combined level:", L_total, "dB")
+`}
+/>
+</div>
+
+
+
+---
+## 13. Applications
+
+These concepts form the foundation of nearly all acoustic analysis tasks, including environmental noise assessment, room acoustics, loudspeaker design, and auralization.
+
+## 14. Summary
+
+Sound levels provide a compact, perceptually meaningful way to describe acoustic quantities. By expressing pressure, intensity, and power on logarithmic scales, acousticians can analyze complex sound fields efficiently while maintaining a direct connection to human hearing.
+
+<Quiz chapterId="01-levels-decibels" />
+
+</section>
+<style>{`
+  .levels-decibels-lesson {
+    font-family: "Space Grotesk", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.2), transparent 45%),
+      linear-gradient(180deg, #fefce8, #ffffff);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 2.25rem;
+    padding: 2.75rem 1.75rem 3.75rem;
+    max-width: 72ch;
+    margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.12);
+  }
+
+  .levels-decibels-lesson > h1 {
+    font-size: clamp(2.5rem, 3vw, 3.25rem);
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    color: #0f172a;
+  }
+
+  .levels-decibels-lesson > h2,
+  .levels-decibels-lesson > h3,
+  .levels-decibels-lesson > h4 {
+    color: #0f172a;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .levels-decibels-lesson > p {
+    margin-bottom: 1rem;
+  }
+
+  .levels-decibels-lesson strong {
+    color: #0f172a;
+  }
+
+  .levels-decibels-lesson hr {
+    border: none;
+    border-top: 1px solid rgba(15, 23, 42, 0.15);
+    margin: 3.25rem 0;
+  }
+
+  .levels-decibels-lesson pre {
+    background: rgba(15, 23, 42, 0.07);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .levels-decibels-lesson code {
+    font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+  }
+
+  .levels-decibels-lesson .python-demo textarea,
+  .levels-decibels-lesson .python-demo pre,
+  .levels-decibels-lesson .python-demo button {
+    color: inherit;
+  }
+
+  .learning-objectives-card {
+    margin: 2rem 0 3rem;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(37, 99, 235, 0.35);
+    padding: 1.75rem 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.18);
+  }
+
+  .learning-objectives-card p:first-of-type {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+
+  .learning-objectives-card p {
+    margin-bottom: 0.65rem;
+  }
+
+  .levels-decibels-lesson ::selection {
+    background: rgba(79, 70, 229, 0.4);
+    color: #ffffff;
+  }
+
+  .dark .levels-decibels-lesson {
+    background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.2), transparent 45%),
+      linear-gradient(180deg, #0f172a, #020617);
+    color: #e2e8f0;
+    border-color: rgba(148, 163, 184, 0.4);
+    box-shadow: 0 30px 80px rgba(2, 6, 23, 0.8);
+  }
+
+  .dark .levels-decibels-lesson h1,
+  .dark .levels-decibels-lesson h2,
+  .dark .levels-decibels-lesson h3,
+  .dark .levels-decibels-lesson h4 {
+    color: #f8fafc;
+  }
+
+  .dark .learning-objectives-card {
+    background: rgba(59, 130, 246, 0.25);
+    border-color: rgba(59, 130, 246, 0.65);
+    box-shadow: 0 20px 60px rgba(2, 6, 23, 0.6);
+    color: #e0f2fe;
+  }
+
+  .dark .levels-decibels-lesson pre {
+    background: rgba(15, 23, 42, 0.5);
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+`}</style>

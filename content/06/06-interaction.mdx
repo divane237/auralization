@@ -1,0 +1,308 @@
+import Callout from "@/components/Callout";
+import HeadTrackingDemo from "@/components/HeadTrackingDemo";
+import ImageSection from "@/components/ImageSection";
+import Quiz from "@/components/Quiz";
+
+<section className="intro-lesson">
+
+# Head Tracking & Dynamic Rendering  
+*Chapter 6 – 3D Sound & Virtual Acoustics*
+
+<Callout type="info" title="How to Use This Subchapter">
+This section combines conceptual summaries, quick visualizations, and practical cautions. Read the Learning Objectives next, then work through each numbered section. When you hit a callout, pause and internalize or experiment with the highlighted idea before moving on.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-slate-200/80 bg-slate-50/70 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Describe how head motion supports localization and externalization.</li>
+    <li>Explain why static binaural rendering often produces perceptual errors.</li>
+    <li>Understand yaw, pitch, and roll and how head orientation is represented.</li>
+    <li>Explain how dynamic rendering updates source directions and HRIRs.</li>
+    <li>Identify the main technical challenges: interpolation, continuity, latency.</li>
+  </ul>
+</section>
+
+---
+
+## 1. Why Motion Matters in Spatial Hearing
+
+Human listeners rarely keep their heads perfectly still; the tiny rotations they do perform offer a second channel of spatial information. Motion causes interaural differences to sweep in predictable ways, and the auditory system uses those changes to lock onto a stable direction and depth for each source.
+
+Head motion helps because it changes binaural cues in consistent, physics-driven ways:
+
+- **Interaural time difference (ITD)** shifts with azimuth changes.  
+- **Interaural level difference (ILD)** tightens once the head shadow aligns with the source.  
+- **Pinna spectral cues** morph as elevation shifts and the ear enters or exits directional lobes.
+
+Consistency across these cues lets the brain rule out phantom solutions, so motion makes localization more confident and externalization more stable.
+
+<Callout type="success" title="Key Idea">
+Head motion is a dynamic sanity check—when binaural cues move the way the brain predicts, the scene feels anchored outside the head.
+</Callout>
+
+---
+
+## 2. What Goes Wrong Without Head Tracking
+
+Static binaural rendering keeps the same filters regardless of listener motion, which violates the natural relationship between head pose and auditory cues. The listener expects those cues to shift, so the lack of motion information becomes a glaring inconsistency.
+
+Common perceptual failures include:
+
+- **Front–back confusions** where a source in front seems to sit behind.  
+- **In-head localization** where the audio sticks to the head instead of the environment.  
+- **Unstable source position** that seems to glide with the head.
+
+Even a perfect HRTF set cannot save a scene that ignores motion because the auditory system still cannot confirm the supposed layout.
+
+<Callout type="warning" title="Watch Out">
+Any rendering that keeps ITD/ILD/pinna cues fixed while the head turns will eventually betray itself as the wrong spatial solution.
+</Callout>
+
+---
+
+## 3. Head Orientation: Yaw, Pitch, Roll
+
+Orientation is parameterized by three angles:
+
+- **Yaw** rotates around the vertical axis (turning left/right).  
+- **Pitch** rotates around a lateral axis (nodding up/down).  
+- **Roll** rotates around the forward axis (tilting toward the shoulder).
+
+<ImageSection src="/images/chapter06/subchapter03-3.1.png" caption="Yaw, pitch, and roll are the three axes defining how the listener’s head rotates in space." />
+
+Trackers feed these values to the renderer, so the system knows how the head coordinates relate to the world frame.
+
+<Callout type="info" title="Orientation in Practice">
+Yaw changes produce the largest ITD/ILD swings, but pitch and roll still tweak the pinna cues that are critical for elevation and front/back discrimination.
+</Callout>
+
+---
+
+## 4. Dynamic Rendering: Keeping the Scene Stable
+
+A dynamic renderer continuously recomputes each source’s apparent direction relative to the listener’s head. That means it must transform between two coordinate systems:
+
+- **World coordinates** fixed to the virtual stage.  
+- **Head coordinates** fixed to the listener.
+
+When the head rotates, the renderer recomputes the azimuth/elevation that correspond to each source and refreshes the binaural filters accordingly. This keeps the source “in place” relative to the virtual environment even though the listener moved.
+
+<Callout type="success" title="Staying Grounded">
+Continuous updates let the listener confirm spatial hypotheses—if the renderer follows the motion, the audio remains perceptually glued to the world.
+</Callout>
+
+---
+
+## 5. HRIR Selection and Interpolation During Motion
+
+Measured HRIR datasets are sparse, so the renderer must approximate intermediate directions as the head moves. Common strategies include:
+
+- Interpolating HRIR taps or spectra between neighboring measurement points.  
+- Interpolating magnitude/phase responses and reconstructing the impulse response.  
+- Using spherical interpolation to avoid abrupt jumps when traversing the spatial grid.
+
+Interpolation quality directly affects smoothness; poor choices introduce fluttering spectral coloration or residual localization jitter.
+
+<Callout type="warning" title="Interpolation Watch">
+Aggressive nearest-neighbor selection or zero-order hold yields audible timbre shifts as the head sweeps; always blend between adjacent directions.
+</Callout>
+
+---
+
+## 6. Continuity: Avoiding Audible Switching Artifacts
+
+Rendering continuity is vital. Quickly swapping filters or abruptly changing rise/fall times produces clicks or timbral jumps that break immersion.
+
+Renderers usually maintain continuity by:
+
+- Crossfading between old and new filters.  
+- Updating only early partitions in partitioned convolution and letting late partitions decay.  
+- Smoothing direction updates over a short window prior to reloading filters.
+
+This preserves the perception of a single coherent response even as the system tracks fast motion.
+
+---
+
+## 7. Latency and Update Rate Requirements
+
+Updates must keep pace with the listener’s motion. Latency comes from:
+
+- Tracker update rate (often tens to hundreds of Hz).  
+- Audio buffer size (lower buffer reduces latency but increases CPU load).  
+- Filter update strategy (expensive recomputation can add delay).
+
+High latency makes the scene feel detached, so modern renderers aim for low end-to-end latency while still supporting high update rates.
+
+<Callout type="danger" title="Latency Watch">
+If the audio lags behind the head even by a few frames, the scene loses its realism—keep tracking-to-render latency under about 20 ms whenever possible.
+</Callout>
+
+---
+
+## 8. Head Tracking and Perceived Direction
+
+<Callout type="info" title="Try This in the Browser">
+Use the live demo below to rotate the listener and observe how the perceived source location stays pinned in the environment only when updates arrive promptly.
+</Callout>
+
+<HeadTrackingDemo />
+
+Use the demo to explore:
+
+- How yaw rotation changes perceived source direction.  
+- Why static rendering causes the source to “stick” to the head.  
+- How smooth updates improve perceptual stability.
+
+---
+
+## 9. Computational Implications in Practice
+
+Real-time binaural rendering requires balancing accuracy and cost. Key techniques include:
+
+- FFT-based convolution and partitioned update schemes.  
+- Prioritizing early reflections and coarse interpolation for distant sources.  
+- Selective HRIR updates when the head motion is minimal.
+
+These optimizations keep CPU usage manageable while sustaining the perceptual benefits of motion.
+
+<Callout type="success" title="Optimization Strategy">
+Smart systems blend efficient convolution with selective updates so that the audio tracks motion without overwhelming the CPU or dropping frames.
+</Callout>
+
+---
+
+## 10. Summary
+
+- Head motion provides vital disambiguating cues that stabilize localization and externalization.  
+- Dynamic rendering updates coordinates and filters to match the listener’s orientation.  
+- Smooth HRIR interpolation and continuity techniques prevent audible glitches during motion.  
+- Low latency and a responsive update loop keep the scene feeling attached to the listener’s movements.  
+- Practical systems mix efficient convolution with prioritized updates to remain real-time capable.
+
+<Callout type="info" title="Next Up">
+Continue with **06-binaural-reproduction** to examine how HRTFs, reflections, and room acoustics layer on top of dynamic rendering.
+</Callout>
+
+---
+
+<Quiz chapterId="06-interaction" />
+
+</section>
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

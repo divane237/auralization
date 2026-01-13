@@ -1,0 +1,307 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+
+<section className="intro-lesson">
+
+# Acoustic VR System Pipeline  
+*Chapter 6 – 3D Sound & Virtual Acoustics*  
+
+<Callout type="info" title="How to Use This Subchapter">
+Trace the path from scene metadata to rendered ear signals; stop at each callout to capture an architectural insight, and keep the objective list handy as you work through every stage of the pipeline.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">After completing this overview you will be able to:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Articulate the high-level architecture of an acoustic VR system, from scene authoring to binaural delivery.</li>
+    <li>Identify how scene data, tracking, rendering, and playback stages are coordinated in real time.</li>
+    <li>Explain how spatial audio, head tracking, and scheduling are composed to preserve immersion and synchronization.</li>
+    <li>Spot the real-time, latency, and buffer-size constraints that govern each subsystem.</li>
+    <li>Match rendering methods (HRIRs, Ambisonics, loudspeaker feeds) to their place in the pipeline.</li>
+  </ul>
+</section>
+
+---
+
+## 1. From Virtual Scene to Ear Signals
+
+An acoustic VR system must answer one question continuously: *Given the current scene state and listener motion, what pressure fluctuations should reach the ears right now?* The pipeline collects geometry, source signals, and listener pose, then outputs ear-specific waveforms at audio rate.
+
+<Callout type="success" title="Key Idea">
+The pipeline is a continuous transformation: scene description → spatial representations → rendering → playback, with feedback from tracking and sensors closing the loop.
+</Callout>
+
+---
+
+## 2. Scene Description and Sound Sources
+
+Every update begins with the scene description, a snapshot of the virtual environment, the listener, and the active sources. This metadata specifies:
+
+- Sound sources (position, orientation, class, signal content)
+- Listener position and orientation
+- Room geometry, materials, and any dynamic elements that change the environment
+
+Sources may be static (ambient drones) or dynamic (moving robots, avatars), but each carries a monophonic signal plus spatial metadata that downstream stages consume.
+
+<Callout type="info" title="Scene Builder">
+Treat scene description as an event stream: adds/removes, pose updates, and environment tweaks arrive asynchronously, and the pipeline must merge them before snapping the next buffer of ear signals.
+</Callout>
+
+---
+
+## 3. Spatial Representation Layer
+
+Before the renderer can synthesize ears signals, the scene must be represented in a spatial format that the processing stages understand. Common abstractions include:
+
+- Direct source directions for sample-based binaural rendering
+- Ambisonic sound fields that encode the entire scene’s angular power distribution
+- Virtual loudspeaker feeds that act as intermediaries between scene logic and convolution engines
+
+This layer decouples **scene logic** from **rendering**, allowing the system to swap renderers or reuse intermediate representations.
+
+<Callout type="info" title="Representation Snapshot">
+The representation layer acts like a communication hub: it receives scene data on one side and continually emits bundles of (position, direction, signal) tuples for the renderer to consume.
+</Callout>
+
+<ImageSection src="/images/chapter06/subchapter04-3.1.1.jpg" caption="Spatial representation layer that reorganizes scene data into rendering-friendly bundles." />
+
+---
+
+## 4. Head Tracking and Listener Update
+
+Head tracking delivers the listener’s current pose, which updates coordinate transforms for every active source. The pipeline:
+
+- Transforms source positions from world coordinates into listener/head space
+- Adjusts effective source directions for rendering filters
+- Triggers filter updates and parameter sweeps in the renderer
+
+These computations run many times per second so the listener perceives no mismatch between motion, visuals, and sound.
+
+<Callout type="success" title="Key Idea">
+Every head rotation alters the filter set; transformer matrices must remain consistent with the visual engine so the rendered cues align with what the eyes report.
+</Callout>
+
+---
+
+## 5. Acoustic Modeling and Effects
+
+To approximate realism, the pipeline inserts acoustic effects before rendering:
+
+- Distance attenuation (inverse-square or controlled by curve)
+- Doppler shifts for moving sources
+- Early reflections from nearby surfaces
+- Late reverberation that spreads energy across time
+
+Models may run analytically, via geometric acoustics, or through precomputed impulse responses. The stage delivers per-source signals ready for the rendering kernels.
+
+---
+
+## 6. Spatial Rendering Stage
+
+Rendering converts the modeled signals into listener-specific waveforms.
+
+Depending on the setup it may involve:
+
+- Direct binaural rendering using HRIRs (per-source convolution)
+- Binaural decoding of Ambisonics
+- Hybrid pipelines where direct and diffuse components mix
+
+Mathematically, convolution dominates the workload:
+
+<MathFormula>
+{"y_{L/R}[n] = \sum_i x_i[n] * h_{L/R,i}[n]"}
+</MathFormula>
+
+This is where efficient partitioned convolution and shared memory strategies matter most.
+
+<Callout type="info" title="Rendering Tip">
+Balance latency and accuracy by tuning partition sizes: smaller partitions give faster head-motion response, while larger partitions amortize FFT costs.
+</Callout>
+
+---
+
+## 7. Real-Time Processing and Scheduling
+
+All of the stages above must fit inside a fixed audio budget defined by buffer size. The system must juggle:
+
+- Fixed buffer lengths (e.g., 128 or 256 samples)
+- Deterministic deadlines per audio frame
+- Prioritized work queues that favor early reflections and direct sound
+
+Techniques include partitioned convolution, parallel pipelines, and staging acoustic modules across CPU/GPU resources.
+
+<Callout type="danger" title="Latency Watch">
+Dropping below 10 ms of latency keeps the experience believable; every added source or physical effect increases pressure on the scheduler, so budget carefully.
+</Callout>
+
+---
+
+## 8. Synchronization with Visual Rendering
+
+Immersion hinges on audio and visuals sharing coordinate systems, timelines, and update rates:
+
+- Keep transforms (positions, orientations) synchronized with the graphics engine
+- Align update loops so motion-to-sound latency stays below the threshold where the brain notices
+- Use shared clocks or latency-compensated interpolation to prevent drift
+
+<Callout type="warning" title="Watch Out">
+Audio loops that drift from the visual framerate instantly break coherence; lock updates to a single master clock or resample data to catch up in case of hiccups.
+</Callout>
+
+---
+
+## 9. Output and Playback
+
+The renderer’s output feeds either headphones or loudspeakers. Typical endpoints include:
+
+- Headphone-based binaural signals for personal VR headsets
+- Loudspeaker arrays with object-based or channel-based rendering
+
+At this stage the pipeline hands over the calculated waveforms to the audio driver while continuing to poll for tracking and scene updates.
+
+---
+
+## 10. End-to-End Perspective
+
+An acoustic VR system is ultimately a real-time loop:
+
+1. Update scene and listener state
+2. Process spatial logic and apply acoustic models
+3. Render binaural signals and deliver them to the output device
+4. Repeat as the listener moves and interacts with the environment
+
+Keeping this cycle stable and responsive is the key to maintaining immersion.
+
+---
+
+## 11. Summary
+
+The acoustic VR pipeline links scene description, tracking, acoustic modeling, spatial rendering, and playback into one tightly synchronized system. Each stage must respect real-time constraints while preserving the spatial cues that convince the listener they are inside the virtual world.
+
+<Callout type="info" title="Next Up">
+Move on to **06-binaural-reproduction** to explore how head-related filters and spatial equalization concretely shape the ear signals delivered by this pipeline.
+</Callout>
+
+<Quiz chapterId="06-system-overview" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

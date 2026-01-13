@@ -1,0 +1,22 @@
+<svg width="480" height="280" viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title subtitle">
+  <title id="title">Sound power and pressure comparison</title>
+  <desc id="subtitle">Concentric power shell with sampling points showing constant power level versus variable pressure.</desc>
+  <rect width="480" height="280" fill="#0f172a" />
+  <g fill="none" stroke="#cbd5f5" stroke-width="2">
+    <circle cx="170" cy="140" r="60" opacity="0.7" />
+    <circle cx="170" cy="140" r="110" opacity="0.6" />
+    <circle cx="170" cy="140" r="160" opacity="0.5" />
+  </g>
+  <circle cx="170" cy="140" r="8" fill="#fbbf24" />
+  <g stroke="#fcd34d" stroke-width="3" fill="none">
+    <line x1="170" y1="140" x2="320" y2="80" stroke-dasharray="6 4" />
+    <line x1="170" y1="140" x2="320" y2="200" stroke-dasharray="6 4" />
+  </g>
+  <polygon points="320,76 332,84 322,90" fill="#fcd34d" />
+  <polygon points="320,204 332,196 322,190" fill="#fcd34d" />
+  <text x="330" y="90" fill="#fef3c7" font-size="16" font-family="sans-serif">A</text>
+  <text x="330" y="190" fill="#fef3c7" font-size="16" font-family="sans-serif">B</text>
+  <text x="120" y="40" fill="#a5b4fc" font-size="20" font-family="sans-serif">Sound power surface</text>
+  <text x="80" y="230" fill="#e0e7ff" font-size="16" font-family="sans-serif">Level stays constant for any enclosing shell.</text>
+  <text x="320" y="150" fill="#cbd5f5" font-size="14" font-family="sans-serif">Pressure drops from A to B.</text>
+</svg>

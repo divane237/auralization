@@ -1,0 +1,409 @@
+import MathFormula from "@/components/MathFormula";
+import PythonDemo from "@/components/PythonDemo";
+import Quiz from "@/components/Quiz";
+import ImageSection from "@/components/ImageSection";
+import VideoSection from "@/components/VideoSection";
+import Callout from "@/components/Callout";
+
+<section className="intro-lesson">
+
+# Discrete-Time Signals & Sampling  
+*Module 5 – Signal Processing for Auralization*  
+
+<Callout type="info" title="How to Use This Chapter">
+This lesson pairs concise theory with visuals and a guided demo. Read the objectives first, then work through each numbered section and pause for the callouts that highlight the most critical ideas.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you should be able to:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Explain why digital auralization requires discrete-time signals</li>
+    <li>Describe precisely what sampling does to a continuous-time signal</li>
+    <li>State and interpret the Nyquist–Shannon sampling theorem</li>
+    <li>Explain aliasing intuitively and mathematically</li>
+    <li>Predict when aliasing will occur and why it is irreversible</li>
+    <li>Understand the role of anti-aliasing filters in measurements and simulations</li>
+  </ul>
+</section>
+
+---
+
+## 1. Why Sampling Is Central to Auralization
+
+In acoustics, sound is fundamentally a <b>continuous-time phenomenon</b>. Sound pressure varies smoothly with time, and in physical reality there is no smallest “time step” at which sound exists. However, auralization aims to reproduce sound using digital systems: computers, audio interfaces, and headphones or loudspeakers.
+
+Digital systems cannot operate on continuous-time functions. They store, process, and transmit <b>finite sequences of numbers</b>. Therefore, the first unavoidable step in any auralization pipeline is the conversion of a continuous-time signal into a discrete-time signal.
+
+This step is so fundamental that it is often taken for granted. Yet, many audible artifacts and simulation errors originate precisely here. Understanding sampling is therefore not a technical detail, but a conceptual prerequisite for trustworthy auralization.
+
+<Callout type="success" title="Key Concept">
+Sampling is not a heuristic: it is the deterministic bridge that turns analog pressure into a computable sequence. If the samples fail to represent the continuous signal faithfully, the rest of the pipeline inherits the mistake.
+</Callout>
+
+---
+
+## 2. Continuous-Time vs Discrete-Time Signals
+
+A continuous-time signal is typically denoted as:
+
+<MathFormula> {"x(t), \\quad t \\in \\mathbb{R}"} </MathFormula>
+
+It assigns a value to every instant in time. In contrast, a discrete-time signal is a sequence:
+
+<MathFormula> {"x[n], \\quad n \\in \\mathbb{Z}"} </MathFormula>
+
+Here, the independent variable is an integer index, not time itself. The connection between the two representations is established through sampling.
+
+Sampling means evaluating the continuous-time signal at regularly spaced time instants. If the sampling period is <MathFormula inline>{String.raw`{T_s}`}</MathFormula>, then the sampling frequency is:
+<MathFormula> {"f_s = \\frac{1}{T_s}"} </MathFormula>
+
+and the discrete-time signal is defined as:
+
+<MathFormula> {"x[n] = x(nT_s)"} </MathFormula>
+
+At this point, it is crucial to recognize that sampling is not compression and not approximation by itself. Sampling is a precise mathematical operation. Whether information is preserved or destroyed depends entirely on the choice of sampling rate.
+
+---
+
+## 3. What Information a Signal Really Contains
+
+To understand sampling limits, we must think in terms of <b>frequency content</b>. Any physically realizable audio signal can be decomposed into sinusoidal components of different frequencies.
+
+If a signal contains no energy above a maximum frequency <MathFormula inline>{String.raw`f_{\max}`}</MathFormula>, we say that it is <b> bandlimited</b>. This assumption is critical. Without it, no finite sampling rate can guarantee perfect reconstruction.
+
+In acoustics and auralization, typical assumptions are:
+
+<ul className="list-disc">
+    <li>
+        human hearing range ≈ 20 Hz to 20 kHz
+    </li>
+    <li>
+        practical audio signals are bandlimited slightly above this range
+    </li>
+</ul>
+
+
+This is why standard audio sampling rates cluster around 44.1 kHz and 48 kHz.
+
+---
+
+## 4. The Nyquist–Shannon Sampling Theorem
+
+The Nyquist–Shannon sampling theorem provides a precise condition under which sampling is lossless.
+It states: If a continuous-time signal contains no frequency components above <MathFormula inline>{String.raw`f_{\max}`}</MathFormula>, then it can be perfectly reconstructed from its samples if <MathFormula inline>{String.raw`f_s`}</MathFormula> ≥ 2<MathFormula inline>{String.raw`f_{\max}`}</MathFormula>.
+
+<MathFormula> {"f_s \\ge 2 f_{\\max}"} </MathFormula>
+
+The frequency <MathFormula inline>{String.raw`f_s`}</MathFormula>/2 is called the <b>Nyquist frequency</b>. Frequencies above this limit cannot be uniquely represented after sampling.
+
+This theorem is not merely theoretical. It explains why:
+
+<ul className="list-disc">
+    <li>
+        audio interfaces specify a sampling rate
+    </li>
+    <li>
+        anti-aliasing filters exist
+    </li>
+    <li>
+        “oversampling” is sometimes used in DSP
+    </li>
+</ul>
+
+---
+
+## 5. What Goes Wrong: The Nature of Aliasing
+
+Aliasing occurs when the sampling theorem is violated. More precisely, aliasing happens when frequency components above the Nyquist frequency are present in the signal at the moment of sampling.
+
+### 5.1 Frequency-Domain Explanation
+
+Sampling a signal causes its spectrum to be replicated periodically along the frequency axis, with spacing <MathFormula inline>{String.raw`f_s`}</MathFormula>. If the original spectrum extends beyond <MathFormula inline>{String.raw`f_s`}</MathFormula>/2, these replicas overlap.
+
+Once overlap occurs, different continuous-time frequencies map to the <b>same discrete-time frequency</b>. This overlap cannot be undone. The information is permanently corrupted.
+
+This is why aliasing is fundamentally different from noise or quantization error. It is <b>deterministic misrepresentation</b>, not random disturbance.
+
+### 5.2 Time-Domain Intuition
+
+Aliasing can also be understood without spectra. Consider observing a fast oscillation with a slow camera. If the oscillation changes significantly between observations, the observer may interpret it as a slower oscillation in the opposite direction.
+
+In audio, the same phenomenon occurs: a high-frequency tone, when sampled too slowly, appears as a lower-frequency tone in the discrete signal. Importantly, this “fake” low-frequency tone sounds perfectly real.
+
+This is what makes aliasing particularly dangerous in auralization.
+
+<Callout type="warning" title="Aliasing Warning">
+Once spectral replicas overlap, the discrete samples can no longer distinguish the true frequency, and this misrepresentation cannot be reversed by any later processing stage.
+</Callout>
+
+---
+
+## 6. Computing the Aliased Frequency
+
+For a sinusoidal signal of frequency <MathFormula inline>{String.raw`f_s`}</MathFormula> sampled at <MathFormula inline>{String.raw`f`}</MathFormula>, the apparent frequency after sampling is obtained by folding into the Nyquist interval [0, <MathFormula inline>{String.raw`f_s`}</MathFormula>/2].
+
+A practical expression is:
+<MathFormula> {"f_{alias} = \\left| f - k f_s \\right|, \\quad f_{alias} \\le \\frac{f_s}{2}"} </MathFormula>
+
+for an integer <MathFormula inline>{String.raw`k`}</MathFormula> chosen appropriately.
+
+This explains why increasing frequency beyond Nyquist does not “disappear”, but instead <b>reappears at the wrong place</b>.
+
+---
+
+## 7. Why Aliasing Is Catastrophic for Auralization
+
+In auralization, signals are often:
+
+<ul >
+<li>
+    convolved with room impulse responses
+</li>
+<li>
+    filtered by HRTFs
+</li>
+<li>
+    processed through multiple DSP stages
+</li>
+
+</ul>
+
+If aliasing is introduced early—during recording or measurement, it propagates through the entire chain. <b>Convolution</b> does not remove aliasing; it spreads it.
+
+In binaural rendering, this can lead to:
+
+<ul className="list-[lower-roman]">
+    <li>
+        unnatural timbre
+    </li>
+    <li>
+        incorrect spatial cues
+    </li>
+    <li>
+        listener fatigue
+    </li>
+</ul>
+
+
+
+Once aliasing is present, no post-processing can fix it.
+
+---
+
+## 8.  Python Demonstration
+
+This example is intentionally simple: a single sine tone sampled at two different sampling rates. You’ll see how aliasing changes what frequency appears in the discrete-time data.
+
+<Callout type="success" title="What to Watch">
+Observe how the lower sampling rate misreports the tone’s frequency even though the continuous signal is unchanged—this is the deterministic outcome of aliasing.
+</Callout>
+
+<div className="python-demo">
+  <PythonDemo
+    id="sampling"
+    title="Sound power level to watts"
+    description="Aliasing changes what frequency appears in the discrete-time data"
+    defaultCode={String.raw`
+import numpy as np
+
+# "True" continuous-time tone frequency (Hz)
+f = 6000
+
+# Two sampling rates: one too low, one high enough
+fs_list = [8000, 48000]
+
+T = 0.01  # 10 ms duration
+for fs in fs_list:
+    t = np.arange(0, T, 1/fs)
+    x = np.sin(2*np.pi*f*t)
+
+    # Estimate dominant frequency using FFT
+    X = np.fft.rfft(x)
+    freqs = np.fft.rfftfreq(len(x), 1/fs)
+    f_peak = freqs[np.argmax(np.abs(X))]
+
+    print(f"fs = {fs:>5} Hz  →  dominant frequency in samples ≈ {f_peak:.1f} Hz")
+
+
+`}
+  />
+</div>
+
+---
+
+## 9. Anti-Aliasing Filters: A Necessary Reality
+
+The sampling theorem assumes that signals are bandlimited. Real acoustic signals are not. Therefore, all practical sampling systems include an anti-aliasing low-pass filter before the analog-to-digital conversion.
+
+This filter removes frequency components above the Nyquist frequency before sampling occurs.
+
+In auralization, anti-aliasing is essential when:
+
+<ul className="list-disc">
+    <li>
+        recording source material
+    </li>
+    <li>
+        measuring impulse responses
+    </li>
+    <li>
+        capturing HRTFs
+    </li>
+    <li>
+        resampling signals between sampling rates
+    </li>
+
+</ul>
+
+Ignoring anti-aliasing leads to physically incorrect results, even if the simulation model itself is perfect.
+
+---
+
+## 10.  Visual Intuition 
+
+<ImageSection
+  src="/images/chapter05/subchapter01-1.1.png"
+  caption="Spectral replicas overlapping when sampling is too slow, creating aliasing."
+/>
+
+This diagram shows how spectral replicas overlap when sampling is too slow, creating aliasing.
+
+
+<VideoSection
+  src="https://www.youtube.com/embed/eBHbCZo9QrM"
+  caption="Sampling & Aliasing (visual explanation)"
+/>
+
+This video is useful because it visually connects time-domain sampling with frequency-domain folding.
+
+---
+
+## 11. Summary
+
+Sampling converts continuous-time acoustic signals into discrete-time sequences suitable for digital processing. The Nyquist–Shannon theorem defines the conditions for lossless sampling, while aliasing describes the irreversible distortion that occurs when these conditions are violated. Because auralization relies entirely on digital signal processing, correct sampling and anti-alias filtering are not optional—they are foundational requirements for perceptually accurate sound reproduction.
+
+<Callout type="info" title="Next Up">
+Move on to later chapters that explore filters, convolution, and binaural rendering to see how a cleanly sampled signal behaves under more advanced processing.
+</Callout>
+
+<Quiz chapterId="05-sampling-aliasing" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

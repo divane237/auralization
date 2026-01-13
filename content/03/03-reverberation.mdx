@@ -1,0 +1,304 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+
+<section className="intro-lesson">
+
+# Reverberation Time & Energy Decay  
+*Module 3 – Propagation & Rooms*
+
+<Callout type="info" title="How to Use This Lesson">
+Review the learning objectives first, then follow each numbered section in order. Pause at the callouts to anchor intuition, and keep the diagrams and formulas handy while inspecting the decay narratives.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Describe how reverberation emerges once reflections become too dense to follow individually.</li>
+    <li>Translate room energy decay into the Energy Decay Curve and understand how its slope defines reverberation time.</li>
+    <li>Define RT60, RT30, and RT20 and know when to use each metric.</li>
+    <li>Apply Sabine’s reverberation formula, including the absorption area bookkeeping that drives it.</li>
+    <li>Explain how frequency, room function, and perception shape ideal reverberation times.</li>
+    <li>Link reverberation modeling to auralization so that synthesis delivers believable space.</li>
+  </ul>
+</section>
+
+<Callout type="success" title="Key Idea">
+Reverberation is the statistical, slowly decaying curtain of energy left after the direct sound and early reflections have passed. It encodes the room’s absorption and size.
+</Callout>
+
+---
+
+## 1. From Early Reflections to Reverberation
+
+Sound arrives in a room as a sequence of events: the direct path, discrete early reflections, and finally a dense, diffuse tail. When the arrivals become too close to separate, the response becomes **statistical** rather than geometric, and that tail is what we call **reverberation**.
+
+### 1.1 Transitioning to a Diffuse Field
+
+- Direct sound travels the shortest route and conveys localization.
+- Early reflections follow from slightly longer bounces, shaping clarity and spaciousness.
+- Reverberation is made of countless late bounces that collectively form a smooth decay tail.
+
+<Callout type="warning" title="Watch Out">
+If you treat reverberation as a single reflection, you miss how absorption, geometry, and surface distribution interact to determine the tail’s slope.
+</Callout>
+
+---
+
+## 2. Energy Decay in Rooms
+
+Once the source stops, no new acoustic energy is injected. The room’s existing energy decays exponentially because every reflection loses a fraction of its power to absorption.
+
+<MathFormula>{"E(t) \\propto e^{-t/\\tau}"}</MathFormula>
+
+In decibels the exponential becomes a straight line with a slope dictated by the amount of absorption available: steeper slopes mean faster decay, shallower slopes mean longer reverberation.
+
+<Callout type="info" title="Interpretation">
+Decay time constant τ bundles the room volume, absorption, and air losses. Smaller rooms or materials with high absorptivity yield smaller τ and shorter tails.
+</Callout>
+
+---
+
+## 3. Energy Decay Curve (EDC)
+
+The Energy Decay Curve plots the averaged sound level (dB) versus time after the source stops. It is obtained by smoothing the tail (e.g., Schroeder backward integration) so that random fluctuations disappear and the linear slope emerges clearly.
+
+<ImageSection src="/images/chapter03/subchapt04-3.1.jpg" caption="A Schroeder-integrated energy decay curve showing the smooth linear slope on a logarithmic energy axis." />
+
+Key takeaways:
+
+- The EDC is typically displayed on a dB scale because the exponential decay becomes linear there.
+- Only the late, diffuse portion is used to compute reverberation time.
+- The slope is independent of the source as long as the field is diffuse.
+
+<Callout type="info" title="Slope Insight">
+Measure the slope over a 20–35 dB range where the tail behaves linearly, then extrapolate to −60 dB for RT60 if the noise floor permits.
+</Callout>
+
+---
+
+## 4. Reverberation Time (RT)
+
+Reverberation time is the duration it takes for the sound level to drop by 60 dB once the source stops. It is the most common descriptor for the decay tail.
+
+<MathFormula>{"RT_{60} = \\frac{-60}{\\text{slope}_{\\text{dB/s}}}"}</MathFormula>
+
+Because real measurements often stop before −60 dB, we extrapolate from shorter stretches (see RT20/RT30).
+
+---
+
+## 5. Practical RT Definitions: RT20 & RT30
+
+- **RT20** extrapolates from −5 dB to −25 dB (×3) to estimate what −60 dB would be.
+- **RT30** extrapolates from −5 dB to −35 dB (×2) for noisier rooms.
+- Both assume the decay remains linear in dB, so ensure you pick a region with minimal curvature.
+
+These shortcuts keep RT estimates usable even when the late tail meets the noise floor.
+
+---
+
+## 6. Sabine’s Reverberation Formula
+
+For diffuse fields with low average absorption Sabine showed that:
+
+<MathFormula>{"RT_{60} = 0.161 \\frac{V}{A}"}</MathFormula>
+
+where <MathFormula inline>{"V"}</MathFormula> is the room volume in cubic meters and <MathFormula inline>{"A"}</MathFormula> is the total equivalent absorption area measured in sabins:
+
+<MathFormula>{"A = \\sum_i \\alpha_i S_i"}</MathFormula>
+
+Here <MathFormula inline>{"S_i"}</MathFormula> is each surface area and <MathFormula inline>{"\\alpha_i"}</MathFormula> its absorption coefficient.
+
+<Callout type="info" title="Absorption Checklist">
+Surfaces with high α_i values, open air vents, or carpets dramatically raise A, lowering RT. Track every material you can.
+</Callout>
+
+---
+
+## 7. Assumptions Behind Sabine
+
+Sabine’s formula relies on:
+
+- a diffuse sound field (after the mixing time)
+- uniform absorption distributed across the boundaries
+- low to moderate absorption so energy doesn’t die out before diffusing
+- many reflections that justify a statistical description
+
+It works best in medium to large rooms such as lecture halls. Small, highly damped spaces call for Eyring or numerical corrections.
+
+---
+
+## 8. Frequency Dependence of RT
+
+Absorption generally increases with frequency, so low bands tend to hang around longer than highs. As a result, reverberation is usually reported per octave or third-octave band.
+
+<ImageSection src="/images/chapter03/subchapt04-9.1.jpg" caption="Low frequencies sustain longer tails while highs decay quickly, creating a frequency-dependent reverberation time profile." />
+
+- Low frequencies (bass) interact with modal resonances and often produce longer RT.
+- Mid/high frequencies are absorbed more easily, leading to shorter RT and clearer speech.
+- Band-specific RT helps tune carpets, curtains, and diffusers for their intended role.
+
+---
+
+## 9. Perceptual Meaning of Reverberation Time
+
+Perception depends on the balance between clarity and richness:
+
+- **Short RT** (< 0.5 s) favors speech intelligibility and tight percussion.
+- **Medium RT** (0.6–1.2 s) suits rehearsal rooms and multi-purpose halls.
+- **Long RT** (> 1.5 s) adds warmth to music but can smear fast transients.
+- Mistuned RT immediately makes auralization feel either flat or boomy.
+
+<Callout type="info" title="Perception Tip">
+Always match RT to the intended function—classrooms need clarity, while concert halls rely on longer tails.
+</Callout>
+
+---
+
+## 10. Reverberation in Auralization
+
+Auralization models the built room by reproducing the correct RT tail so listeners hear a believable space. Early reflections are modeled geometrically, while the reverberant tail is often synthesized statistically or pulled from measured IRs.
+
+Accuracy in RT keeps size and absorption cues consistent, which is critical for immersion in virtual acoustics.
+
+<Callout type="success" title="Keep It Real">
+If the synthesized reverberant tail is off by even a few tenths of a second, the prototype room sounds either unnaturally dry or overwhelmingly reverberant.
+</Callout>
+
+---
+
+## 11. Summary Checklist
+
+- Reverberation is the dense tail that remains once early reflections merge.
+- The Energy Decay Curve reveals the slope that defines RT.
+- RT60 results from extrapolating a 60 dB drop; RT30/RT20 are practical stand-ins.
+- Sabine ties RT60 to volume and total absorption; assumptions matter.
+- Frequency and perception guide ideal RT choices for each room function.
+- Auralization needs correct RT to preserve perceived room size and material.
+
+<Callout type="info" title="Next Up">
+Continue with <strong>03-room-modes</strong> to explore modal resonances and how they shape low-frequency decay.
+</Callout>
+
+<Quiz chapterId="03-reverberation" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

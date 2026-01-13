@@ -1,0 +1,481 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+import VideoSection from "@/components/VideoSection";
+
+
+# HRTFs & Binaural Rendering  
+*Chapter 5 – Signal Processing for Auralization*  
+
+<section className="intro-lesson">
+
+<Callout type="info" title="How to Use This Lesson">
+Move through the numbered sections in order, pause at the callouts, and keep tracking how the listener’s anatomy shapes every convolution step in the pipeline.
+</Callout>
+
+Binaural auralization aims to reproduce not only sound signals, but the **spatial experience of hearing**.  
+This requires modeling how the human body itself modifies incoming sound before it reaches the ears.
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this lesson you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Explain what a **Head-Related Transfer Function (HRTF)** represents physically and mathematically.</li>
+    <li>Distinguish between **HRTFs** and **Head-Related Impulse Responses (HRIRs)**.</li>
+    <li>Describe how **direction**, **distance**, and **anatomy** shape binaural cues.</li>
+    <li>Outline how binaural rendering relies on convolution with HRIRs.</li>
+    <li>Recognize the perceptual limits of generic HRTFs.</li>
+    <li>Appreciate why HRTFs become the bottleneck in realistic binaural auralization.</li>
+  </ul>
+</section>
+
+---
+
+## 1. Historical Context: From Psychoacoustics to HRTFs
+
+Early research on spatial hearing focused on simple binaural cues such as **interaural time differences (ITD)** and **interaural level differences (ILD)**. Lord Rayleigh’s duplex theory explained left–right localization reasonably well using these two mechanisms.
+
+However, these cues alone could not explain:
+
+<ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>elevation perception</li>
+  <li>front–back discrimination</li>
+  <li>individual differences in localization accuracy</li>
+</ul>
+
+<Callout type="success" title="Key Idea">
+Frequency-dependent filtering by the head, torso, and pinnae supplies the extra spectral cues that fill those perceptual gaps.
+</Callout>
+
+It became clear that **frequency-dependent filtering by the head, torso, and outer ears** played a decisive role. With the rise of digital signal processing and convolution-based systems, this filtering could finally be measured and reproduced — leading to the concept of **Head-Related Transfer Functions**.
+
+---
+
+## 2. The Human Listener as an Acoustic System
+
+Before sound reaches the eardrum, it interacts with multiple anatomical structures:
+
+<ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li><strong>Torso</strong> → low-frequency diffraction and shadowing</li>
+  <li><strong>Head</strong> → interaural time and level differences</li>
+  <li><strong>Pinnae</strong> → direction-dependent spectral shaping</li>
+</ul>
+
+From a signal-processing perspective:
+
+> **The human listener is a direction-dependent acoustic filter.**
+
+This filter is linear (for normal sound levels) and time-invariant over short durations, making it compatible with convolution-based modeling.
+
+---
+
+## 3. Formal Definition of a Head-Related Transfer Function (HRTF)
+
+An **HRTF** is defined as the transfer function between a sound source in a free field and the sound pressure at the entrance of the ear canal, for a specific direction.
+
+Formally:
+
+- Input: a free-field sound wave arriving from direction <MathFormula inline>{"(\\theta, \\phi)"}</MathFormula>
+- Output: sound pressure at the left or right ear
+- Reference: typically a free-field or blocked-ear-canal condition
+
+In the frequency domain:
+
+- <MathFormula inline>{"H_L(\\theta,\\phi,\\omega)"}</MathFormula>: left-ear HRTF  
+- <MathFormula inline>{"H_R(\\theta,\\phi,\\omega)"}</MathFormula>: right-ear HRTF  
+
+HRTFs are therefore **direction-, frequency-, and ear-dependent transfer functions**.
+
+---
+
+## 4. HRIRs: Time-Domain Representation
+
+In practice, auralization systems often operate in the time domain.  
+The **Head-Related Impulse Response (HRIR)** is the inverse Fourier transform of the HRTF:
+
+<MathFormula>
+{"h_{L/R}(n,\\theta,\\phi) = \\mathcal{F}^{-1}\\{H_{L/R}(\\theta,\\phi,\\omega)\\}"}
+</MathFormula>
+
+**Key distinction:**
+
+<div className="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Aspect</th>
+        <th>HRTF</th>
+        <th>HRIR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Domain</td>
+        <td>Frequency</td>
+        <td>Time</td>
+      </tr>
+      <tr>
+        <td>Representation</td>
+        <td>Transfer function</td>
+        <td>Impulse response</td>
+      </tr>
+      <tr>
+        <td>Typical use</td>
+        <td>Analysis</td>
+        <td>Convolution</td>
+      </tr>
+      <tr>
+        <td>Units</td>
+        <td>Complex gain</td>
+        <td>Pressure vs time</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+In binaural rendering, **HRIRs are the actual filters applied to signals**.
+
+---
+
+## 5. Physical Origin of Binaural Cues
+
+Spatial hearing emerges naturally from the structure of HRIRs.
+
+### 5.1 Interaural Time Difference (ITD)
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>Caused by finite head size</li>
+  <li>Dominant at low frequencies</li>
+  <li>Encoded as time delays between HRIRs</li>
+</ul>
+
+### 5.2 Interaural Level Difference (ILD)
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>Caused by head shadowing</li>
+  <li>Strong at high frequencies</li>
+  <li>Encoded as amplitude differences</li>
+</ul>
+
+### 5.3 Pinna-Induced Spectral Cues
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>Direction-dependent peaks and notches</li>
+  <li>Essential for elevation and front–back discrimination</li>
+</ul>
+
+<ImageSection
+  src="/images/chapter05/subchapter04-5.1.png"
+  caption="Pinna, head, and torso cues emerge automatically in the HRIRs."
+/>
+
+Importantly, **these cues are not added artificially** — they arise automatically through convolution.
+
+---
+
+## 6. Near-Field vs Far-Field HRTFs
+
+Most HRTF datasets assume **far-field conditions**, where the sound source is sufficiently distant that wavefronts are approximately planar.
+
+In the **near field**:
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>sound pressure increases with proximity</li>
+  <li>phase relationships change</li>
+  <li>spectral balance may shift</li>
+</ul>
+
+Near-field HRTFs are important for:
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>virtual reality</li>
+  <li>augmented reality</li>
+  <li>close-proximity sound sources</li>
+</ul>
+
+However, they are harder to measure and less commonly available.
+
+---
+
+## 7. Binaural Rendering Pipeline
+
+A basic binaural auralization pipeline consists of:
+
+<ol className="mt-4 list-decimal space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>A monophonic source signal \(x[n]\)</li>
+  <li>Selection of HRIRs for the desired direction</li>
+  <li>Two convolutions (left and right ears)</li>
+  <li>Headphone playback</li>
+</ol>
+
+Mathematically:
+
+<MathFormula>
+{"y_L[n] = x[n] * h_L[n]"}
+</MathFormula>
+
+<MathFormula>
+{"y_R[n] = x[n] * h_R[n]"}
+</MathFormula>
+
+Despite its simplicity, this structure can produce highly realistic spatial perception.
+
+---
+
+## 8. Why Headphones Are Essential
+
+Binaural rendering assumes:
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>independent left and right ear signals</li>
+  <li>no acoustic crosstalk</li>
+</ul>
+
+Loudspeakers violate these assumptions unless advanced crosstalk cancellation is applied.
+
+<Callout type="warning" title="Why Headphones">
+Binaural auralization is inherently headphone-based because loudspeakers introduce crosstalk that spoils the separate-ear signals.
+</Callout>
+
+---
+
+## 9. Measurement of HRTFs
+
+HRTFs are typically measured by:
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>placing microphones in ear canals or ear simulators</li>
+  <li>emitting test signals from known spatial directions</li>
+  <li>recording impulse responses</li>
+</ul>
+
+Measurement grids often span:
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>full azimuth (0–360°)</li>
+  <li>multiple elevations</li>
+  <li>sometimes distance variation</li>
+</ul>
+
+---
+
+## 10. Generic vs Individualized HRTFs
+
+Most systems rely on **generic HRTFs**, often measured on mannequins.
+
+**Advantages:**
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>easy to distribute</li>
+  <li>computationally convenient</li>
+</ul>
+
+**Limitations:**
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>reduced externalization</li>
+  <li>front–back confusions</li>
+  <li>elevation errors</li>
+</ul>
+
+Individualized HRTFs improve realism but are difficult and expensive to obtain.
+
+---
+
+## 11. Common Perceptual Artifacts
+
+When HRTFs do not match the listener, perceptual errors may occur:
+
+<ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>**In-head localization** (sound appears inside the head)</li>
+  <li>**Front–back confusion**</li>
+  <li>**Poor elevation perception**</li>
+  <li>**Spectral coloration**</li>
+</ul>
+
+These artifacts highlight that **HRTFs are the perceptual bottleneck** of binaural auralization.
+
+---
+
+## 12. Mini Case Study: Static Sound at 30° Azimuth
+
+Consider a dry speech signal rendered at 30° to the right:
+
+<ol className="mt-4 list-decimal space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>HRIRs corresponding to 30° azimuth are selected</li>
+  <li>The signal is convolved with left and right HRIRs</li>
+  <li>The right ear receives earlier and stronger energy</li>
+  <li>Spectral shaping reinforces direction perception</li>
+</ol>
+
+The listener perceives the sound source as externalized and spatially located.
+
+---
+
+## 13. Visual Insight: Direction-Dependent Filtering
+
+<ImageSection
+  src="/images/chapter05/subchapter04-13.1.png"
+  caption="Direction-dependent filtering changes timing and spectral content."
+/>
+
+These plots show how direction alters both **timing** and **spectral content**.
+
+---
+
+## 14. Short Video 
+
+<VideoSection
+  src="https://www.youtube.com/embed/IUDTlvagjJA"
+  caption="Why pinna cues matter and how convolution creates spatial perception."
+/>
+
+Focus on:
+
+<ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>why pinna cues matter</li>
+  <li>why generic HRTFs sometimes fail</li>
+  <li>how convolution creates spatial perception</li>
+</ul>
+
+---
+
+## 15. Why HRTFs Are the Bottleneck of Binaural Auralization
+
+Even with perfect convolution and signal processing, binaural realism is limited by:
+
+<ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+  <li>measurement accuracy</li>
+  <li>anatomical mismatch</li>
+  <li>headphone response</li>
+</ul>
+
+This motivates efficient processing strategies and real-time implementations, which are addressed in the next subchapter.
+
+---
+
+## 16. Summary
+
+Head-Related Transfer Functions describe how the human body filters sound depending on direction and frequency. By convolving audio signals with HRIRs for each ear, binaural rendering reproduces spatial hearing over headphones. While powerful, this approach is limited by listener-specific anatomy, making HRTFs a central challenge in realistic auralization.
+
+---
+
+<Quiz chapterId="05-hrtf-binaural-rendering" />
+
+</section>
+
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

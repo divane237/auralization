@@ -1,0 +1,340 @@
+import MathFormula from "@/components/MathFormula";
+import PythonDemo from "@/components/PythonDemo";
+
+import Quiz from "@/components/Quiz";
+import VideoSection from "@/components/VideoSection";
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+
+<section className="intro-lesson">
+
+# Point Sources & Spherical Waves  
+*Module 2 – Sound Sources & Directivity*  
+
+<Callout type="info" title="Point sources simplify everything">
+  We begin with the most idealized sound source because it exposes the cleanest mathematics. Once you understand how an omnidirectional point
+  radiates into space, you can add complexity later—source size, directionality, mounting conditions, and so forth—but the starting logic stays the same.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Explain why point sources are the natural starting point for acoustic radiation models.</li>
+    <li>Describe how spherical waves differ from plane waves as they expand.</li>
+    <li>Use the inverse-square law to predict how sound level changes with distance.</li>
+    <li>Distinguish near-field and far-field behavior around a source.</li>
+    <li>Combine analytic expressions with interactive and computational tools to explore decay and spreading.</li>
+  </ul>
+</section>
+
+---
+
+## 1. Why We Start with Point Sources
+
+When studying sound radiation, real sources can be geometrically complex: loudspeakers have finite size, machines have multiple vibrating parts, and musical instruments have intricate shapes.
+Analyzing such sources directly would be extremely difficult.
+
+To make progress, acoustics begins with an idealized source model: the point source.
+
+<Callout type="success" title="Key idea">
+  A point source is not meant to represent a real object exactly. Instead, it serves as a reference model that captures the essential physics of sound radiation while remaining mathematically tractable. Many real sources behave approximately like point sources when observed from sufficiently far away.
+
+</Callout>
+
+---
+
+## 2. The Point Source Concept
+
+A point source is an idealized emitter that:
+
+  * radiates sound equally in every direction
+
+  * has a physical size negligible compared to the radiated wavelength
+
+  * sends its acoustic energy uniformly into the surrounding space
+
+<ImageSection
+  src="/images/chapter02/subchapt01-1.1.png"
+  alt="Spherical wavefronts from a point source"
+  caption="Snapshots of spherical wavefronts marching outward from a point source."
+/>
+
+Each circular wavefront marks a surface of equal phase, and as the source keeps pushing, the spheres grow larger just like ripples on a pond.
+This geometric spreading is the reason the intensity drops with distance.
+
+---
+
+## 3. Spherical Wave Propagation
+
+Unlike plane waves, which carry energy across flat wavefronts, a point source creates spherical wavefronts that expand outward.
+As the radius grows, the same amount of acoustic power is shared among increasingly larger surface areas, so the intensity must fall.
+
+The surface area of a sphere grows as:
+
+<MathFormula> {"A = 4\\pi r^2"} </MathFormula>
+
+Because power is conserved, the intensity decreases proportionally to the reciprocal of that surface. The inverse-square relationship follows directly.
+
+---
+
+## 4. Inverse-Square Law
+
+The sound intensity at a distance \( r \) from a point source is:
+
+<MathFormula> {"I(r) = \\frac{W}{4\\pi r^2}"} </MathFormula>
+
+where:
+
+  𝑊 is the source power
+
+  𝑟 is the distance from the source
+
+This equation shows how the same energy is diluted over a growing spherical shell, so intensity drops rapidly as you step away.
+
+<Callout type="warning" title="Why −6 dB matters">
+  Every time you double the distance from a point source, the sound pressure level falls by roughly 6 dB. That rule of thumb comes right out of the inverse-square law.
+</Callout>
+
+---
+
+## 5. Distance Dependence of Sound Pressure
+
+Sound pressure is proportional to the square root of intensity:
+
+<MathFormula> {"I \\propto p_{\\mathrm{rms}}^2"} </MathFormula>
+
+Combining this with the inverse-square law gives:
+
+<MathFormula> {"p_{\\mathrm{rms}}(r) \\propto \\frac{1}{r}"} </MathFormula>
+
+Doubling the distance halves the pressure amplitude, so amplitude-based measurements also reflect the −6 dB rule.
+When expressed in decibels, the falloff becomes even easier to handle in logarithmic equations.
+
+---
+
+## 6. Sound Pressure Level vs Distance
+
+The difference in SPL between two distances <MathFormula inline> {"{r_1}"} </MathFormula> and <MathFormula inline> {"{r_2}"} </MathFormula> is:
+
+<MathFormula> {"\\Delta L_p = 20\\log_{10}\\left(\\frac{r_1}{r_2}\\right)"} </MathFormula>
+
+A special and practical case is distance doubling:
+
+<MathFormula> {"\\Delta L_p = -6\\,\\mathrm{dB}"} </MathFormula>
+
+This is the livelihood of outdoor sound prediction, microphone calibration, and any design effort that must relate a source to a listener at a known range.
+
+---
+
+## 7. Near Field and Far Field
+
+The spherical-wave approximation works best in the far field, where the distance is large compared to the source size, wavefronts look smooth, and pressure and particle velocity stay in phase.
+Closer to the source we find the near field, where reactive energy, phase mismatches, and rapid amplitude changes dominate.
+
+  * Far field → clean inverse-distance relationships
+
+  * Near field → reactive energy, phase shifts, and measurement challenges
+
+Understanding the transition matters because measurements taken inside the near field can be misleading if you treat them like far-field readings.
+
+<Callout type="warning" title="Measurement note">
+  If your microphone sits too close to a source, you will sense reactive fields that do not translate to perceived loudness far away. Design measurements with distance in mind.
+</Callout>
+
+---
+
+## 8. Interactive Exploration: Spherical Waves
+
+To visualize geometric spreading, use the interactive explorer below. Sweep the source size or frequency to see how the spherical wavefronts respond and how the near-field pattern transitions into a far-field pattern as you increase the plotted range.
+
+<Callout type="success" title="Explorer tips">
+  Try varying the source radius and notice how the observed lobes shift. The far-field pattern settles once the source is much smaller than the wavelength.
+</Callout>
+
+
+
+<VideoSection
+  src="https://www.youtube.com/embed/L0UeJBXoIi0"
+  caption="Spherical Waves and Sound Propagation (YouTube)"
+/>
+
+<Callout type="info" title="While watching">
+  Observe how the spacing between wavefronts stays constant, how the amplitude fades with distance, and how the curvature flattens as the wavefront moves farther from the source.
+</Callout>
+
+---
+
+## 9. Python Demonstration: Distance Attenuation
+
+Use the sandboxed Python lab below to compute how the SPL falls off with increasing distance from a point source.
+
+<div className="python-demo">
+  <PythonDemo
+    id="point-sources-attenuation"
+    title="Point-source SPL decay"
+    description="Calculate SPL at multiple distances and observe the −6 dB drop when doubling the range."
+    defaultCode={String.raw`
+import numpy as np
+
+# reference values
+Lp_ref = 90   # SPL at reference distance (dB)
+r_ref = 1.0   # reference distance (m)
+
+# distances to evaluate
+r = np.array([1, 2, 4, 8])
+
+# SPL as function of distance
+Lp = Lp_ref - 20 * np.log10(r / r_ref)
+
+for dist, level in zip(r, Lp):
+    print(f"Distance: {dist} m → SPL: {level:.1f} dB")
+`}
+  />
+</div>
+
+This numerical example confirms the −6 dB rule for each doubling of distance.
+
+---
+
+## 10. Practical Implications
+
+The point source and spherical wave model guide many real-world applications:
+
+  * Environmental noise prediction
+
+  * Outdoor sound propagation models
+
+  * Reference sound power measurements
+
+  * Initial room acoustics estimates
+
+Even if sources are not perfect points, this framework remains powerful because more complex models ultimately build on these simple relations.
+
+---
+
+## 11. Summary
+
+A point source radiates evenly in every direction, producing spherical waves whose energy spreads over growing surface areas.
+The inverse-square law and the −6 dB per doubling rule follow quickly, and these principles support later discussions about directivity and acoustic measurements.
+
+<Quiz chapterId="02-point-sources" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

@@ -1,0 +1,346 @@
+import Callout from "@/components/Callout";
+import ImageSection from "@/components/ImageSection";
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+
+<section className="intro-lesson">
+
+# Early Reflections & Image Sources  
+*Module 03 – Propagation & Rooms*  
+
+
+<Callout type="info" title="How to Use This Subchapter">
+Review the learning objectives, then move through the numbered sections sequentially. Use the callouts to pause and reflect, and refer to the illustrations or formulas when the prose leans on geometry or timing.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this lesson you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Explain what <strong>early reflections</strong> are and how they contrast with late reverberation.</li>
+    <li>Identify which room boundaries emit the strongest reflections.</li>
+    <li>Apply the <strong>image source method</strong> to trace reflection paths and timing.</li>
+    <li>Discuss how early reflections affect <strong>localization</strong>, <strong>clarity</strong>, and <strong>spatial impression</strong>.</li>
+    <li>Describe why early reflections are central to room acoustics and auralization.</li>
+  </ul>
+</section>
+
+<Callout type="success" title="Key Idea">
+Early reflections are the crisp, directional arrivals that prime our ears with geometry before the room fills with late reverberation.
+</Callout>
+
+---
+
+## 1. From Free Field to Reflections
+
+In a free field, sound reaches the listener via a single straight path. Rooms, however, surround the source with surfaces that redirect a fraction of the energy almost immediately.
+
+- walls  
+- floor  
+- ceiling  
+- large objects  
+
+Each boundary produces a reflection. The reflections that arrive within about 50 milliseconds of the direct sound are the early reflections, and they carry useful information about the room.
+
+<Callout type="warning" title="Boundary Reminder">
+Most rooms are so compact that the very first reflections show up almost before the direct sound stops building. Handling those arrivals carefully is the key to clear and stable spatial cues.
+</Callout>
+
+---
+
+## 2. What Are Early Reflections?
+
+Early reflections are the discrete arrivals caused by a single bounce or a very small number of bounces. They are directional, sharply timed, and typically stronger than the later tail.
+
+Their characteristics:
+- well-defined arrival times  
+- directionally meaningful  
+- relatively strong compared to late reverberation  
+
+Perceptually, they:
+- stabilize **localization**  
+- widen the **apparent source**  
+- support **externalization**  
+- boost **speech clarity** when balanced properly  
+
+<Callout type="success" title="Perception Tip">
+Treat early reflections as spatial scaffolding: a few well-placed reflections enhance clarity without becoming distracting echoes.
+</Callout>
+
+---
+
+## 3. Geometrical Interpretation of Reflections
+
+At audible frequencies, room acoustics behave like geometric optics. Wavelengths are short relative to room size, and rays follow the law of specular reflection—angle in equals angle out.
+
+Key assumptions:
+- wavelengths are small compared to room dimensions  
+- reflections follow the **law of specular reflection**  
+- energy travels along rays  
+
+<Callout type="warning" title="Modeling Watch">
+Geometrical acoustics ignores diffraction and interference, so you lose details around sharp edges or very low frequencies. Use it when the room is much larger than the wavelengths of interest.
+</Callout>
+
+---
+
+## 4. The Image Source Concept
+
+The image source method remodels each reflection as if it originated from a virtual source located symmetrically behind a reflecting surface.
+
+Core idea:
+> A reflection is just a straight line from a listener to a mirror image of the original source.
+
+Construction steps:
+- reflect the **source position** across a surface  
+- draw a straight line from the image source to the listener  
+- the line represents the reflected path with correct length and angle
+
+<ImageSection src="/images/chapter03/subchapt02-4.1.png" caption="Reflect the source across a surface and draw a line from the mirrored position to the listener to recover the reflected path." />
+
+This process preserves path length, arrival time, and incidence angles without tracing the bounce explicitly.
+
+<Callout type="info" title="Mapping Tip">
+Think of image sources as geometry mirrors: the listener always sees the reflected path as a straight shot from some virtual twin of the original emitter.
+</Callout>
+
+---
+
+## 5. First-Order Reflections
+
+A first-order reflection features a single bounce off one surface. In rectangular rooms, there are six first-order image sources—one per wall, floor, or ceiling.
+
+Examples:
+- floor bounce  
+- wall bounce  
+- ceiling bounce  
+
+<Callout type="info" title="Why They Matter">
+First-order reflections are usually the strongest and most perceptually relevant, so designers target them when tuning clarity and warmth.
+</Callout>
+
+---
+
+## 6. Higher-Order Reflections
+
+Higher-order reflections involve two or more bounces.
+
+- **Second-order**: two reflections  
+- **Third-order**: three reflections  
+
+Each additional bounce lengthens the path, reduces the energy (absorption), and delays the arrival. These reflections progressively merge into the reverberant tail, but the lower orders still shape texture.
+
+<Callout type="warning" title="Comb Filtering">
+Too many similar low-order reflections can cause comb filtering, so spaces with symmetrical geometry need diffusers or absorbers to avoid coloration.
+</Callout>
+
+---
+
+## 7. Arrival Time of Reflections
+
+Arrival time equals path length divided by the speed of sound.
+
+<MathFormula>
+{"t = \\frac{d}{c}"}
+</MathFormula>
+
+- <MathFormula inline>{"d"}</MathFormula> is the total distance traveled  
+- <MathFormula inline>{"c"}</MathFormula> is the speed of sound  
+
+Early reflections that show up within ~5–50 ms of the direct sound usually fuse with it due to the **precedence effect**.
+
+<Callout type="info" title="Precedence Reminder">
+Listeners treat the earliest arrival as the source direction, so small delays (less than about 50 ms) reinforce localization rather than creating echoes.
+</Callout>
+
+---
+
+## 8. Perceptual Effects of Early Reflections
+
+Early reflections influence several spatial attributes:
+
+- **Localization**: they anchor the source direction in concert with the direct sound.  
+- **Externalization**: they help pull the sound outside the head for headphone listening.  
+- **Clarity**: moderate reflections boost intelligibility, but overly strong ones blur consonants.  
+- **Spaciousness**: distributed early energy increases apparent source width.
+
+<Callout type="danger" title="Perception Alert">
+Uncontrolled early reflections can mask direct sound or create distracting flutter echoes, so control timing and level carefully.
+</Callout>
+
+---
+
+## 9. Image Sources in Rectangular Rooms
+
+In rectangular rooms, image sources sit on a lattice grid. Each position pairs with specific reflection orders and surfaces.
+
+<ImageSection src="/images/chapter03/subchapt02-9.1.png" caption="An image-source lattice for a rectangular room; each point maps to a combination of wall reflections." />
+
+This lattice drives room-impulse-response simulation, geometric acoustics engines, and auralization systems.
+
+<Callout type="success" title="Visualization">
+Visualizing the lattice helps you spot symmetry problems that might cause stacked reflections and uneven clarity.
+</Callout>
+
+---
+
+## 10. Early Reflections vs Reverberation
+
+<div className="table-wrapper"><table><thead><tr><th>Feature</th><th>Early Reflections</th><th>Late Reverberation</th></tr></thead><tbody><tr><td>Arrival</td><td>Discrete, deterministic</td><td>Dense, stochastic</td></tr><tr><td>Geometry</td><td>Traceable paths</td><td>Statistical energy decay</td></tr><tr><td>Direction</td><td>Meaningful</td><td>Randomized</td></tr><tr><td>Perceptual role</td><td>Localization & clarity</td><td>Envelopment & warmth</td></tr></tbody></table></div>
+
+<Callout type="info" title="Key Distinction">
+Recognizing the boundary between early reflections and late reverberation unlocks better control over clarity versus ambiance.
+</Callout>
+
+---
+
+## 11. Why Image Sources Matter in Auralization
+
+Auralization systems model early reflections explicitly via image sources, while the late tail is often handled statistically.
+
+Accurate image-source modeling:
+- improves spatial realism  
+- enhances externalization  
+- preserves room-dependent cues  
+
+This structured modeling keeps auralizations anchored to the room geometry.
+
+<Callout type="info" title="Modeling Tip">
+Use image sources for directional cues and let statistical reverberation fill in the dense tail—that combination keeps the simulation efficient yet believable.
+</Callout>
+
+---
+
+## 12. Summary
+
+- Early reflections arrive within tens of milliseconds after the direct sound.  
+- They emerge from specular interactions with room boundaries.  
+- The image source method replaces reflections with virtual sources to recover path length and direction.  
+- First-order reflections dominate perception.  
+- Early reflections shape localization, clarity, and spaciousness.  
+- Image sources are fundamental to accurate room simulation and auralization.
+
+<Callout type="info" title="Next Up">
+Move on to **03-room-impulse-response** to see how those reflections accumulate into the full impulse response you will convolve with dry signals.
+</Callout>
+
+<Quiz chapterId="03-reflections" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>

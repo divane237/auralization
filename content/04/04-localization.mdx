@@ -1,0 +1,324 @@
+import MathFormula from "@/components/MathFormula";
+import Quiz from "@/components/Quiz";
+import LocalizationExplorer from "@/components/LocalizationExplorerClient";
+import Callout from "@/components/Callout";
+
+<section className="intro-lesson">
+
+# Sound Localization  
+*Module 4 – Psychoacoustics & Perception*
+
+<Callout type="info" title="How to Use This Lesson">
+This chapter blends precise cues, spectral intuition, and live exploration. Progress through each numbered section before interacting with the tool so you can spot how timing, level, and pinna filtering appear in the theory.
+</Callout>
+
+<section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this lesson you can:</div>
+  <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
+    <li>Explain how listeners use binaural timing, level, and pinna cues to infer direction.</li>
+    <li>Distinguish the low-frequency role of ITD from the high-frequency ILD cue.</li>
+    <li>Describe how the head, torso, and pinnae shape head-related transfer functions (HRTFs).</li>
+    <li>Recognize how spectral notches signal elevation and front-versus-back.</li>
+    <li>Anticipate ambiguities such as the cone of confusion and how head motion helps.</li>
+    <li>Connect these cues to spatial audio and binaural rendering strategies.</li>
+  </ul>
+</section>
+
+---
+
+## 1. Why Localization Is a Perceptual Problem
+
+<Callout type="success" title="Core idea">
+The auditory system never sees a spatial map; it reconstructs direction from microsecond timing, small level differences, and spectral coloration between the ears.
+</Callout>
+
+Sound localization is **inferred** from interaural disparities and the filtering applied by the head and outer ears. Two physical constraints drive this perceptual work:
+
+- The ears sit only ~18–20 cm apart.
+- Sound arrives at both ears within a few hundred microseconds.
+
+Consequently, the brain relies on **microsecond timing differences**, **small level disparities**, and **frequency-dependent coloring** to decode direction.
+
+---
+
+## 2. Binaural Hearing and the Head as an Obstacle
+
+When a source shifts off-center:
+- the head introduces a **path length difference** between ears.
+- the head casts an **acoustic shadow**, especially at high frequencies.
+
+<ImageSection src="/images/chapter04/subchapter03-2.1.png" caption="Head-induced delay and shadowing that create localization cues" />
+
+<div className="table-wrapper"><table><thead><tr><th>Cue</th><th>Origin</th><th>Dominant band</th></tr></thead><tbody><tr><td>Interaural Time Difference (ITD)</td><td>Arrival-delay caused by head width</td><td>Below ~1.5 kHz</td></tr><tr><td>Interaural Level Difference (ILD)</td><td>High-frequency shadowing</td><td>Above ~2 kHz</td></tr><tr><td>Spectral Cues</td><td>Pinna-induced notches and peaks</td><td>Typically >4 kHz</td></tr></tbody></table></div>
+
+<Callout type="warning" title="Watch out">
+The cues overlap, so the brain balances them rather than trusting a single measurement across all frequencies.
+</Callout>
+
+These effects give rise to the principal binaural cues (ITD and ILD) plus the spectral fingerprints that flag elevation and front/back contrasts.
+
+---
+
+## 3. Interaural Time Difference (ITD)
+
+<Callout type="info" title="When ITD leads">
+ITD dominates below ~1.5 kHz, where wavelengths exceed head width and phase locking is robust.
+</Callout>
+
+**ITD** is the difference in arrival time between the left and right ears. For a source at azimuth angle <MathFormula inline>{"\\theta"}</MathFormula>:
+
+<MathFormula>
+{"\\mathrm{ITD} \\approx \\frac{d}{c} \\sin\\theta"}
+</MathFormula>
+
+where:
+- <MathFormula inline>{"d"}</MathFormula> is the interaural distance.
+- <MathFormula inline>{"c"}</MathFormula> is the speed of sound.
+
+### 3.1 Key properties
+
+- ITD excels at **low frequencies** where wavelengths are long.
+- Maximum ITD ≈ **600–700 µs** for an average human head.
+- Dominant cue below ~1.5 kHz, becoming less reliable with high-frequency tones.
+
+---
+
+## 4. Interaural Level Difference (ILD)
+
+**ILD** arises because the head attenuates high-frequency energy that reaches the far ear.
+
+<ImageSection src="/images/chapter04/subchapter03-4.1.webp" caption="High-frequency shadowing creates level differences" />
+
+<Callout type="info" title="High-frequency focus">
+ILD grows with frequency as the head shadow becomes stronger, so it carries most of the spatial detail for bright sounds.
+</Callout>
+
+- ILD increases with frequency due to stronger head shadowing.
+- It is negligible at very low frequencies because the head diffracts long wavelengths.
+- Can exceed **20 dB** above ~5 kHz, giving a potent spatial cue.
+
+ILD is therefore the dominant localization cue for high-frequency content.
+
+---
+
+## 5. Duplex Theory of Localization
+
+<Callout type="info" title="Rule of thumb">
+Use ITD for low-frequency content and ILD for high-frequency content, but remember the transition zone around 2 kHz where both cues contribute.
+</Callout>
+
+- **Low frequencies** → ITD dominates.
+- **High frequencies** → ILD dominates.
+
+This duplex theory captures why horizontal-plane localization works so reliably for broadband sounds: timing and level cues cooperate across the spectrum.
+
+---
+
+## 6. Spectral Cues and the Role of the Pinna
+
+Localization extends beyond left/right. The **pinna (outer ear)** introduces direction-dependent frequency shaping.
+
+- Elevation and front/back position change how the pinna filters incoming waves.
+- Spectral notches and peaks shift with direction, providing high-frequency tags.
+
+<ImageSection src="/images/chapter04/subchapter03-6.1.png" caption="Pinna-induced spectral notches encode vertical and front/back information" />
+
+These spectral profiles help resolve ambiguities that binaural cues alone cannot, especially for sources on the vertical plane or in front/back.
+
+---
+
+## 7. Head-Related Transfer Functions (HRTFs)
+
+The combined filtering from the head, torso, shoulders, and pinnae is captured by the **Head-Related Transfer Function (HRTF)**.
+
+An HRTF maps a source direction to the left and right ear signals. They are:
+- direction dependent.
+- listener specific.
+- frequency dependent.
+
+<Callout type="info" title="Why HRTFs matter">
+HRTFs are the physical blueprint for binaural rendering—playing back signals filtered with the right HRTF convinces the brain a source is coming from that direction.
+</Callout>
+
+These functions form the foundation for spatial audio and virtual sound placement.
+
+---
+
+## 8. Front–Back Confusions and Cone of Confusion
+
+Some source positions yield identical ITD and ILD values, creating the **cone of confusion**.
+
+- Front and back sources on the cone share the same binaural cues.
+- Elevation and spectral cues supplement binaural measurements.
+- Head movements break the ambiguity by changing the cue pattern over time.
+
+<Callout type="warning" title="Ambiguity">
+Pure tones on the cone of confusion are almost impossible to place without additional cues; broadband sounds or motion become essential.
+</Callout>
+
+Listeners resolve these ambiguities with spectral cues, pinna filtering, and deliberate head turns.
+
+---
+
+## 🔊 Interactive Exploration: Binaural Localization Cues
+
+<Callout type="info" title="Tip while exploring">
+Observe how changing the azimuth updates both ITD and ILD, and notice how broadband sounds suddenly feel more localized than pure tones.
+</Callout>
+
+<LocalizationExplorer />
+
+While interacting, note:
+- how ITD varies smoothly with azimuth.
+- how ILD increases with frequency.
+- why broadband signals localize more sharply than pure tones.
+
+This experience reinforces how timing, level, and spectral cues combine to build a spatial sense.
+
+---
+
+## 9. Limits of Localization Accuracy
+
+Human localization performance depends on:
+- frequency content.
+- signal duration.
+- reverberation.
+- listener experience.
+
+Typical performance: horizontal localization can reach **1–2°** accuracy under ideal conditions, while vertical localization remains significantly less precise.
+
+---
+
+## 10. Summary
+
+- Localization relies on **binaural differences** and **spectral filtering**.
+- ITD dominates at low frequencies, ILD at high frequencies.
+- The pinna provides elevation and front/back cues.
+- HRTFs describe direction-dependent ear signals.
+- Localization is powerful but not free from ambiguity.
+
+<Callout type="info" title="What’s next">
+This foundation prepares you for spatial rendering exercises and psychoacoustic labs later in the module.
+</Callout>
+
+<Quiz chapterId="04-localization" />
+
+</section>
+
+<style>{`
+  .intro-lesson {
+    font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #0f172a;
+    max-width: 72ch;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+  }
+
+  .intro-lesson h1 {
+    font-size: clamp(2.75rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .intro-lesson h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .intro-lesson h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 600;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .intro-lesson h4 {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 600;
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .intro-lesson p,
+  .intro-lesson li {
+    font-size: 1.08rem;
+  }
+
+  .intro-lesson p {
+    margin: 0.75rem 0;
+  }
+
+  .intro-lesson ul,
+  .intro-lesson ol {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .intro-lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .intro-lesson th {
+    background: #eef2ff;
+    font-weight: 600;
+  }
+
+  .intro-lesson th,
+  .intro-lesson td {
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(100, 116, 139, 0.25);
+    text-align: left;
+  }
+
+  .intro-lesson strong {
+    color: #4338ca;
+  }
+
+  .intro-lesson hr {
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .dark .intro-lesson {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson h1,
+  .dark .intro-lesson h2,
+  .dark .intro-lesson h3,
+  .dark .intro-lesson h4 {
+    color: #ffffff;
+  }
+
+  .dark .intro-lesson table {
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.4);
+  }
+
+  .dark .intro-lesson th {
+    background: rgba(99, 102, 241, 0.2);
+  }
+
+  .dark .intro-lesson th,
+  .dark .intro-lesson td {
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .dark .intro-lesson strong {
+    color: #dbeafe;
+  }
+
+  .dark .intro-lesson .text-gray-700 {
+    color: #ffffff;
+  }
+`}</style>
