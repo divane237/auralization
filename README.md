@@ -2,6 +2,10 @@
 
 An interactive educational web application for exploring acoustics, sound propagation, and auralization concepts. Built with Next.js, this app provides hands-on tools and visualizations to understand fundamental principles of audio engineering and spatial sound.
 
+## Live Demo
+
+🚀 [View the deployed application](https://auralization-adsp.vercel.app)
+
 ## Features
 
 - **Decibel Calculator**: Interactive tool for understanding sound levels and decibel calculations
