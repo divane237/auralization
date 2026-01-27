@@ -8,9 +8,10 @@ import Quiz from "@/components/Quiz";
   <div className="subchapter-label">Subchapter: FA-wave-equation</div>
   <h1>The Acoustic Wave Equation</h1>
   <div className="hero-lede">
-    Sound is a dynamic field whose pressure, density, and velocity are tightly coupled in time and
-    space. The acoustic wave equation cements that link by tying spatial curvature to temporal
-    acceleration, letting us predict how disturbances travel.
+    Sound is a dynamic field whose pressure, density, and velocity are tightly
+    coupled in time and space. The acoustic wave equation cements that link by
+    tying spatial curvature to temporal acceleration, letting us predict how
+    disturbances travel.
   </div>
   <div className="hero-pills">
     <span className="hero-pill">Linear Acoustics</span>
@@ -23,15 +24,41 @@ import Quiz from "@/components/Quiz";
   <h2>🎯 Learning Objectives</h2>
   <p>After this lesson, you should be able to:</p>
   <ul>
-    <li>Describe how <strong>sound propagation</strong> follows from Newton’s law and mass conservation.</li>
-    <li>Understand the <strong>assumptions of linear acoustics</strong> and why “small perturbations” matter.</li>
-    <li>Explain the relationships between <strong>pressure</strong>, <strong>density</strong>, and <strong>particle velocity</strong>.</li>
-    <li>Follow the full derivation from basic fluid laws → <strong>1D wave equation</strong>.</li>
-    <li>Interpret the <strong>physical meaning</strong> of the wave equation as linking spatial and temporal curvature.</li>
-    <li>Recognize <strong>travelling waves</strong> and <strong>standing waves</strong> as key solutions.</li>
-    <li>Understand how <strong>boundary conditions</strong> produce resonances and modes.</li>
-    <li>Extend the 1D equation to the <strong>3D acoustic wave equation</strong>.</li>
-    <li>Connect the theory to <strong>rooms, ducts, auralization, and binaural rendering</strong>.</li>
+    <li>
+      Describe how <strong>sound propagation</strong> follows from Newton’s law
+      and mass conservation.
+    </li>
+    <li>
+      Understand the <strong>assumptions of linear acoustics</strong> and why
+      “small perturbations” matter.
+    </li>
+    <li>
+      Explain the relationships between <strong>pressure</strong>,{" "}
+      <strong>density</strong>, and <strong>particle velocity</strong>.
+    </li>
+    <li>
+      Follow the full derivation from basic fluid laws →{" "}
+      <strong>1D wave equation</strong>.
+    </li>
+    <li>
+      Interpret the <strong>physical meaning</strong> of the wave equation as
+      linking spatial and temporal curvature.
+    </li>
+    <li>
+      Recognize <strong>travelling waves</strong> and{" "}
+      <strong>standing waves</strong> as key solutions.
+    </li>
+    <li>
+      Understand how <strong>boundary conditions</strong> produce resonances and
+      modes.
+    </li>
+    <li>
+      Extend the 1D equation to the <strong>3D acoustic wave equation</strong>.
+    </li>
+    <li>
+      Connect the theory to{" "}
+      <strong>rooms, ducts, auralization, and binaural rendering</strong>.
+    </li>
   </ul>
 </section>
 
@@ -44,7 +71,7 @@ Pressure at one point influences pressure at neighboring points, producing a **p
 
 We want a mathematical model that expresses:
 
-- How pressure at a location **changes over time**, and  
+- How pressure at a location **changes over time**, and
 - How this change is linked to the **spatial distribution** of pressure.
 
 This naturally leads to a **partial differential equation (PDE)**, because both space and time are involved.  
@@ -56,9 +83,9 @@ The simplest PDE that captures **small-signal acoustic propagation** is the **ac
 
 The derivation uses the assumptions of **linear acoustics**:
 
-- Acoustic pressure is tiny compared to ambient pressure  
-- Density variations are small  
-- Particle velocities are much smaller than the speed of sound  
+- Acoustic pressure is tiny compared to ambient pressure
+- Density variations are small
+- Particle velocities are much smaller than the speed of sound
 
 We write:
 
@@ -68,24 +95,24 @@ We write:
 
 Here:
 
-- <MathFormula inline>{`p_0`}</MathFormula> = ambient atmospheric pressure  
-- <MathFormula inline>{`p'(x,t)`}</MathFormula> = acoustic pressure fluctuation  
-- <MathFormula inline>{`\\rho_0`}</MathFormula> = equilibrium density  
-- <MathFormula inline>{`\\rho'(x,t)`}</MathFormula> = density fluctuation  
-- <MathFormula inline>{`u(x,t)`}</MathFormula> = particle velocity  
-- <MathFormula inline>{`c`}</MathFormula> = speed of sound  
+- <MathFormula inline>{`p_0`}</MathFormula> = ambient atmospheric pressure
+- <MathFormula inline>{`p'(x,t)`}</MathFormula> = acoustic pressure fluctuation
+- <MathFormula inline>{`\\rho_0`}</MathFormula> = equilibrium density
+- <MathFormula inline>{`\\rho'(x,t)`}</MathFormula> = density fluctuation
+- <MathFormula inline>{`u(x,t)`}</MathFormula> = particle velocity
+- <MathFormula inline>{`c`}</MathFormula> = speed of sound
 
 Real-world values justify this:
 
-- Atmospheric pressure: ≈ 101 325 Pa  
-- Loud rock concert: ~2 Pa acoustic fluctuation  
+- Atmospheric pressure: ≈ 101 325 Pa
+- Loud rock concert: ~2 Pa acoustic fluctuation
 
 So even loud sounds produce only about **0.002 %** variation of ambient pressure → linear acoustics is valid.
 
 These assumptions allow:
 
-- Linearization of nonlinear fluid equations  
-- Use of **superposition** (very important for auralization & DSP)  
+- Linearization of nonlinear fluid equations
+- Use of **superposition** (very important for auralization & DSP)
 - Neglect of terms of order <MathFormula inline>{`(p')^2`}</MathFormula>, etc.
 
 ---
@@ -100,12 +127,11 @@ To derive the wave equation, we consider a 1D situation: sound propagating along
 
 We decompose pressure into:
 
-<MathFormula>
-  {`p(x,t) = p_0 + p'(x,t)`}
-</MathFormula>
+<MathFormula>{`p(x,t) = p_0 + p'(x,t)`}</MathFormula>
 
-- <MathFormula inline>{`p_0`}</MathFormula> is the static ambient pressure  
-- <MathFormula inline>{`p'(x,t)`}</MathFormula> is the time-varying acoustic part  
+- <MathFormula inline>{`p_0`}</MathFormula> is the static ambient pressure
+- <MathFormula inline>{`p'(x,t)`}</MathFormula> is the time-varying acoustic
+  part
 
 Only <MathFormula inline>{`p'(x,t)`}</MathFormula> is relevant for sound perception and measurement.
 
@@ -115,15 +141,13 @@ Only <MathFormula inline>{`p'(x,t)`}</MathFormula> is relevant for sound percept
 
 Particles in the medium (air) oscillate about equilibrium:
 
-<MathFormula>
-  {`u(x,t) = \\frac{\\partial \\xi(x,t)}{\\partial t}`}
-</MathFormula>
+<MathFormula>{`u(x,t) = \\frac{\\partial \\xi(x,t)}{\\partial t}`}</MathFormula>
 
 where <MathFormula inline>{`\\xi(x,t)`}</MathFormula> is particle displacement.
 
 Typical values:
 
-- For normal sounds, <MathFormula inline>{`u`}</MathFormula> is in the mm/s range.  
+- For normal sounds, <MathFormula inline>{`u`}</MathFormula> is in the mm/s range.
 - Pressure is what microphones pick up; velocity is crucial for **energy flow**.
 
 ---
@@ -132,14 +156,12 @@ Typical values:
 
 Similarly, density is:
 
-<MathFormula>
-  {`\\rho(x,t) = \\rho_0 + \\rho'(x,t)`}
-</MathFormula>
+<MathFormula>{`\\rho(x,t) = \\rho_0 + \\rho'(x,t)`}</MathFormula>
 
 where:
 
-- <MathFormula inline>{`\\rho_0`}</MathFormula> = average density  
-- <MathFormula inline>{`\\rho'(x,t)`}</MathFormula> = small acoustic fluctuation  
+- <MathFormula inline>{`\\rho_0`}</MathFormula> = average density
+- <MathFormula inline>{`\\rho'(x,t)`}</MathFormula> = small acoustic fluctuation
 
 Pressure and density are linked via the **equation of state** (thermodynamics).
 
@@ -149,8 +171,8 @@ Pressure and density are linked via the **equation of state** (thermodynamics).
 
 The wave equation is obtained from three fundamental relations:
 
-1. **Euler’s equation** (Newton’s law)  
-2. **Continuity equation** (mass conservation)  
+1. **Euler’s equation** (Newton’s law)
+2. **Continuity equation** (mass conservation)
 3. **Equation of state** (thermodynamic relation between <MathFormula inline>{`p'`}</MathFormula> and <MathFormula inline>{`\\rho'`}</MathFormula>)
 
 ---
@@ -165,7 +187,7 @@ For small-signal acoustics in 1D:
 
 Interpretation:
 
-- A pressure gradient (difference in pressure over distance) accelerates air particles.  
+- A pressure gradient (difference in pressure over distance) accelerates air particles.
 - Regions of high pressure push particles towards low pressure, causing **particle acceleration**.
 
 ---
@@ -180,8 +202,8 @@ Conservation of mass in 1D leads to:
 
 Interpretation:
 
-- If particles diverge (spread apart) in a region, density decreases there.  
-- If they converge, density increases.  
+- If particles diverge (spread apart) in a region, density decreases there.
+- If they converge, density increases.
 - This enforces that mass cannot simply appear or disappear.
 
 ---
@@ -190,21 +212,17 @@ Interpretation:
 
 For small acoustic fluctuations under adiabatic conditions:
 
-<MathFormula>
-  {`p' = c^2 \\rho'`}
-</MathFormula>
+<MathFormula>{`p' = c^2 \\rho'`}</MathFormula>
 
 Here <MathFormula inline>{`c`}</MathFormula> is the **speed of sound**, which for air (approximate ideal gas) can be expressed as:
 
-<MathFormula>
-  {`c = \\sqrt{\\gamma R T}`}
-</MathFormula>
+<MathFormula>{`c = \\sqrt{\\gamma R T}`}</MathFormula>
 
 with:
 
-- <MathFormula inline>{`\\gamma`}</MathFormula> = ratio of specific heats  
-- <MathFormula inline>{`R`}</MathFormula> = specific gas constant  
-- <MathFormula inline>{`T`}</MathFormula> = absolute temperature  
+- <MathFormula inline>{`\\gamma`}</MathFormula> = ratio of specific heats
+- <MathFormula inline>{`R`}</MathFormula> = specific gas constant
+- <MathFormula inline>{`T`}</MathFormula> = absolute temperature
 
 At 20 °C in air, <MathFormula inline>{`c \\approx 343\\,\\mathrm{m/s}`}</MathFormula>.
 
@@ -280,9 +298,7 @@ If we keep <MathFormula inline>{`\\rho_0`}</MathFormula> explicit:
 
 From the equation of state:
 
-<MathFormula>
-  {`p' = c^2 \\rho'`}
-</MathFormula>
+<MathFormula>{`p' = c^2 \\rho'`}</MathFormula>
 
 Therefore:
 
@@ -322,7 +338,7 @@ This is the central equation of **linear acoustics in 1D**.
 
 Interpretation:
 
-- The **second spatial derivative** (curvature in space) controls the **second time derivative** (acceleration in time).  
+- The **second spatial derivative** (curvature in space) controls the **second time derivative** (acceleration in time).
 - Non-uniform pressure distributions must evolve in time, causing **wave propagation**.
 
 ---
@@ -331,14 +347,14 @@ Interpretation:
 
 The wave equation encodes the following ideas:
 
-- Sound waves propagate with **finite speed** <MathFormula inline>{`c`}</MathFormula>.  
-- If pressure is perfectly uniform in space, nothing changes in time.  
+- Sound waves propagate with **finite speed** <MathFormula inline>{`c`}</MathFormula>.
+- If pressure is perfectly uniform in space, nothing changes in time.
 - If pressure has spatial “bumps” (curvature), these disturbances spread out over time.
 
 You can think of this as the acoustic analogue of:
 
-- A stretched string that moves if it is curved  
-- A membrane that vibrates when displaced  
+- A stretched string that moves if it is curved
+- A membrane that vibrates when displaced
 
 The wave equation is simply the **fluid version** of these familiar situations.
 
@@ -348,9 +364,7 @@ The wave equation is simply the **fluid version** of these familiar situations.
 
 A key class of solutions:
 
-<MathFormula>
-  {`p'(x,t) = A \\sin(\\omega t - kx + \\varphi)`}
-</MathFormula>
+<MathFormula>{`p'(x,t) = A \\sin(\\omega t - kx + \\varphi)`}</MathFormula>
 
 with:
 
@@ -358,19 +372,21 @@ with:
   {`\\omega = 2\\pi f, \\qquad k = \\frac{\\omega}{c} = \\frac{2\\pi}{\\lambda}`}
 </MathFormula>
 
-- <MathFormula inline>{`A`}</MathFormula> = amplitude  
-- <MathFormula inline>{`f`}</MathFormula> = frequency  
-- <MathFormula inline>{`\\omega`}</MathFormula> = angular frequency  
-- <MathFormula inline>{`k`}</MathFormula> = wave number  
-- <MathFormula inline>{`\\lambda`}</MathFormula> = wavelength  
-- <MathFormula inline>{`\\varphi`}</MathFormula> = phase offset  
+- <MathFormula inline>{`A`}</MathFormula> = amplitude
+- <MathFormula inline>{`f`}</MathFormula> = frequency
+- <MathFormula inline>{`\\omega`}</MathFormula> = angular frequency
+- <MathFormula inline>{`k`}</MathFormula> = wave number
+- <MathFormula inline>{`\\lambda`}</MathFormula> = wavelength
+- <MathFormula inline>{`\\varphi`}</MathFormula> = phase offset
 
 ---
 
 ### 8.1 Direction of Propagation
 
-- <MathFormula inline>{`p'(x,t) = A \\sin(\\omega t - kx)`}</MathFormula> → travels in **+x** direction  
-- <MathFormula inline>{`p'(x,t) = A \\sin(\\omega t + kx)`}</MathFormula> → travels in **−x** direction  
+- <MathFormula inline>{`p'(x,t) = A \\sin(\\omega t - kx)`}</MathFormula> →
+  travels in **+x** direction
+- <MathFormula inline>{`p'(x,t) = A \\sin(\\omega t + kx)`}</MathFormula> →
+  travels in **−x** direction
 
 The sign in front of <MathFormula inline>{`kx`}</MathFormula> determines the direction of propagation.
 
@@ -380,16 +396,14 @@ The sign in front of <MathFormula inline>{`kx`}</MathFormula> determines the dir
 
 The relation between wavelength and frequency is:
 
-<MathFormula>
-  {`c = \\lambda f`}
-</MathFormula>
+<MathFormula>{`c = \\lambda f`}</MathFormula>
 
 This holds for sound in a homogeneous, non-dispersive medium (like air in most audio ranges).
 
 Consequences:
 
-- Higher frequency → shorter wavelength  
-- Lower frequency → longer wavelength  
+- Higher frequency → shorter wavelength
+- Lower frequency → longer wavelength
 
 This is important when comparing frequency to **room dimensions** (room modes, etc.).
 
@@ -406,26 +420,22 @@ Consider:
 
 Using trigonometric identities:
 
-<MathFormula>
-  {`p_1' + p_2' = 2A \\cos(kx) \\sin(\\omega t)`}
-</MathFormula>
+<MathFormula>{`p_1' + p_2' = 2A \\cos(kx) \\sin(\\omega t)`}</MathFormula>
 
 Thus, a standing wave solution:
 
-<MathFormula>
-  {`p'(x,t) = 2A \\cos(kx)\\,\\sin(\\omega t)`}
-</MathFormula>
+<MathFormula>{`p'(x,t) = 2A \\cos(kx)\\,\\sin(\\omega t)`}</MathFormula>
 
 Features:
 
-- **Nodes** where <MathFormula inline>{`\\cos(kx) = 0`}</MathFormula> → pressure is always zero  
-- **Antinodes** where <MathFormula inline>{`\\cos(kx) = \\pm 1`}</MathFormula> → maximum oscillation  
+- **Nodes** where <MathFormula inline>{`\\cos(kx) = 0`}</MathFormula> → pressure is always zero
+- **Antinodes** where <MathFormula inline>{`\\cos(kx) = \\pm 1`}</MathFormula> → maximum oscillation
 
 Standing waves occur in:
 
-- Tubes and pipes  
-- Room modes  
-- Any bounded acoustic domain  
+- Tubes and pipes
+- Room modes
+- Any bounded acoustic domain
 
 They are crucial for understanding **resonance** and **modal behavior**.
 
@@ -441,15 +451,11 @@ The form of acoustic modes depends on the **boundary conditions** at the ends.
 
 At a perfectly rigid wall, normal particle velocity is zero:
 
-<MathFormula>
-  {`u = 0`}
-</MathFormula>
+<MathFormula>{`u = 0`}</MathFormula>
 
 Using Euler’s equation, this typically implies:
 
-<MathFormula>
-  {`\\frac{\\partial p'}{\\partial x} = 0`}
-</MathFormula>
+<MathFormula>{`\\frac{\\partial p'}{\\partial x} = 0`}</MathFormula>
 
 So the spatial derivative of pressure is zero at the wall.
 
@@ -459,9 +465,7 @@ So the spatial derivative of pressure is zero at the wall.
 
 At an ideal open end exposed to the atmosphere, we often approximate:
 
-<MathFormula>
-  {`p' = 0`}
-</MathFormula>
+<MathFormula>{`p' = 0`}</MathFormula>
 
 This is an idealization, but useful for basic mode analysis.
 
@@ -483,9 +487,7 @@ Standing-wave condition:
 
 Modal frequencies:
 
-<MathFormula>
-  {`f_n = \\frac{n c}{2L}`}
-</MathFormula>
+<MathFormula>{`f_n = \\frac{n c}{2L}`}</MathFormula>
 
 This leads to a series of harmonics spaced by <MathFormula inline>{`\\Delta f = c/(2L)`}</MathFormula>.
 
@@ -503,9 +505,9 @@ Only odd harmonics appear in the modal series (as in some wind instruments).
 
 These relations are directly relevant later for:
 
-- Room modes (rectangular rooms treated as 3 orthogonal 1D problems)  
-- Ducts and waveguides  
-- Basic loudspeaker ports and resonators  
+- Room modes (rectangular rooms treated as 3 orthogonal 1D problems)
+- Ducts and waveguides
+- Basic loudspeaker ports and resonators
 
 ---
 
@@ -525,16 +527,16 @@ where:
 
 Solutions include:
 
-- **Plane waves** (used heavily in basic acoustics analysis)  
-- **Spherical waves** (monopole sources, point source models)  
-- **Cylindrical waves** (line sources)  
+- **Plane waves** (used heavily in basic acoustics analysis)
+- **Spherical waves** (monopole sources, point source models)
+- **Cylindrical waves** (line sources)
 - **Modal fields** (e.g. in rooms, cavities, waveguides)
 
 The 3D equation is the starting point for:
 
-- Room acoustic modeling  
-- Outdoor sound propagation  
-- Complex boundary conditions  
+- Room acoustic modeling
+- Outdoor sound propagation
+- Complex boundary conditions
 - Numerical methods (FDTD, FEM, BEM in advanced modules)
 
 ---
@@ -544,21 +546,15 @@ The 3D equation is the starting point for:
 From Euler’s equation, we can express particle velocity in terms of pressure gradient.  
 In 1D and for harmonic steady-state, one often uses the characteristic impedance:
 
-<MathFormula>
-  {`Z_0 = \\rho_0 c`}
-</MathFormula>
+<MathFormula>{`Z_0 = \\rho_0 c`}</MathFormula>
 
 For plane waves:
 
-<MathFormula>
-  {`u(x,t) \\approx \\frac{p'(x,t)}{Z_0}`}
-</MathFormula>
+<MathFormula>{`u(x,t) \\approx \\frac{p'(x,t)}{Z_0}`}</MathFormula>
 
 The **instantaneous acoustic intensity**:
 
-<MathFormula>
-  {`I(x,t) = p'(x,t)\\,u(x,t)`}
-</MathFormula>
+<MathFormula>{`I(x,t) = p'(x,t)\\,u(x,t)`}</MathFormula>
 
 For sinusoidal steady-state, the **time-averaged intensity**:
 
@@ -568,8 +564,8 @@ For sinusoidal steady-state, the **time-averaged intensity**:
 
 This connects:
 
-- Measurable pressure (from microphones)  
-- Propagated power (sound power, sound power level)  
+- Measurable pressure (from microphones)
+- Propagated power (sound power, sound power level)
 - Human perception (through levels & decibels in a later subchapter)
 
 ---
@@ -578,15 +574,15 @@ This connects:
 
 Almost everything in auralization and acoustic simulation ultimately comes from the wave equation:
 
-- **Room impulse responses (RIRs)** are solutions to the wave equation with an impulsive source.  
-- **Convolution reverb** models how arbitrary signals propagate through a wave-equation-governed system.  
-- **HRTFs** are directional impulse responses respecting the same underlying physics.  
+- **Room impulse responses (RIRs)** are solutions to the wave equation with an impulsive source.
+- **Convolution reverb** models how arbitrary signals propagate through a wave-equation-governed system.
+- **HRTFs** are directional impulse responses respecting the same underlying physics.
 - **Room modes**, **reverberation time**, and **spatial impression** are all consequences of wave propagation and boundary conditions.
 
 The assumption of **linearity** (from small perturbations) plus **time invariance** (static boundary conditions) leads to:
 
-- LTI system behavior → convolution in time (Module 5)  
-- Frequency-domain analysis → transfer functions and filters  
+- LTI system behavior → convolution in time (Module 5)
+- Frequency-domain analysis → transfer functions and filters
 - System representations that can be implemented efficiently in DSP
 
 In other words:
@@ -598,17 +594,31 @@ In other words:
 <section className="summary-card">
   <h2>15. Summary</h2>
   <ul>
-    <li>The <strong>acoustic wave equation</strong> follows from Euler, continuity, and the equation of state under small-signal assumptions.</li>
+    <li>
+      The <strong>acoustic wave equation</strong> follows from Euler,
+      continuity, and the equation of state under small-signal assumptions.
+    </li>
     <li>
       In 1D it reads:
       <MathFormula>
         {`\\frac{\\partial^2 p'}{\\partial x^2} = \\frac{1}{c^2} \\frac{\\partial^2 p'}{\\partial t^2}`}
       </MathFormula>
     </li>
-    <li>Solutions include <strong>travelling waves</strong>, <strong>standing waves</strong>, and modal shapes tied to boundaries.</li>
-    <li><strong>Boundary conditions</strong> and geometry set discrete modal frequencies in bounded domains.</li>
-    <li>The 3D form uses the Laplacian to describe realistic acoustic spaces.</li>
-    <li>Wave-equation thinking underpins propagation, room acoustics, psychoacoustics, auralization, and immersive audio.</li>
+    <li>
+      Solutions include <strong>travelling waves</strong>,{" "}
+      <strong>standing waves</strong>, and modal shapes tied to boundaries.
+    </li>
+    <li>
+      <strong>Boundary conditions</strong> and geometry set discrete modal
+      frequencies in bounded domains.
+    </li>
+    <li>
+      The 3D form uses the Laplacian to describe realistic acoustic spaces.
+    </li>
+    <li>
+      Wave-equation thinking underpins propagation, room acoustics,
+      psychoacoustics, auralization, and immersive audio.
+    </li>
   </ul>
 </section>
 
@@ -624,7 +634,7 @@ In other words:
     line-height: 1.72;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 76ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 1rem 0 4rem;
   }
@@ -655,7 +665,7 @@ In other words:
   }
 
   .wave-equation-lesson .hero-lede {
-    max-width: 60ch;
+    max-width: 100ch;
     margin-bottom: 1.5rem;
     color: rgba(15, 23, 42, 0.85);
   }

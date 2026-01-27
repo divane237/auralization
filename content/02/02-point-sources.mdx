@@ -8,23 +8,41 @@ import ImageSection from "@/components/ImageSection";
 
 <section className="intro-lesson">
 
-# Point Sources & Spherical Waves  
-*Module 2 – Sound Sources & Directivity*  
+# Point Sources & Spherical Waves
+
+_Module 2 – Sound Sources & Directivity_
 
 <Callout type="info" title="Point sources simplify everything">
-  We begin with the most idealized sound source because it exposes the cleanest mathematics. Once you understand how an omnidirectional point
-  radiates into space, you can add complexity later—source size, directionality, mounting conditions, and so forth—but the starting logic stays the same.
+  We begin with the most idealized sound source because it exposes the cleanest
+  mathematics. Once you understand how an omnidirectional point radiates into
+  space, you can add complexity later—source size, directionality, mounting
+  conditions, and so forth—but the starting logic stays the same.
 </Callout>
 
 <section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
-  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
-  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">
+    🎯 Learning Objectives
+  </h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">
+    By the end of this subchapter you can:
+  </div>
   <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-    <li>Explain why point sources are the natural starting point for acoustic radiation models.</li>
-    <li>Describe how spherical waves differ from plane waves as they expand.</li>
-    <li>Use the inverse-square law to predict how sound level changes with distance.</li>
+    <li>
+      Explain why point sources are the natural starting point for acoustic
+      radiation models.
+    </li>
+    <li>
+      Describe how spherical waves differ from plane waves as they expand.
+    </li>
+    <li>
+      Use the inverse-square law to predict how sound level changes with
+      distance.
+    </li>
     <li>Distinguish near-field and far-field behavior around a source.</li>
-    <li>Combine analytic expressions with interactive and computational tools to explore decay and spreading.</li>
+    <li>
+      Combine analytic expressions with interactive and computational tools to
+      explore decay and spreading.
+    </li>
   </ul>
 </section>
 
@@ -48,11 +66,11 @@ To make progress, acoustics begins with an idealized source model: the point sou
 
 A point source is an idealized emitter that:
 
-  * radiates sound equally in every direction
+- radiates sound equally in every direction
 
-  * has a physical size negligible compared to the radiated wavelength
+- has a physical size negligible compared to the radiated wavelength
 
-  * sends its acoustic energy uniformly into the surrounding space
+- sends its acoustic energy uniformly into the surrounding space
 
 <ImageSection
   src="/images/chapter02/subchapt01-1.1.png"
@@ -86,14 +104,16 @@ The sound intensity at a distance \( r \) from a point source is:
 
 where:
 
-  𝑊 is the source power
+𝑊 is the source power
 
-  𝑟 is the distance from the source
+𝑟 is the distance from the source
 
 This equation shows how the same energy is diluted over a growing spherical shell, so intensity drops rapidly as you step away.
 
 <Callout type="warning" title="Why −6 dB matters">
-  Every time you double the distance from a point source, the sound pressure level falls by roughly 6 dB. That rule of thumb comes right out of the inverse-square law.
+  Every time you double the distance from a point source, the sound pressure
+  level falls by roughly 6 dB. That rule of thumb comes right out of the
+  inverse-square law.
 </Callout>
 
 ---
@@ -117,7 +137,10 @@ When expressed in decibels, the falloff becomes even easier to handle in logarit
 
 The difference in SPL between two distances <MathFormula inline> {"{r_1}"} </MathFormula> and <MathFormula inline> {"{r_2}"} </MathFormula> is:
 
-<MathFormula> {"\\Delta L_p = 20\\log_{10}\\left(\\frac{r_1}{r_2}\\right)"} </MathFormula>
+<MathFormula>
+  {" "}
+  {"\\Delta L_p = 20\\log_{10}\\left(\\frac{r_1}{r_2}\\right)"}{" "}
+</MathFormula>
 
 A special and practical case is distance doubling:
 
@@ -132,14 +155,16 @@ This is the livelihood of outdoor sound prediction, microphone calibration, and 
 The spherical-wave approximation works best in the far field, where the distance is large compared to the source size, wavefronts look smooth, and pressure and particle velocity stay in phase.
 Closer to the source we find the near field, where reactive energy, phase mismatches, and rapid amplitude changes dominate.
 
-  * Far field → clean inverse-distance relationships
+- Far field → clean inverse-distance relationships
 
-  * Near field → reactive energy, phase shifts, and measurement challenges
+- Near field → reactive energy, phase shifts, and measurement challenges
 
 Understanding the transition matters because measurements taken inside the near field can be misleading if you treat them like far-field readings.
 
 <Callout type="warning" title="Measurement note">
-  If your microphone sits too close to a source, you will sense reactive fields that do not translate to perceived loudness far away. Design measurements with distance in mind.
+  If your microphone sits too close to a source, you will sense reactive fields
+  that do not translate to perceived loudness far away. Design measurements with
+  distance in mind.
 </Callout>
 
 ---
@@ -149,10 +174,9 @@ Understanding the transition matters because measurements taken inside the near 
 To visualize geometric spreading, use the interactive explorer below. Sweep the source size or frequency to see how the spherical wavefronts respond and how the near-field pattern transitions into a far-field pattern as you increase the plotted range.
 
 <Callout type="success" title="Explorer tips">
-  Try varying the source radius and notice how the observed lobes shift. The far-field pattern settles once the source is much smaller than the wavelength.
+  Try varying the source radius and notice how the observed lobes shift. The
+  far-field pattern settles once the source is much smaller than the wavelength.
 </Callout>
-
-
 
 <VideoSection
   src="https://www.youtube.com/embed/L0UeJBXoIi0"
@@ -160,7 +184,9 @@ To visualize geometric spreading, use the interactive explorer below. Sweep the 
 />
 
 <Callout type="info" title="While watching">
-  Observe how the spacing between wavefronts stays constant, how the amplitude fades with distance, and how the curvature flattens as the wavefront moves farther from the source.
+  Observe how the spacing between wavefronts stays constant, how the amplitude
+  fades with distance, and how the curvature flattens as the wavefront moves
+  farther from the source.
 </Callout>
 
 ---
@@ -178,19 +204,23 @@ Use the sandboxed Python lab below to compute how the SPL falls off with increas
 import numpy as np
 
 # reference values
-Lp_ref = 90   # SPL at reference distance (dB)
-r_ref = 1.0   # reference distance (m)
+
+Lp_ref = 90 # SPL at reference distance (dB)
+r_ref = 1.0 # reference distance (m)
 
 # distances to evaluate
+
 r = np.array([1, 2, 4, 8])
 
 # SPL as function of distance
-Lp = Lp_ref - 20 * np.log10(r / r_ref)
+
+Lp = Lp_ref - 20 \* np.log10(r / r_ref)
 
 for dist, level in zip(r, Lp):
-    print(f"Distance: {dist} m → SPL: {level:.1f} dB")
+print(f"Distance: {dist} m → SPL: {level:.1f} dB")
 `}
-  />
+/>
+
 </div>
 
 This numerical example confirms the −6 dB rule for each doubling of distance.
@@ -201,13 +231,13 @@ This numerical example confirms the −6 dB rule for each doubling of distance.
 
 The point source and spherical wave model guide many real-world applications:
 
-  * Environmental noise prediction
+- Environmental noise prediction
 
-  * Outdoor sound propagation models
+- Outdoor sound propagation models
 
-  * Reference sound power measurements
+- Reference sound power measurements
 
-  * Initial room acoustics estimates
+- Initial room acoustics estimates
 
 Even if sources are not perfect points, this framework remains powerful because more complex models ultimately build on these simple relations.
 
@@ -228,7 +258,7 @@ The inverse-square law and the −6 dB per doubling rule follow quickly, and the
     line-height: 1.7;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 72ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 1rem 0 4rem;
   }

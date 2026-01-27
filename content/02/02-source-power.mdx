@@ -6,26 +6,41 @@ import Callout from "@/components/Callout";
 
 <section className="intro-lesson">
 
-# Sound Power & Source Ratings  
-*Module 2 – Sound Sources & Directivity*
+# Sound Power & Source Ratings
+
+_Module 2 – Sound Sources & Directivity_
 
 <Callout type="info" title="How to Read This Chapter">
-This chapter makes the leap from local pressure readings to source-centric sound power ratings. Read through each concept, pause at the callouts, and run the optional Python demo to see the numbers in action.
+  This chapter makes the leap from local pressure readings to source-centric
+  sound power ratings. Read through each concept, pause at the callouts, and run
+  the optional Python demo to see the numbers in action.
 </Callout>
 
 <section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
-  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
-  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">
+    🎯 Learning Objectives
+  </h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">
+    By the end of this subchapter you can:
+  </div>
   <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-    <li>Explain why sound power removes distance and room dependence when rating sources.</li>
-    <li>Distinguish between sound power level and sound pressure level, including their references.</li>
+    <li>
+      Explain why sound power removes distance and room dependence when rating
+      sources.
+    </li>
+    <li>
+      Distinguish between sound power level and sound pressure level, including
+      their references.
+    </li>
     <li>Interpret typical sound power numbers for real devices.</li>
-    <li>Describe why manufacturers and regulators publish sound power ratings.</li>
-    <li>Relate the point-source model to sound power for controlled measurements.</li>
+    <li>
+      Describe why manufacturers and regulators publish sound power ratings.
+    </li>
+    <li>
+      Relate the point-source model to sound power for controlled measurements.
+    </li>
   </ul>
 </section>
-
-
 
 ---
 
@@ -34,7 +49,8 @@ This chapter makes the leap from local pressure readings to source-centric sound
 Microphones record sound pressure at one spot, so the reading depends on distance, reflections, and room geometry. Two listeners can hear the same source quite differently even though the source itself is unchanged.
 
 <Callout type="success" title="Key Idea">
-Sound pressure is a field quantity tied to your location; sound power is a source quantity that stays constant regardless of where you stand.
+  Sound pressure is a field quantity tied to your location; sound power is a
+  source quantity that stays constant regardless of where you stand.
 </Callout>
 
 Sound power integrates the total acoustic energy flux through a surface enclosing the source, isolating the intrinsic strength of the emitter.
@@ -49,12 +65,14 @@ Sound power equals the surface integral of sound intensity over any closed surfa
 
 Here:
 
-- **W** is sound power in watts  
-- **I** is sound intensity (W/m²)  
+- **W** is sound power in watts
+- **I** is sound intensity (W/m²)
 - **S** is any closed surface fully enclosing the source
 
 <Callout type="info" title="Why the surface can move">
-As long as the surface wraps the source without cutting through it, the integral gives the same result—the total acoustic flux stays constant while intensity redistributes across different areas.
+  As long as the surface wraps the source without cutting through it, the
+  integral gives the same result—the total acoustic flux stays constant while
+  intensity redistributes across different areas.
 </Callout>
 
 This shields the sound power from the vagaries of room acoustics or microphone placement.
@@ -67,11 +85,17 @@ This shields the sound power from the vagaries of room acoustics or microphone p
   src="/images/chapter02/subchapt02-3.1.png"
   alt="Sound power versus sound pressure illustration"
   caption="Sound power reflects the source's intrinsic energy and stays constant, while sound pressure changes with location and environment."
- />
+/>
 
 <div className="mt-4 space-y-2 text-base text-gray-800 dark:text-slate-100">
-  <p><strong>Sound pressure</strong> varies with distance, room acoustics, and measurement position.</p>
-  <p><strong>Sound power</strong> remains constant for a given source and supports objective ratings.</p>
+  <p>
+    <strong>Sound pressure</strong> varies with distance, room acoustics, and
+    measurement position.
+  </p>
+  <p>
+    <strong>Sound power</strong> remains constant for a given source and
+    supports objective ratings.
+  </p>
 </div>
 
 The illustration shows a fixed amount of acoustic energy emitted while local pressures change depending on where the listener stands.
@@ -92,7 +116,42 @@ Using this reference keeps typical sound power levels within a workable numerica
 
 ## 5. Typical Sound Power Levels
 
-<table><thead><tr><th>Source</th><th>Typical (L_W)</th><th>Context</th></tr></thead><tbody><tr><td>Quiet office equipment</td><td>~40–50 dB</td><td>cubicles, libraries, or quiet classrooms</td></tr><tr><td>Normal conversation</td><td>~60 dB</td><td>everyday speech at arm's length</td></tr><tr><td>Vacuum cleaner</td><td>~70–75 dB</td><td>domestic cleaning in a small room</td></tr><tr><td>Lawn mower</td><td>~90 dB</td><td>typical suburban mowing</td></tr><tr><td>Industrial machinery</td><td>&gt;100 dB</td><td>factories, presses, and heavy tools</td></tr></tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Typical (L_W)</th>
+      <th>Context</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quiet office equipment</td>
+      <td>~40–50 dB</td>
+      <td>cubicles, libraries, or quiet classrooms</td>
+    </tr>
+    <tr>
+      <td>Normal conversation</td>
+      <td>~60 dB</td>
+      <td>everyday speech at arm's length</td>
+    </tr>
+    <tr>
+      <td>Vacuum cleaner</td>
+      <td>~70–75 dB</td>
+      <td>domestic cleaning in a small room</td>
+    </tr>
+    <tr>
+      <td>Lawn mower</td>
+      <td>~90 dB</td>
+      <td>typical suburban mowing</td>
+    </tr>
+    <tr>
+      <td>Industrial machinery</td>
+      <td>&gt;100 dB</td>
+      <td>factories, presses, and heavy tools</td>
+    </tr>
+  </tbody>
+</table>
 
 These figures represent the <strong>source strength</strong>, so they do not depend on distance or room acoustics.
 
@@ -103,18 +162,10 @@ These figures represent the <strong>source strength</strong>, so they do not dep
 Sound power ratings let manufacturers and regulators compare devices objectively because they stay stable across environments. Labels or specifications often appear for:
 
 <ul className="list-disc">
-  <li>
-    household appliances  
-  </li>
-  <li>
-    ventilation systems  
-  </li>
-  <li>
-    industrial machinery  
-  </li>
-  <li>
-    construction equipment
-  </li>
+  <li>household appliances</li>
+  <li>ventilation systems</li>
+  <li>industrial machinery</li>
+  <li>construction equipment</li>
 </ul>
 
 In many regions, Europe is a prominent example. Sound power labeling is required to guarantee transparent comparisons.
@@ -127,9 +178,9 @@ For a source behaving like a point emitter in a free field, intensity at distanc
 
 That equation shows how sound power and intensity connect when you can control the measurement environment. Reliable sound power estimates from pressure require:
 
-  i. Anechoic or hemi-anechoic chambers  
-  ii. Standardized test environments  
-  iii. Protocols that suppress reflections
+i. Anechoic or hemi-anechoic chambers  
+ ii. Standardized test environments  
+ iii. Protocols that suppress reflections
 
 Outside those setups, pressure-only readings cannot determine sound power accurately.
 
@@ -147,15 +198,16 @@ The Python demo below converts sound power levels to watts so you can observe ho
     defaultCode={String.raw`
 import numpy as np
 
-LW = np.array([60, 80, 100])  # sound power levels in dB
-W0 = 1e-12                   # reference power (W)
+LW = np.array([60, 80, 100]) # sound power levels in dB
+W0 = 1e-12 # reference power (W)
 
-W = W0 * 10**(LW/10)
+W = W0 \* 10\*\*(LW/10)
 
 for lw, w in zip(LW, W):
-    print(f"LW = {lw} dB  →  W = {w:.2e} W")
+print(f"LW = {lw} dB → W = {w:.2e} W")
 `}
-  />
+/>
+
 </div>
 
 This calculation shows how relatively modest increases in sound power level correspond to large gains in emitted acoustic energy.
@@ -178,7 +230,7 @@ Understanding this invariant quantity clears the way for exploring directivity a
     line-height: 1.7;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 72ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 1rem 0 4rem;
   }

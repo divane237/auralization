@@ -8,48 +8,75 @@ import numpy as np
 
 sample_rate = 48000
 duration = 0.015
-t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)
-fundamental = 0.8 * np.sin(2 * np.pi * 440 * t)
-first_harmonic = 0.4 * np.sin(2 * np.pi * 880 * t)
+t = np.linspace(0, duration, int(sample_rate _ duration), endpoint=False)
+fundamental = 0.8 _ np.sin(2 _ np.pi _ 440 _ t)
+first_harmonic = 0.4 _ np.sin(2 _ np.pi _ 880 \* t)
 signal = fundamental + first_harmonic
 
 print(f"Samples: \${len(signal)}")
 print(f"Peak-to-peak: \${(signal.max() - signal.min()):.3f}")
-print(f"RMS: \${np.sqrt(np.mean(signal ** 2)):.4f}")
+print(f"RMS: \${np.sqrt(np.mean(signal \*\* 2)):.4f}")
 print(f"First five values: \${signal[:5].round(4).tolist()}")
 `;
 
 <section className="intro-lesson">
 
-# Introduction to Sound  
-*Module 01 – Fundamentals of Acoustics*
+# Introduction to Sound
+
+_Module 01 – Fundamentals of Acoustics_
 
 <Callout type="info" title="How to Use This Lesson">
-This chapter mixes concise theory, visual intuition, and quick experiments. Skim the Learning Objectives first, then work through each numbered section. When you see a callout, pause to reflect or try the suggested mini activity.
+  This chapter mixes concise theory, visual intuition, and quick experiments.
+  Skim the Learning Objectives first, then work through each numbered section.
+  When you see a callout, pause to reflect or try the suggested mini activity.
 </Callout>
 
 <section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
-  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
-  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this lesson you can:</div>
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">
+    🎯 Learning Objectives
+  </h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">
+    By the end of this lesson you can:
+  </div>
   <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-    <li>Describe sound as a <strong>mechanical disturbance</strong> that travels via pressure variations.</li>
-    <li>Compare <strong>longitudinal</strong> and <strong>transverse</strong> waves using concrete examples.</li>
-    <li>Interpret <strong>time-domain waveforms</strong> and relate them to basic audio vocabulary.</li>
-    <li>Compute or estimate core acoustic quantities: <strong>frequency</strong>, <strong>amplitude</strong>, <strong>wavelength</strong>, and <strong>speed of sound</strong>.</li>
-    <li>Connect waveform shape to <strong>perception</strong> (pitch, loudness, timbre, localization).</li>
-    <li>Run quick experiments that reinforce how sound energy moves through matter.</li>
+    <li>
+      Describe sound as a <strong>mechanical disturbance</strong> that travels
+      via pressure variations.
+    </li>
+    <li>
+      Compare <strong>longitudinal</strong> and <strong>transverse</strong>{" "}
+      waves using concrete examples.
+    </li>
+    <li>
+      Interpret <strong>time-domain waveforms</strong> and relate them to basic
+      audio vocabulary.
+    </li>
+    <li>
+      Compute or estimate core acoustic quantities: <strong>frequency</strong>,{" "}
+      <strong>amplitude</strong>, <strong>wavelength</strong>, and{" "}
+      <strong>speed of sound</strong>.
+    </li>
+    <li>
+      Connect waveform shape to <strong>perception</strong> (pitch, loudness,
+      timbre, localization).
+    </li>
+    <li>
+      Run quick experiments that reinforce how sound energy moves through
+      matter.
+    </li>
   </ul>
 </section>
 
 ---
-
 
 ## 1. What Is Sound?
 
 Sound begins when a source vibrates and displaces the surrounding medium. Each push/pull slightly increases or decreases the local pressure and that change ripples outward.
 
 <Callout type="success" title="Key Idea">
-Particles barely move from their resting positions—the **energy pattern** is what travels. Think of a stadium wave: people stand up and sit down, yet the wave circles the arena.
+  Particles barely move from their resting positions—the **energy pattern** is
+  what travels. Think of a stadium wave: people stand up and sit down, yet the
+  wave circles the arena.
 </Callout>
 
 ### 1.1 Pressure Variations
@@ -59,8 +86,10 @@ The disturbance alternates between:
 - **Compression** → molecules squeeze together → pressure spikes above ambient.
 - **Rarefaction** → molecules spread apart → pressure dips below ambient.
 
-
-<ImageSection src="/images/chapter01/subchp01-1.1-1.jpeg" caption="Compression and rarefaction regions radiating away from a source" />
+<ImageSection
+  src="/images/chapter01/subchp01-1.1-1.jpeg"
+  caption="Compression and rarefaction regions radiating away from a source"
+/>
 
 These oscillations create the wavefront that eventually reaches your ear or a microphone capsule.
 
@@ -75,18 +104,45 @@ These oscillations create the wavefront that eventually reaches your ear or a mi
 
 ## 2. Sound as a Longitudinal Wave
 
-
 Air is a fluid, so sound propagates as a **longitudinal wave**:
 
-- Particle motion is **parallel** to the direction of propagation  
+- Particle motion is **parallel** to the direction of propagation
 - Pressure variations move forward, but particles only oscillate locally
 
 Difference from transverse waves:
 
-<div className="table-wrapper"><table><thead><tr><th>Property</th><th>Longitudinal Wave (Sound in Air)</th><th>Transverse Wave (String)</th></tr></thead><tbody><tr><td>Particle motion</td><td>Parallel to travel direction</td><td>Perpendicular</td></tr><tr><td>Needs a medium?</td><td>Yes (fluid or solid)</td><td>Typically solids/strings</td></tr><tr><td>Restoring force</td><td>Pressure &amp; compressibility</td><td>Tension or shear</td></tr></tbody></table></div>
+<div className="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Longitudinal Wave (Sound in Air)</th>
+        <th>Transverse Wave (String)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Particle motion</td>
+        <td>Parallel to travel direction</td>
+        <td>Perpendicular</td>
+      </tr>
+      <tr>
+        <td>Needs a medium?</td>
+        <td>Yes (fluid or solid)</td>
+        <td>Typically solids/strings</td>
+      </tr>
+      <tr>
+        <td>Restoring force</td>
+        <td>Pressure &amp; compressibility</td>
+        <td>Tension or shear</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <Callout type="warning" title="Watch Out">
-In popular diagrams the wave often looks sinusoidal, but the drawing represents **pressure over distance**, not literal particle paths.
+  In popular diagrams the wave often looks sinusoidal, but the drawing
+  represents **pressure over distance**, not literal particle paths.
 </Callout>
 
 ---
@@ -97,9 +153,6 @@ We usually plot sound as pressure (y-axis) versus time (x-axis). Smooth shapes i
 
 <TimeDomainVisualizer />
 
-
-
-
 ### 3.1 Idealized Sine Wave
 
 <MathFormula>{`p(t) = A \\sin(2\\pi f t + \\phi)`}</MathFormula>
@@ -108,23 +161,18 @@ We usually plot sound as pressure (y-axis) versus time (x-axis). Smooth shapes i
 - **f** sets the oscillation rate (pitch).
 - **φ** shifts the waveform in time (phase).
 
-
-<WaveformViewer
-  frequency={330}
-  amplitude={0.8}
-  phase={Math.PI / 6}
-  showGrid
-/>
+<WaveformViewer frequency={330} amplitude={0.8} phase={Math.PI / 6} showGrid />
 
 A sine wave produces the simplest, smoothest oscillation. This is the foundation of tones, Fourier analysis, filters, sound synthesis
 
 ### 3.2 Real-World Waveforms
 
-
 Speech, music, and noise look complex and irregular, unlike sine waves.
 
-<ImageSection src="/images/chapter01/subchp01-3.2-1.png" caption="Speech and noise snippets in the time domain" />
-
+<ImageSection
+  src="/images/chapter01/subchp01-3.2-1.png"
+  caption="Speech and noise snippets in the time domain"
+/>
 
 - Speech shows quick transients and pauses.
 - Sustained musical notes exhibit repeating envelopes plus harmonics.
@@ -140,32 +188,90 @@ Let’s break down the foundational physical quantities that describe sound.
 
 f = number of oscillations per second (Hz)
 
-
-<div className="table-wrapper"><table><thead><tr><th>Example</th><th>Frequency (Hz)</th></tr></thead><tbody><tr><td>Adult male voice</td><td>85–180</td></tr><tr><td>Adult female voice</td><td>165–255</td></tr><tr><td>Concert A4</td><td>440</td></tr><tr><td>Upper hearing</td><td>~20,000</td></tr></tbody></table></div>
+<div className="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Example</th>
+        <th>Frequency (Hz)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Adult male voice</td>
+        <td>85–180</td>
+      </tr>
+      <tr>
+        <td>Adult female voice</td>
+        <td>165–255</td>
+      </tr>
+      <tr>
+        <td>Concert A4</td>
+        <td>440</td>
+      </tr>
+      <tr>
+        <td>Upper hearing</td>
+        <td>~20,000</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 Higher frequency → higher pitch and Lower frequency → lower pitch
 
 ### 4.2 Amplitude (Loudness)
 
 <Callout type="danger" title="Amplitude ≠ Loudness">
-Amplitude is a physical pressure difference. Loudness is psychoacoustic—it depends on **amplitude** and **frequency**. For example, 40 dB SPL at 100 Hz feels quieter than 40 dB SPL at 2 kHz.
+  Amplitude is a physical pressure difference. Loudness is psychoacoustic—it
+  depends on **amplitude** and **frequency**. For example, 40 dB SPL at 100 Hz
+  feels quieter than 40 dB SPL at 2 kHz.
 </Callout>
 
 ### 4.3 Wavelength
 
-<MathFormula>
-  {`\\lambda = \\frac{c}{f}`}
-</MathFormula>
+<MathFormula>{`\\lambda = \\frac{c}{f}`}</MathFormula>
 
-<div className="table-wrapper"><table><thead><tr><th>Frequency</th><th>Wavelength (m)</th><th>Notes</th></tr></thead><tbody><tr><td>50 Hz</td><td>≈ 6.8</td><td>Wraps around large objects</td></tr><tr><td>200 Hz</td><td>≈ 1.7</td><td>Room modes become obvious</td></tr><tr><td>1 kHz</td><td>≈ 0.343</td><td>Comparable to head width</td></tr><tr><td>5 kHz</td><td>≈ 0.068</td><td>Easily reflected/scattered</td></tr></tbody></table></div>
+<div className="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Frequency</th>
+        <th>Wavelength (m)</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>50 Hz</td>
+        <td>≈ 6.8</td>
+        <td>Wraps around large objects</td>
+      </tr>
+      <tr>
+        <td>200 Hz</td>
+        <td>≈ 1.7</td>
+        <td>Room modes become obvious</td>
+      </tr>
+      <tr>
+        <td>1 kHz</td>
+        <td>≈ 0.343</td>
+        <td>Comparable to head width</td>
+      </tr>
+      <tr>
+        <td>5 kHz</td>
+        <td>≈ 0.068</td>
+        <td>Easily reflected/scattered</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 Short wavelengths reflect off small surfaces; long wavelengths diffract around obstacles and excite room modes.
 
 ### 4.4 Speed of Sound
 
-  <MathFormula>
-    {`c \\approx 331 + 0.6T \\quad \\text{(m/s, with T in °C)}`}
-  </MathFormula>
+<MathFormula>
+  {`c \\approx 331 + 0.6T \\quad \\text{(m/s, with T in °C)}`}
+</MathFormula>
 
 At 20 °C → **343 m/s**. Temperature dominates, but humidity and the medium itself matter too. Sound travels fastest in stiff, dense media such as steel.
 
@@ -175,7 +281,10 @@ At 20 °C → **343 m/s**. Temperature dominates, but humidity and the medium 
 
 Air molecules oscillate locally, yet each one nudges its neighbor like falling dominoes.
 
-<ImageSection src="/images/chapter01/subchp01-5-2.gif" caption="Particles oscillate while the energy front marches forward" />
+<ImageSection
+  src="/images/chapter01/subchp01-5-2.gif"
+  caption="Particles oscillate while the energy front marches forward"
+/>
 
 This perspective helps when studying **reflection**, **refraction**, **absorption**, and **impedance matching** later in the course.
 
@@ -183,13 +292,38 @@ This perspective helps when studying **reflection**, **refraction**, **absorptio
 
 ## 6. Sound in Different Media
 
-<div className="table-wrapper"><table><thead><tr><th>Medium</th><th>Speed of Sound</th><th>Behavior Notes</th></tr></thead><tbody><tr><td>Air</td><td>~343 m/s</td><td>Low density, strong temperature effect</td></tr><tr><td>Water</td><td>~1480 m/s</td><td>Higher pressure, sound travels farther</td></tr><tr><td>Steel</td><td>~5960 m/s</td><td>Extremely stiff, minimal attenuation</td></tr></tbody></table></div>
+<div className="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Medium</th>
+        <th>Speed of Sound</th>
+        <th>Behavior Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Air</td>
+        <td>~343 m/s</td>
+        <td>Low density, strong temperature effect</td>
+      </tr>
+      <tr>
+        <td>Water</td>
+        <td>~1480 m/s</td>
+        <td>Higher pressure, sound travels farther</td>
+      </tr>
+      <tr>
+        <td>Steel</td>
+        <td>~5960 m/s</td>
+        <td>Extremely stiff, minimal attenuation</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 The generic relationship is:
 
-  <MathFormula>
-    {`c = \\sqrt{\\frac{K}{\\rho}}`}
-  </MathFormula>
+<MathFormula>{`c = \\sqrt{\\frac{K}{\\rho}}`}</MathFormula>
 
 Where **K** is the bulk modulus (stiffness) and **ρ** is density. Stiffer media push sound along faster.
 
@@ -199,7 +333,9 @@ Where **K** is the bulk modulus (stiffness) and **ρ** is density. Stiffer media
 - **Localization** leverages timing and level differences between our ears.
 
 <Callout type="success" title="Looking Ahead">
-Upcoming lessons cover psychoacoustics, Head-Related Transfer Functions (HRTFs), and binaural rendering so you can design convincing spatial audio experiences.
+  Upcoming lessons cover psychoacoustics, Head-Related Transfer Functions
+  (HRTFs), and binaural rendering so you can design convincing spatial audio
+  experiences.
 </Callout>
 
 ---
@@ -207,16 +343,17 @@ Upcoming lessons cover psychoacoustics, Head-Related Transfer Functions (HRTFs),
 ## 8. Guided Exploration
 
 <Callout type="info" title="Try This in the Browser">
-- Use the project’s waveform explorer (or any DAW) to draw a sine wave and gradually mix in harmonics. Observe how the waveform morphs as the tone brightens.
-- Load a short voice sample and inspect the waveform zoomed out vs. zoomed in. Note where consonants and vowels sit.
+  - Use the project’s waveform explorer (or any DAW) to draw a sine wave and
+  gradually mix in harmonics. Observe how the waveform morphs as the tone
+  brightens. - Load a short voice sample and inspect the waveform zoomed out vs.
+  zoomed in. Note where consonants and vowels sit.
 </Callout>
 
-<SineWaveExplorer 
+<SineWaveExplorer
   minFrequency={20}
   maxFrequency={20000}
   allowAmplitudeControl={true}
 />
-
 
 ## 8.1 Python Lab
 
@@ -235,6 +372,7 @@ Upcoming lessons cover psychoacoustics, Head-Related Transfer Functions (HRTFs),
 **Paper Vibration** — hold a sheet near a loudspeaker. You will feel the alternating compression/rarefaction.
 
 **Bottle Tone** — blow across a bottle. Changing the water level alters the resonant frequency, so the tone shifts.
+
 </Callout>
 
 ---
@@ -249,7 +387,8 @@ Upcoming lessons cover psychoacoustics, Head-Related Transfer Functions (HRTFs),
 - Simple home experiments reinforce how sound waves behave in everyday settings.
 
 <Callout type="info" title="Next Up">
-Move on to **01-wave-equation** to derive the governing equations that formalize everything introduced here.
+  Move on to **01-wave-equation** to derive the governing equations that
+  formalize everything introduced here.
 </Callout>
 
 <Quiz chapterId="01-intro" />
@@ -262,7 +401,7 @@ Move on to **01-wave-equation** to derive the governing equations that formalize
     line-height: 1.7;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 72ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 1rem 0 4rem;
   }

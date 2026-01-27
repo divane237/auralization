@@ -1,122 +1,175 @@
+
 import Link from "next/link";
-
 import { chapters } from "@/lib/chapters";
-import Callout from "@/components/Callout";
-
-const chapterDescriptions = {
-  introduction:
-    "Set the stage with acoustics basics, metaphors for wave motion, and the vocabulary you will use everywhere else.",
-};
-
-const getPrimarySectionHref = (chapter) => {
-  const firstSection = chapter.subchapters?.[0];
-  if (!firstSection) {
-    return "/learn";
-  }
-  return `/learn/${firstSection.fullRoute}`;
-};
 
 export default function LearnOverview() {
   return (
-    <div className="space-y-12 text-gray-900 dark:text-slate-100">
-      <section className="space-y-4">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-purple-500 dark:text-purple-300">
-          Orientation
-        </p>
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Welcome to the Learn Hub</h1>
-        <p className="text-base text-gray-700 dark:text-slate-300">
-      This Learn Hub is an interactive environment designed to bridge theoretical foundations and hands-on experimentation in acoustic signal processing. Instead of passively reading formulas or static diagrams, you are encouraged to explore concepts by modifying parameters, running simulations, and immediately observing their effects.
-        </p>
-        <p className="text-base text-gray-700 dark:text-slate-300">
-        The platform integrates structured explanations with real-time visualizations, browser-based Python labs, and interactive signal-processing tools. This enables learners to move fluidly between mathematical models, physical intuition, and practical implementation—all within a single interface.
-        </p>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
 
-        <p className="text-base text-gray-700 dark:text-slate-300">Whether you are revisiting core topics such as waveform representation and Fourier analysis, or exploring advanced concepts like filtering, spatial audio, and beamforming, the Learn Hub is designed to support active learning and conceptual clarity.</p>
-      </section>
+          {/* Main Heading */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
+              Auralization
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 font-light">
+              Fundamentals of Acoustics and Virtual Sound
+            </p>
+          </div>
 
-      <section className="rounded-3xl border border-purple-100/70 bg-white/70 p-6 shadow-sm transition-colors dark:border-white/10 dark:bg-slate-900/60">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">How the curriculum is structured</h2>
-        <ul className="mt-4 list-disc space-y-2 pl-6 text-sm text-gray-700 dark:text-slate-300">
-          <li>
-           Navigate through chapters using the sidebar to follow a structured learning path.
-          </li>
-          <li>
-            Interact with simulations to visualize signals in time, frequency, and spatial domains.
-          </li>
-          <li>
-            Edit and run Python code directly in the browser to experiment with real signal-processing workflows.
-          </li>
-          <li>
-           Use this space as both a learning resource and a sandbox for exploration.
-          </li>
-        </ul>
-      </section>
+          {/* About the Book */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <div className="rounded-2xl border border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm p-8 shadow-sm">
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                About This Book
+              </h2>
+              <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p>
+                  This interactive textbook bridges the gap between acoustic theory and practical signal processing.
+                  Designed for students, researchers, and practitioners, it combines rigorous fundamentals with
+                  hands-on experimentation through browser-based simulations.
+                </p>
+                <p>
+                  Starting from the wave equation and progressing through room acoustics, psychoacoustics, and
+                  3D audio rendering, each module integrates mathematical derivations with real-time visualizations.
+                  You&apos;ll not only understand the formulas—you&apos;ll hear them in action.
+                </p>
+                <p>
+                  Based on the second edition of <strong>Auralization</strong> by Michael Vorländer, this digital
+                  resource enhances the traditional text with interactive tools, Python examples, and immersive
+                  demonstrations that bring acoustic concepts to life.
+                </p>
+              </div>
+            </div>
+          </div>
 
-       <section className="rounded-3xl border border-purple-100/70 bg-white/70 p-6 shadow-sm transition-colors dark:border-white/10 dark:bg-slate-900/60">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Who This Is For</h2>
-        <p>This platform is intended for:</p>
-        <ul className="mt-4 list-disc space-y-2 pl-6 text-sm text-gray-700 dark:text-slate-300">
-          <li>
-           Students studying acoustics, signal processing, or communications
-          </li>
-          <li>
-            Learners seeking intuitive understanding beyond equations
-          </li>
-          <li>
-           Educators looking for interactive teaching material
-          </li>
-          <li>
-           Anyone interested in exploring how sound can be analyzed, processed, and perceived
-          </li>
-        </ul>
-      </section>
-
-      {/* We reuse the single source of truth from lib/chapters.js so new chapters automatically show up */}
-      <section className="rounded-3xl border border-purple-100/70 bg-white/70 p-6 shadow-sm transition-colors dark:border-white/10 dark:bg-slate-900/60">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-purple-500 dark:text-purple-300">
-          Start anywhere
-        </p>
-        <h2 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">Pick a chapter</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {chapters.map((chapter, index) => (
-            <Link
-              key={chapter.id}
-              href={getPrimarySectionHref(chapter)}
-              className="group rounded-2xl border border-purple-100 bg-white/80 px-5 py-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:bg-slate-950/50"
-            >
-              <p className="text-sm font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-300">
-                Chapter {index + 1}
+          {/* Quote Section */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <blockquote className="relative rounded-2xl border border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-slate-100/50 to-white/50 dark:from-slate-900/50 dark:to-slate-800/50 backdrop-blur-sm p-8 shadow-sm">
+              <svg
+                className="absolute top-6 left-6 w-8 h-8 text-slate-300 dark:text-slate-700"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 italic leading-relaxed mb-4 pl-8">
+                Learning acoustics is not just about formulas—it is about hearing the math.
               </p>
-              <h3 className="mt-1 text-lg font-bold text-gray-900 dark:text-white">{chapter.title}</h3>
-              <p className="mt-2 text-sm text-gray-600 dark:text-slate-300">
-                {chapterDescriptions[chapter.id] ??
-                  "Preview coming soon — the registry already knows about this stop on the journey."}
-              </p>
-              <p className="mt-3 text-xs uppercase tracking-wide text-gray-500 dark:text-slate-400">
-                {chapter.subchapters.length} sections · {chapter.pythonExamples.length} Python labs
-              </p>
-              <span className="mt-4 inline-flex items-center text-sm font-semibold text-purple-700 dark:text-purple-200">
-                Open chapter
-                <span className="ml-2 transition group-hover:translate-x-1">→</span>
-              </span>
-            </Link>
-          ))}
+              <footer className="text-right">
+                <cite className="text-slate-600 dark:text-slate-400 not-italic font-medium">
+                  — Dr. Imran Muhammad
+                </cite>
+              </footer>
+            </blockquote>
+          </div>
         </div>
       </section>
 
+      {/* Chapters List Section */}
+      <section className="bg-white dark:bg-slate-900 py-16 md:py-20 border-t border-slate-200 dark:border-slate-800">
+        <div className="mx-auto max-w-6xl px-6">
 
-      <section className="rounded-3xl border border-purple-100/70 bg-white/70 p-6 shadow-sm transition-colors dark:border-white/10 dark:bg-slate-900/60">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Learning Philosophy</h2>
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+              Course Modules
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400">
+              Explore the complete curriculum—from wave physics to virtual acoustics
+            </p>
+          </div>
 
-    <Callout title=" The core philosophy of this project is simple" >
+          {/* Chapters Grid */}
+          <div className="grid gap-6 md:grid-cols-2">
+            {chapters.map((chapter, index) => {
+              const firstLesson = chapter.subchapters?.[0];
+              const lessonCount = chapter.subchapters?.length || 0;
 
-    Understanding improves when theory, visualization, and experimentation are tightly coupled.
-    </Callout>
-    <p>
+              return (
+                <Link
+                  key={chapter.id}
+                  href={firstLesson ? `/learn/${firstLesson.fullRoute}` : '/learn'}
+                  className="group relative rounded-2xl border border-slate-200 dark:border-slate-800 
+                           bg-white dark:bg-slate-900 
+                           hover:border-slate-300 dark:hover:border-slate-700
+                           hover:shadow-lg
+                           transition-all duration-300 overflow-hidden"
+                >
 
-    By combining explanatory text, interactive graphics, and executable code, the Learn Hub transforms abstract signal-processing concepts into tangible experiences.
-    </p>
-        
+
+                  <div className="relative p-6 md:p-8">
+                    {/* Module Badge */}
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl 
+                                  bg-slate-900 dark:bg-slate-100 
+                                  text-white dark:text-slate-900 
+                                  font-bold text-lg mb-4
+                                  group-hover:scale-110 transition-transform">
+                      {index + 1}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-3 
+                                 group-hover:text-slate-700 dark:group-hover:text-slate-300 
+                                 transition-colors leading-snug">
+                      {chapter.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                      {chapter.description}
+                    </p>
+
+                    {/* Meta Info */}
+                    <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-500">
+                      <div className="flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span>{lessonCount} {lessonCount === 1 ? 'lesson' : 'lessons'}</span>
+                      </div>
+                    </div>
+
+                    {/* Arrow Icon */}
+                    <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 
+                                  transform translate-x-2 group-hover:translate-x-0 
+                                  transition-all duration-300">
+                      <svg className="w-6 h-6 text-slate-400 dark:text-slate-600"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-12 text-center">
+            <p className="text-slate-600 dark:text-slate-400 mb-4">
+              Ready to begin your journey into acoustic signal processing?
+            </p>
+            <Link
+              href="/learn"
+              className="inline-flex items-center gap-2 px-8 py-4 
+                       bg-slate-900 dark:bg-slate-100 
+                       text-white dark:text-slate-900 
+                       rounded-xl font-semibold
+                       hover:bg-slate-800 dark:hover:bg-slate-200
+                       hover:shadow-lg
+                       transition-all duration-300"
+            >
+              Start Learning
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
+        </div>
       </section>
     </div>
   );

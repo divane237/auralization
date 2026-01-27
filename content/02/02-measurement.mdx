@@ -6,22 +6,42 @@ import VideoSection from "@/components/VideoSection";
 
 <section className="intro-lesson">
 
-# Measuring Sources & Directivity  
-*Module 2 – Sound Sources & Directivity*
+# Measuring Sources & Directivity
+
+_Module 2 – Sound Sources & Directivity_
 
 <Callout type="info" title="How to Approach These Measurements">
-This chapter connects the source-centric view of sound power and directivity to the standardized environments, instruments, and procedures engineers rely on to produce repeatable results.
+  This chapter connects the source-centric view of sound power and directivity
+  to the standardized environments, instruments, and procedures engineers rely
+  on to produce repeatable results.
 </Callout>
 
 <section className="mt-10 mb-12 rounded-3xl border border-purple-100/70 bg-purple-50/50 p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60">
-  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">🎯 Learning Objectives</h2>
-  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">By the end of this subchapter you can:</div>
+  <h2 className="text-2xl font-semibold text-purple-900 dark:text-purple-100">
+    🎯 Learning Objectives
+  </h2>
+  <div className="mt-3 text-sm text-gray-700 dark:text-slate-300">
+    By the end of this subchapter you can:
+  </div>
   <ul className="mt-4 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-    <li>Explain why standardized measurement procedures are required for sound power and directivity.</li>
-    <li>Distinguish between free-field, anechoic, and reverberant measurement environments.</li>
-    <li>Describe how sound power is measured from intensity or pressure readings.</li>
-    <li>Understand the experimental steps needed to capture directivity patterns.</li>
-    <li>Interpret the limitations and assumptions built into each measurement method.</li>
+    <li>
+      Explain why standardized measurement procedures are required for sound
+      power and directivity.
+    </li>
+    <li>
+      Distinguish between free-field, anechoic, and reverberant measurement
+      environments.
+    </li>
+    <li>
+      Describe how sound power is measured from intensity or pressure readings.
+    </li>
+    <li>
+      Understand the experimental steps needed to capture directivity patterns.
+    </li>
+    <li>
+      Interpret the limitations and assumptions built into each measurement
+      method.
+    </li>
   </ul>
 </section>
 
@@ -32,16 +52,29 @@ This chapter connects the source-centric view of sound power and directivity to 
 Measuring a sound source is fundamentally more difficult than measuring a sound field. Sound pressure is a point quantity, but sound power and directivity describe how energy leaves a source as a whole. Those source traits must be inferred from many measurements plus physical assumptions.
 
 <Callout type="success" title="Key Challenge">
-Preserving repeatability and comparability means controlling distance, direction, and reflections so inference becomes reliable instead of anecdotal.
+  Preserving repeatability and comparability means controlling distance,
+  direction, and reflections so inference becomes reliable instead of anecdotal.
 </Callout>
 
 Several challenges arise:
 
 <ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-  <li>Sound pressure varies with distance and direction, so a single microphone reading cannot capture the source.</li>
-  <li>Reflections contaminate measurements unless the environment is carefully managed.</li>
-  <li>Real sources are not ideal point emitters, so their geometry influences the radiation pattern.</li>
-  <li>Measurements must be repeatable and comparable, which requires strict protocols.</li>
+  <li>
+    Sound pressure varies with distance and direction, so a single microphone
+    reading cannot capture the source.
+  </li>
+  <li>
+    Reflections contaminate measurements unless the environment is carefully
+    managed.
+  </li>
+  <li>
+    Real sources are not ideal point emitters, so their geometry influences the
+    radiation pattern.
+  </li>
+  <li>
+    Measurements must be repeatable and comparable, which requires strict
+    protocols.
+  </li>
 </ul>
 
 For these reasons, source measurements are almost always conducted according to international standards.
@@ -65,9 +98,17 @@ In a free field, sound propagates without reflections. Anechoic chambers approxi
 In such environments:
 
 <ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-  <li>Sound pressure depends primarily on the source rather than reflections.</li>
-  <li>Inverse-square behavior holds in the far field, simplifying distance corrections.</li>
-  <li>Directivity patterns can be measured reliably by sweeping the receiver angle.</li>
+  <li>
+    Sound pressure depends primarily on the source rather than reflections.
+  </li>
+  <li>
+    Inverse-square behavior holds in the far field, simplifying distance
+    corrections.
+  </li>
+  <li>
+    Directivity patterns can be measured reliably by sweeping the receiver
+    angle.
+  </li>
 </ul>
 
 Anechoic measurements are widely used for loudspeakers and small machinery that can be suspended or isolated.
@@ -93,7 +134,9 @@ Under these conditions:
 <ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
   <li>Sound pressure becomes nearly uniform across the space.</li>
   <li>Measurements are less sensitive to exact microphone position.</li>
-  <li>Sound power can be estimated from spatially averaged pressure readings.</li>
+  <li>
+    Sound power can be estimated from spatially averaged pressure readings.
+  </li>
 </ul>
 
 Reverberant-room methods are commonly used for large or noisy industrial sources where anechoic facilities are impractical.
@@ -114,7 +157,9 @@ This method requires:
 
 <ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
   <li>Multiple measurement points distributed across the surface.</li>
-  <li>Accurate intensity probes that capture both pressure and particle velocity.</li>
+  <li>
+    Accurate intensity probes that capture both pressure and particle velocity.
+  </li>
   <li>Active control of background noise so the true source dominates.</li>
 </ul>
 
@@ -177,9 +222,13 @@ Automation often handles the angular sweeps and data logging, especially when te
 All measurement methods rely on assumptions that must be understood before trusting the results:
 
 <ul className="mt-3 list-disc space-y-2 pl-5 text-base text-gray-800 dark:text-slate-100">
-  <li>Far-field conditions may not be perfectly met, especially for large sources.</li>
+  <li>
+    Far-field conditions may not be perfectly met, especially for large sources.
+  </li>
   <li>Background noise can contaminate data without proper control.</li>
-  <li>Room absorption is frequency dependent, so corrections may vary with band.</li>
+  <li>
+    Room absorption is frequency dependent, so corrections may vary with band.
+  </li>
   <li>Real sources may change behavior as operating conditions shift.</li>
 </ul>
 
@@ -198,7 +247,8 @@ This subchapter wraps up the module because it depends on all the prior concepts
 For a high-level overview of practical acoustic source measurements, the following short video may be helpful:
 
 <Callout type="info" title="Watch for Real-World Context">
-This optional clip shows how engineers approach source measurements in practice without diving into the mathematical detail.
+  This optional clip shows how engineers approach source measurements in
+  practice without diving into the mathematical detail.
 </Callout>
 
 <VideoSection
@@ -224,7 +274,7 @@ Measuring sound sources demands controlled environments, standardized procedures
     line-height: 1.7;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 72ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 1rem 0 4rem;
   }

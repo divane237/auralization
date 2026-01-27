@@ -13,13 +13,13 @@ import matplotlib.pyplot as plt
 c = 343
 f = 200
 A = 1
-omega = 2 * np.pi * f
-lambda_ = c / f
-k = 2 * np.pi / lambda_
+omega = 2 _ np.pi _ f
+lambda* = c / f
+k = 2 \* np.pi / lambda*
 
 x = np.linspace(0, 2, 1000)
 t = 0.001
-p = A * np.cos(k * x - omega * t)
+p = A _ np.cos(k _ x - omega \* t)
 
 plt.figure(figsize=(7, 3.5))
 plt.plot(x, p, color="midnightblue", linewidth=2)
@@ -37,32 +37,59 @@ print("IMGDATA:" + encoded)
 plt.close()
 
 print(f"Speed of sound: {c} m/s")
-print(f"Wavelength: {lambda_:.2f} m")
+print(f"Wavelength: {lambda\_:.2f} m")
 print(f"Pressure range: {p.min():.3f} to {p.max():.3f}")
 `;
 
 <section className="plane-waves-lesson">
 
+# Plane Waves in Fluids & Speed of Sound
 
-# Plane Waves in Fluids & Speed of Sound  
-*Module 1 – Fundamentals of Acoustics*  
-
+_Module 1 – Fundamentals of Acoustics_
 
 ---
 
 <section className="learning-objectives-card">
-## 🎯 Learning Objectives
-<div className="learning-objectives-subtitle">By the end of this chapter, you will be able to:</div>
-<ul className="learning-objectives-list">
-  <li>Understand the <strong>physical nature</strong> of plane waves and why they are fundamental solutions of the wave equation.</li>
-  <li>Describe the <strong>mathematical structure</strong> of plane waves using real and complex forms.</li>
-  <li>Explain how plane waves propagate in <strong>1D, 2D, and 3D</strong> spaces.</li>
-  <li>Use the <strong>wave vector</strong> <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula> to describe direction, wavelength, and phase velocity.</li>
-  <li>Understand the relationship between <strong>pressure</strong> and <strong>particle velocity</strong> in plane waves.</li>
-  <li>Apply plane-wave concepts to real acoustics: ducts, rooms, boundaries, reflections, and source radiation.</li>
-  <li>Explain the meaning of the <strong>speed of sound</strong> and derive its formula from thermodynamic principles.</li>
-  <li>Connect plane wave theory to <strong>auralization</strong>, <strong>HRTFs</strong>, <strong>room acoustics</strong>, and <strong>wave-based simulation</strong>.</li>
-</ul>
+  ## 🎯 Learning Objectives
+  <div className="learning-objectives-subtitle">
+    By the end of this chapter, you will be able to:
+  </div>
+  <ul className="learning-objectives-list">
+    <li>
+      Understand the <strong>physical nature</strong> of plane waves and why
+      they are fundamental solutions of the wave equation.
+    </li>
+    <li>
+      Describe the <strong>mathematical structure</strong> of plane waves using
+      real and complex forms.
+    </li>
+    <li>
+      Explain how plane waves propagate in <strong>1D, 2D, and 3D</strong>{" "}
+      spaces.
+    </li>
+    <li>
+      Use the <strong>wave vector</strong>{" "}
+      <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula> to describe
+      direction, wavelength, and phase velocity.
+    </li>
+    <li>
+      Understand the relationship between <strong>pressure</strong> and{" "}
+      <strong>particle velocity</strong> in plane waves.
+    </li>
+    <li>
+      Apply plane-wave concepts to real acoustics: ducts, rooms, boundaries,
+      reflections, and source radiation.
+    </li>
+    <li>
+      Explain the meaning of the <strong>speed of sound</strong> and derive its
+      formula from thermodynamic principles.
+    </li>
+    <li>
+      Connect plane wave theory to <strong>auralization</strong>,{" "}
+      <strong>HRTFs</strong>, <strong>room acoustics</strong>, and{" "}
+      <strong>wave-based simulation</strong>.
+    </li>
+  </ul>
 </section>
 
 ---
@@ -70,19 +97,25 @@ print(f"Pressure range: {p.min():.3f} to {p.max():.3f}")
 # 1. Introduction: The Importance of Plane Waves
 
 Plane waves are among the most fundamental concepts in acoustics.  
-Although *perfect* plane waves cannot exist in a finite room or physical environment, they form the **building blocks** of real sound fields.
+Although _perfect_ plane waves cannot exist in a finite room or physical environment, they form the **building blocks** of real sound fields.
 
 Why?
 
 Because:
 
 <Callout type="info" title="Why plane waves again">
-Plane waves give us a structured vocabulary for phase, direction, and energy. For many problems we substitute complicated fields with a spectrum of plane waves, so mastering them unlocks every wave-based simulation or auralization pipeline.
+  Plane waves give us a structured vocabulary for phase, direction, and energy.
+  For many problems we substitute complicated fields with a spectrum of plane
+  waves, so mastering them unlocks every wave-based simulation or auralization
+  pipeline.
 </Callout>
 
-### ✔ The wave equation admits plane waves as exact solutions  
-### ✔ Any complex sound field can be decomposed into a sum of plane waves  
-### ✔ They capture the essence of wave propagation:  
+### ✔ The wave equation admits plane waves as exact solutions
+
+### ✔ Any complex sound field can be decomposed into a sum of plane waves
+
+### ✔ They capture the essence of wave propagation:
+
 <div className="plane-wave-attributes-card">
   <ul className="plane-wave-attributes-grid">
     <li>phase</li>
@@ -93,9 +126,11 @@ Plane waves give us a structured vocabulary for phase, direction, and energy. Fo
   </ul>
 </div>
 
-### ✔ They naturally lead to the **Helmholtz equation** and **frequency-domain acoustics**  
-### ✔ They are the basis for:  
-Geometrical acoustics, Boundary conditions, Scattering, HRTFs, Auralization algorithms and Room modes.  
+### ✔ They naturally lead to the **Helmholtz equation** and **frequency-domain acoustics**
+
+### ✔ They are the basis for:
+
+Geometrical acoustics, Boundary conditions, Scattering, HRTFs, Auralization algorithms and Room modes.
 
 In many acoustic systems—ducts, waveguides, long corridors—the lowest-order mode is **almost exactly a plane wave**.
 
@@ -110,7 +145,10 @@ At a given time, all points on one plane have identical acoustic pressure.
 
 Represented visually:
 
-<ImageSection src="/images/chapter01/subchp03-2.png" caption="Illustration of plane wavefronts" />
+<ImageSection
+  src="/images/chapter01/subchp03-2.png"
+  caption="Illustration of plane wavefronts"
+/>
 
 Key features:
 
@@ -125,7 +163,9 @@ There is no variation laterally.
 You may imagine a synchronized “wall” of pressure moving through space.
 
 <Callout type="warning" title="Ideal yet instructive">
-  Real environments only host partial plane waves, so use this picture as an organizing principle—plane waves dominate when you are in the far-field or when you isolate a single propagation direction.
+  Real environments only host partial plane waves, so use this picture as an
+  organizing principle—plane waves dominate when you are in the far-field or
+  when you isolate a single propagation direction.
 </Callout>
 
 <div className="plane-wave-requirements">
@@ -155,11 +195,14 @@ Where:
 
 <MathFormula inline>{String.raw`A`}</MathFormula> = amplitude
 
-<MathFormula inline>{String.raw`\omega = 2\pi f`}</MathFormula> (angular frequency)
+<MathFormula inline>{String.raw`\omega = 2\pi f`}</MathFormula> (angular
+frequency)
 
-<MathFormula inline>{String.raw`k = \frac{\omega}{c}`}</MathFormula> (wave number)
+<MathFormula inline>{String.raw`k = \frac{\omega}{c}`}</MathFormula> (wave
+number)
 
-<MathFormula inline>{String.raw`\lambda = \frac{2\pi}{k}`}</MathFormula> (wavelength)
+<MathFormula inline>{String.raw`\lambda = \frac{2\pi}{k}`}</MathFormula>
+(wavelength)
 
 <MathFormula inline>{String.raw`\varphi`}</MathFormula> = phase offset
 
@@ -203,7 +246,9 @@ where:
 
 <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula> = wave vector
 
-<MathFormula inline>{String.raw`|\mathbf{k}| = k = \frac{2\pi}{\lambda}`}</MathFormula>
+<MathFormula
+  inline
+>{String.raw`|\mathbf{k}| = k = \frac{2\pi}{\lambda}`}</MathFormula>
 
 The dot product:
 
@@ -270,8 +315,10 @@ Water: ~1500 m/s
 
 Steel: ~5000 m/s
 
-
-<VideoSection src="https://www.youtube.com/embed/yF4cvbAYjwI" caption="Speed of sound across materials" />
+<VideoSection
+  src="https://www.youtube.com/embed/yF4cvbAYjwI"
+  caption="Speed of sound across materials"
+/>
 
 ---
 
@@ -307,7 +354,7 @@ For a plane wave:
 
 This formula underpins: sound power calculations, directional radiation, energy-based room models, level and decibel calculations.
 
---- 
+---
 
 # 8. Plane Waves and the Helmholtz Equation
 
@@ -373,12 +420,12 @@ This is the foundation of:
 # 10. Visual Demonstration (Interactive)
 
 ####
+
 ####
 
 <div className="my-4">
   <PlaneWaveVisualizer />
 </div>
-
 
 This will make abstract concepts visible.
 
@@ -395,7 +442,7 @@ Run the interactive Python lab to plot the 1D slice and inspect the pressure bou
   defaultCode={planeWaveSliceCode}
 />
 
-This produces a pressure slice at time *t*, identical to theoretical diagrams.
+This produces a pressure slice at time _t_, identical to theoretical diagrams.
 
 ---
 
@@ -403,25 +450,32 @@ This produces a pressure slice at time *t*, identical to theoretical diagrams.
 
 Plane waves are not abstract mathematical tricks — they form the foundation of EVERYTHING in acoustics.
 
-### ✔ Far-field of loudspeakers  
+### ✔ Far-field of loudspeakers
+
 Where wavefront curvature is small and approximates a plane.
 
-### ✔ Room acoustics and reflections  
+### ✔ Room acoustics and reflections
+
 Each reflection can be modeled as a plane wave.
 
-### ✔ Impulse responses  
+### ✔ Impulse responses
+
 High-frequency early reflections behave like plane waves.
 
-### ✔ Binaural rendering (HRTFs)  
+### ✔ Binaural rendering (HRTFs)
+
 Plane waves form the canonical “incoming direction” model.
 
-### ✔ Duct acoustics  
+### ✔ Duct acoustics
+
 Below the cutoff frequency, only the plane-wave mode propagates.
 
-### ✔ Absorption & boundary modeling  
+### ✔ Absorption & boundary modeling
+
 Reflection and absorption formulas assume plane-wave incidence.
 
-### ✔ Mode analysis  
+### ✔ Mode analysis
+
 Modes can be expressed as sums of plane waves.
 
 ---
@@ -430,17 +484,30 @@ Modes can be expressed as sums of plane waves.
 
 <ul className="plane-waves-summary-list">
   <li>Plane waves are exact solutions of the acoustic wave equation.</li>
-  <li>They have constant-phase wavefronts and travel in the direction of <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula>.</li>
-  <li>Pressure and velocity are simply related by <MathFormula inline>{String.raw`u = \frac{p'}{\rho_0 c}`}</MathFormula>.</li>
-  <li>Acoustic intensity is expressible directly as <MathFormula inline>{String.raw`\overline{I} = p_{\mathrm{rms}}^2/(\rho_0 c)`}</MathFormula>.</li>
+  <li>
+    They have constant-phase wavefronts and travel in the direction of{" "}
+    <MathFormula inline>{String.raw`\mathbf{k}`}</MathFormula>.
+  </li>
+  <li>
+    Pressure and velocity are simply related by{" "}
+    <MathFormula inline>{String.raw`u = \frac{p'}{\rho_0 c}`}</MathFormula>.
+  </li>
+  <li>
+    Acoustic intensity is expressible directly as{" "}
+    <MathFormula
+      inline
+    >{String.raw`\overline{I} = p_{\mathrm{rms}}^2/(\rho_0 c)`}</MathFormula>
+    .
+  </li>
   <li>The speed of sound emerges from thermodynamic or elastic properties.</li>
   <li>The Helmholtz equation governs plane-wave spatial fields.</li>
   <li>Angle of incidence controls reflection and absorption.</li>
-  <li>Plane waves underpin most of acoustic modeling, simulation, and rendering.</li>
+  <li>
+    Plane waves underpin most of acoustic modeling, simulation, and rendering.
+  </li>
 </ul>
 
 ---
-
 
 <Quiz chapterId="01-plane-waves" />
 
@@ -452,7 +519,7 @@ Modes can be expressed as sums of plane waves.
     line-height: 1.65;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 72ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 2.5rem 1rem 4rem;
   }

@@ -12,9 +12,10 @@ import Quiz from "@/components/Quiz";
   <div className="subchapter-label">Subchapter: FA-signals-spectra</div>
   <h1>Signals, Spectra &amp; Time–Frequency Representation</h1>
   <div className="hero-lede">
-    Sound becomes meaningful when we look beyond pressure changes and find the spectral fingerprints of
-    every event. This chapter introduces the frequency domain, the Fourier tools that reveal it, and
-    the time–frequency representations that let us see how sound evolves.
+    Sound becomes meaningful when we look beyond pressure changes and find the
+    spectral fingerprints of every event. This chapter introduces the frequency
+    domain, the Fourier tools that reveal it, and the time–frequency
+    representations that let us see how sound evolves.
   </div>
   <div className="hero-pill-row">
     <span className="hero-pill">Time‑Domain</span>
@@ -26,15 +27,39 @@ import Quiz from "@/components/Quiz";
 
 <section className="learning-objectives-card">
   <h2>🎯 Learning Objectives</h2>
-  <div className="learning-objectives-subtitle">After studying this chapter, you will be able to:</div>
+  <div className="learning-objectives-subtitle">
+    After studying this chapter, you will be able to:
+  </div>
   <ul className="learning-objectives-list">
-    <li>Explain the difference between <strong>time-domain</strong> and <strong>frequency-domain</strong> sound descriptions.</li>
-    <li>Contrast <strong>wideband</strong> and <strong>narrowband</strong> signals and recognize their perceptual roles.</li>
-    <li>Describe the information carried by a signal’s <strong>spectrum</strong> (amplitude + phase).</li>
-    <li>Connect <strong>periodicity, spectral lines, bandwidth,</strong> and <strong>time–frequency resolution.</strong></li>
-    <li>Understand the <strong>Fourier transform</strong> and how to interpret magnitude and phase.</li>
-    <li>Apply the concept of <strong>time–frequency trade-offs</strong> to spectrograms and windowing.</li>
-    <li>Explain why spectra dominate <strong>room acoustics, perception, filters,</strong> and <strong>auralization</strong>.</li>
+    <li>
+      Explain the difference between <strong>time-domain</strong> and{" "}
+      <strong>frequency-domain</strong> sound descriptions.
+    </li>
+    <li>
+      Contrast <strong>wideband</strong> and <strong>narrowband</strong> signals
+      and recognize their perceptual roles.
+    </li>
+    <li>
+      Describe the information carried by a signal’s <strong>spectrum</strong>{" "}
+      (amplitude + phase).
+    </li>
+    <li>
+      Connect <strong>periodicity, spectral lines, bandwidth,</strong> and{" "}
+      <strong>time–frequency resolution.</strong>
+    </li>
+    <li>
+      Understand the <strong>Fourier transform</strong> and how to interpret
+      magnitude and phase.
+    </li>
+    <li>
+      Apply the concept of <strong>time–frequency trade-offs</strong> to
+      spectrograms and windowing.
+    </li>
+    <li>
+      Explain why spectra dominate{" "}
+      <strong>room acoustics, perception, filters,</strong> and{" "}
+      <strong>auralization</strong>.
+    </li>
     <li>Visualize spectra with Python and interactive tools.</li>
   </ul>
 </section>
@@ -44,36 +69,42 @@ import Quiz from "@/components/Quiz";
 <section className="chapter-section">
   <h2>1. Introduction: Why Do We Need Spectra?</h2>
   <div className="paragraph">
-    Up to now, we have viewed sound through two lenses:
-    pressure fluctuations in <strong>time</strong> and waves propagating in <strong>space</strong>. Acoustics
-    demands a third, equally powerful perspective:
+    Up to now, we have viewed sound through two lenses: pressure fluctuations in{" "}
+    <strong>time</strong> and waves propagating in <strong>space</strong>.
+    Acoustics demands a third, equally powerful perspective:
     <strong>frequency</strong>.
   </div>
   <div className="spectra-pillars">
     <div className="spectra-pill">
-      Pressure in <strong>time</strong> emphasizes envelopes, attack, and sustain.
+      Pressure in <strong>time</strong> emphasizes envelopes, attack, and
+      sustain.
     </div>
     <div className="spectra-pill">
-      Plane waves in <strong>space</strong> show direction, energy flow, and boundary interactions.
+      Plane waves in <strong>space</strong> show direction, energy flow, and
+      boundary interactions.
     </div>
     <div className="spectra-pill">
-      <strong>Frequency</strong> reveals pitch, timbre, and brightness — the qualities our ears latch on to.
+      <strong>Frequency</strong> reveals pitch, timbre, and brightness — the
+      qualities our ears latch on to.
     </div>
   </div>
   <div className="paragraph">
-    Every complex sound decomposes into low, middle, and high frequencies; spectral analysis is the tool
-    that makes that decomposition visible and measurable.
+    Every complex sound decomposes into low, middle, and high frequencies;
+    spectral analysis is the tool that makes that decomposition visible and
+    measurable.
   </div>
   <div className="paragraph">
-    This chapter explains what a spectrum is, how to interpret frequency content, and why it lies at the
-    heart of acoustics and auralization.
+    This chapter explains what a spectrum is, how to interpret frequency
+    content, and why it lies at the heart of acoustics and auralization.
   </div>
 </section>
 
 <section className="chapter-section">
   <h2>2. Time-Domain View: Signals as Functions of Time</h2>
   <div className="paragraph">
-    The sound pressure waveform <MathFormula inline>{String.raw`p'(t)`}</MathFormula> traces pressure changes over time.
+    The sound pressure waveform{" "}
+    <MathFormula inline>{String.raw`p'(t)`}</MathFormula> traces pressure
+    changes over time.
   </div>
   <ul className="section-list">
     <li>A sine wave → smooth, harmonic oscillation.</li>
@@ -82,9 +113,10 @@ import Quiz from "@/components/Quiz";
     <li>Music → layers of harmonic content and rhythmic motion.</li>
   </ul>
   <div className="paragraph">
-    While the time-domain signal tells us how pressure evolves, it can obscure the internal structure.
-    Two waveforms may look similar on a plot but sound drastically different; a spectral view reveals the
-    ingredients behind the waveform.
+    While the time-domain signal tells us how pressure evolves, it can obscure
+    the internal structure. Two waveforms may look similar on a plot but sound
+    drastically different; a spectral view reveals the ingredients behind the
+    waveform.
   </div>
 </section>
 
@@ -97,44 +129,55 @@ import Quiz from "@/components/Quiz";
     </div>
   </div>
 
-  <div className="paragraph">
-    The Fourier series reconstructs <MathFormula inline>{String.raw`x(t)`}</MathFormula> from discrete spectral lines,
-    so every waveform has a unique set of coefficients.
-  </div>
+<div className="paragraph">
+  The Fourier series reconstructs{" "}
+  <MathFormula inline>{String.raw`x(t)`}</MathFormula> from discrete spectral
+  lines, so every waveform has a unique set of coefficients.
+</div>
 
-  <h3>3.1 Fourier Series (Periodic Signals)</h3>
-  <MathFormula>{String.raw`
+<h3>3.1 Fourier Series (Periodic Signals)</h3>
+<MathFormula>{String.raw`
     x(t) = \sum_{n=-\infty}^{\infty} C_n e^{\mathrm{i} n \omega_0 t}
   `}</MathFormula>
 
-  <div className="paragraph">
-    Periodic signals with period <MathFormula inline>{String.raw`T`}</MathFormula> produce discrete spectral lines.
-  </div>
-  <MathFormula>{String.raw`
+<div className="paragraph">
+  Periodic signals with period <MathFormula inline>{String.raw`T`}</MathFormula>{" "}
+  produce discrete spectral lines.
+</div>
+<MathFormula>{String.raw`
     C_n = \frac{1}{T} \int_0^T x(t) e^{-\mathrm{i} n \omega_0 t} \, dt
   `}</MathFormula>
 
-  <div className="paragraph">
-    Writing <MathFormula inline>{String.raw`C_n = |C_n| e^{\mathrm{i} \phi_n}`}</MathFormula> shows that both amplitude
-<MathFormula inline>{String.raw`|C_n|`}</MathFormula> and phase <MathFormula inline>{String.raw`\phi_n`}</MathFormula> reside in the spectrum:
-  </div>
-  <MathFormula>{String.raw`
+<div className="paragraph">
+  Writing{" "}
+  <MathFormula
+    inline
+  >{String.raw`C_n = |C_n| e^{\mathrm{i} \phi_n}`}</MathFormula>{" "}
+  shows that both amplitude
+  <MathFormula inline>{String.raw`|C_n|`}</MathFormula> and phase{" "}
+  <MathFormula inline>{String.raw`\phi_n`}</MathFormula> reside in the spectrum:
+</div>
+<MathFormula>{String.raw`
     x(t) = \sum_{n=-\infty}^{\infty} |C_n| e^{\mathrm{i}(n \omega_0 t + \phi_n)}
   `}</MathFormula>
 
-  <div className="paragraph">
-    Here, <MathFormula inline>{String.raw`\omega_0 = 2\pi/T`}</MathFormula> is the fundamental angular frequency, and
-    <MathFormula inline>{String.raw`C_n`}</MathFormula> are the spectral lines that describe amplitude and phase.
-  </div>
+<div className="paragraph">
+  Here, <MathFormula inline>{String.raw`\omega_0 = 2\pi/T`}</MathFormula> is the
+  fundamental angular frequency, and
+  <MathFormula inline>{String.raw`C_n`}</MathFormula> are the spectral lines
+  that describe amplitude and phase.
+</div>
 
-  <h3>3.2 Fourier Transform (Non-Periodic Signals)</h3>
-  <div className="paragraph">
-    Most natural sounds (speech, claps, noise) are non-periodic and rely on the continuous Fourier transform <MathFormula inline>{String.raw`X(\omega)`}</MathFormula>.
-  </div>
-  <MathFormula>{String.raw`
+<h3>3.2 Fourier Transform (Non-Periodic Signals)</h3>
+<div className="paragraph">
+  Most natural sounds (speech, claps, noise) are non-periodic and rely on the
+  continuous Fourier transform{" "}
+  <MathFormula inline>{String.raw`X(\omega)`}</MathFormula>.
+</div>
+<MathFormula>{String.raw`
     X(\omega) = \int_{-\infty}^{\infty} x(t) e^{-\mathrm{i} \omega t} \, dt
   `}</MathFormula>
-  <MathFormula>{String.raw`
+<MathFormula>{String.raw`
     x(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} X(\omega) e^{\mathrm{i} \omega t} \, d\omega
   `}</MathFormula>
 
@@ -160,7 +203,9 @@ import Quiz from "@/components/Quiz";
   <div className="signal-type-grid">
     <div className="signal-type-card">
       <h3>Wideband Signals</h3>
-      <div className="card-description">Contain many frequencies simultaneously.</div>
+      <div className="card-description">
+        Contain many frequencies simultaneously.
+      </div>
       <ul className="section-list">
         <li>Claps, consonants like “s” and “t”, explosions.</li>
         <li>Pink or white noise.</li>
@@ -169,7 +214,9 @@ import Quiz from "@/components/Quiz";
     </div>
     <div className="signal-type-card">
       <h3>Narrowband Signals</h3>
-      <div className="card-description">Dominated by one or few frequencies.</div>
+      <div className="card-description">
+        Dominated by one or few frequencies.
+      </div>
       <ul className="section-list">
         <li>Pure sine tones, tuning forks.</li>
         <li>Steady musical notes and vowel sounds.</li>
@@ -178,18 +225,21 @@ import Quiz from "@/components/Quiz";
     </div>
   </div>
   <div className="paragraph">
-    These distinctions influence localization, perception, reverberation, speech intelligibility, and filter
-    design. Understanding what dominates a signal’s spectrum helps us process or recreate it correctly.
+    These distinctions influence localization, perception, reverberation, speech
+    intelligibility, and filter design. Understanding what dominates a signal’s
+    spectrum helps us process or recreate it correctly.
   </div>
 </section>
 
 <section className="chapter-section">
   <h2>5. Spectrum Interpretation</h2>
   <div className="paragraph">
-    The magnitude spectrum reveals where the energy is concentrated and what frequency regions define timbre.
+    The magnitude spectrum reveals where the energy is concentrated and what
+    frequency regions define timbre.
   </div>
   <div className="paragraph">
-    The phase spectrum controls waveform shape, transients, and localization cues; omitting it hampers perfect reconstruction.
+    The phase spectrum controls waveform shape, transients, and localization
+    cues; omitting it hampers perfect reconstruction.
   </div>
 </section>
 
@@ -229,23 +279,33 @@ import Quiz from "@/components/Quiz";
   <div className="importance-grid">
     <div className="importance-card">
       <strong>Room Acoustics</strong>
-      <div className="card-description">Modal behavior and reverberation both change with frequency.</div>
+      <div className="card-description">
+        Modal behavior and reverberation both change with frequency.
+      </div>
     </div>
     <div className="importance-card">
       <strong>Psychoacoustics</strong>
-      <div className="card-description">Pitch, brightness, and timbre are spectral phenomena.</div>
+      <div className="card-description">
+        Pitch, brightness, and timbre are spectral phenomena.
+      </div>
     </div>
     <div className="importance-card">
       <strong>Loudspeakers</strong>
-      <div className="card-description">Directivity and tonal balance are frequency dependent.</div>
+      <div className="card-description">
+        Directivity and tonal balance are frequency dependent.
+      </div>
     </div>
     <div className="importance-card">
       <strong>Auralization</strong>
-      <div className="card-description">RIRs, HRTFs, and filtering all operate in the frequency domain.</div>
+      <div className="card-description">
+        RIRs, HRTFs, and filtering all operate in the frequency domain.
+      </div>
     </div>
     <div className="importance-card">
       <strong>Filters &amp; DSP</strong>
-      <div className="card-description">Designing filters is about sculpting spectra.</div>
+      <div className="card-description">
+        Designing filters is about sculpting spectra.
+      </div>
     </div>
   </div>
 </section>
@@ -255,7 +315,10 @@ import Quiz from "@/components/Quiz";
   <div className="interactive-section">
     <div className="interactive-card">
       <h3>Real-Time Spectrum View</h3>
-      <div className="paragraph">Feed a signal through the interactive spectrum visualizer to inspect peaks, harmonics, and noise floors.</div>
+      <div className="paragraph">
+        Feed a signal through the interactive spectrum visualizer to inspect
+        peaks, harmonics, and noise floors.
+      </div>
       <SpectrumVisualizer />
     </div>
   </div>
@@ -267,8 +330,8 @@ import Quiz from "@/components/Quiz";
     <div className="interactive-card">
       <h3>Spectrogram Explorer</h3>
       <div className="paragraph">
-        Slide FFT windows, watch the spectrogram move, observe the instantaneous spectrum, and experiment with
-        peak tracking.
+        Slide FFT windows, watch the spectrogram move, observe the instantaneous
+        spectrum, and experiment with peak tracking.
       </div>
       <TimeFrequencyExplorer />
     </div>
@@ -307,36 +370,54 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # sampling parameters
+
 fs = 48000
 T = 1.0
-t = np.linspace(0, T, int(fs*T), endpoint=False)
+t = np.linspace(0, T, int(fs\*T), endpoint=False)
 
 # signal: mix of 440 Hz + 1000 Hz
+
 x = 0.7*np.sin(2*np.pi*440*t) + 0.3*np.sin(2*np.pi*1000*t)
 
 # FFT
+
 X = np.fft.rfft(x)
 freqs = np.fft.rfftfreq(len(x), 1/fs)
 
-plt.plot(freqs, 20*np.log10(np.abs(X)+1e-12))
+plt.plot(freqs, 20\*np.log10(np.abs(X)+1e-12))
 plt.xlabel("Frequency (Hz)")
 plt.ylabel("Magnitude (dB)")
 plt.title("Spectrum of Mixed Tone")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
-    `}
-  />
+`}
+/>
+
 </section>
 
 <section className="chapter-section">
   <h2>12. Real-World Examples</h2>
   <ul className="section-list">
-    <li><strong>Speech:</strong> Phonemes have distinct spectral signatures.</li>
-    <li><strong>Music:</strong> Harmonics define timbre; instruments differ in spectral envelopes.</li>
-    <li><strong>Room Modes:</strong> Low-frequency energy is concentrated in discrete bands.</li>
-    <li><strong>Noise:</strong> White, pink, and brown noise each follow characteristic spectral slopes.</li>
-    <li><strong>Auralization:</strong> Frequency-dependent filtering enables believable convolution reverbs.</li>
+    <li>
+      <strong>Speech:</strong> Phonemes have distinct spectral signatures.
+    </li>
+    <li>
+      <strong>Music:</strong> Harmonics define timbre; instruments differ in
+      spectral envelopes.
+    </li>
+    <li>
+      <strong>Room Modes:</strong> Low-frequency energy is concentrated in
+      discrete bands.
+    </li>
+    <li>
+      <strong>Noise:</strong> White, pink, and brown noise each follow
+      characteristic spectral slopes.
+    </li>
+    <li>
+      <strong>Auralization:</strong> Frequency-dependent filtering enables
+      believable convolution reverbs.
+    </li>
   </ul>
 </section>
 
@@ -344,12 +425,27 @@ plt.show()
   <h2>13. Summary</h2>
   <div className="summary-card">
     <ul>
-      <li>Sound can be understood through time, frequency, and time–frequency lenses.</li>
-      <li>The Fourier transform decomposes signals into sinusoids and stores amplitude and phase.</li>
-      <li>Wideband signals span many frequencies; narrowband signals concentrate energy near few tones.</li>
+      <li>
+        Sound can be understood through time, frequency, and time–frequency
+        lenses.
+      </li>
+      <li>
+        The Fourier transform decomposes signals into sinusoids and stores
+        amplitude and phase.
+      </li>
+      <li>
+        Wideband signals span many frequencies; narrowband signals concentrate
+        energy near few tones.
+      </li>
       <li>Spectrograms reveal how frequency content shifts over time.</li>
-      <li>Frequency-domain thinking is central to room acoustics, psychoacoustics, loudspeakers, and auralization.</li>
-      <li>Advanced modules (filters, convolution, HRTFs) build on these spectral foundations.</li>
+      <li>
+        Frequency-domain thinking is central to room acoustics, psychoacoustics,
+        loudspeakers, and auralization.
+      </li>
+      <li>
+        Advanced modules (filters, convolution, HRTFs) build on these spectral
+        foundations.
+      </li>
     </ul>
   </div>
 </section>
@@ -364,7 +460,7 @@ plt.show()
     line-height: 1.72;
     font-size: 1.05rem;
     color: #0f172a;
-    max-width: 80ch;
+    max-width: 100ch;
     margin: 0 auto;
     padding: 1rem 0 4rem;
   }
@@ -396,7 +492,7 @@ plt.show()
 
   .signals-spectra-lesson .hero-lede {
     margin-bottom: 1.5rem;
-    max-width: 60ch;
+    max-width: 100ch;
     color: rgba(15, 23, 42, 0.8);
   }
 

@@ -45,7 +45,7 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
 
   if (totalQuestions === 0) {
     return (
-      <section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-6 text-sm text-zinc-300">
+      <section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-6 text-sm text-black">
         <div>No quiz is available for this chapter yet. Check back soon!</div>
       </section>
     );
@@ -53,13 +53,13 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
 
   if (completed) {
     return (
-      <section className="mt-16 rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-950 to-zinc-900/80 p-6 text-white shadow-2xl shadow-emerald-900/10">
+      <section className="mt-16 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold">{title}</h2>
-            <div className="text-sm text-zinc-400">Great work—here’s how you did.</div>
+            <div className="text-sm text-black">Great work—here’s how you did.</div>
           </div>
-          <div className="text-sm text-zinc-400">
+          <div className="text-sm text-black">
             Score:{" "}
             <span className="font-semibold text-emerald-400">
               {score}/{totalQuestions}
@@ -67,14 +67,14 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
           </div>
         </div>
 
-        <div className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-6 text-center">
-          <div className="text-lg text-zinc-300">
+        <div className="mt-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-8 text-center">
+          <div className="text-lg text-black">
             You answered {score} out of {totalQuestions} questions correctly.
           </div>
           <button
             type="button"
             onClick={resetQuiz}
-            className="mt-6 rounded-xl border border-zinc-700 px-6 py-2 text-sm font-semibold text-zinc-100 transition hover:border-emerald-400 hover:text-emerald-200"
+            className="mt-6 rounded-xl border border-zinc-700 px-6 py-2 text-sm font-semibold text-black transition hover:border-emerald-400 hover:text-emerald-200"
           >
             Try Again
           </button>
@@ -89,7 +89,7 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
     currentQuestion && currentQuestion.options.find((opt) => opt.id === currentQuestion.answer);
 
   return (
-    <section className="mt-16 rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-950 to-zinc-900/80 p-6 text-white shadow-2xl shadow-emerald-900/10">
+    <section className="mt-16 rounded-3xl border border-zinc-800 bg-white/80 from-zinc-950 to-zinc-900/80 p-6 text-white shadow-2xl shadow-emerald-900/10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">{title}</h2>
@@ -103,8 +103,8 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
       </div>
 
       {currentQuestion && (
-        <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5">
-          <div className="text-sm uppercase tracking-wide text-zinc-500">
+        <div className="mt-6 rounded-2xl border border-zinc-800 bg-white-950/60 p-5">
+          <div className="text-sm uppercase tracking-wide text-black">
             Question {currentIndex + 1}
           </div>
           <h3 className="mt-2 text-lg font-medium text-zinc-100">{currentQuestion.prompt}</h3>
@@ -134,15 +134,14 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
                   key={option.id}
                   type="button"
                   onClick={() => handleOptionSelect(currentQuestion.id, option.id)}
-                  className={`flex w-full items-center justify-between rounded-2xl border ${borderColor} ${background} px-4 py-3 text-left text-sm transition ${
-                    showFeedback
-                      ? "cursor-not-allowed"
-                      : "hover:border-emerald-400/60 hover:bg-emerald-400/5"
-                  }`}
+                  className={`flex w-full items-center justify-between rounded-2xl border ${borderColor} ${background} px-4 py-3 text-left text-sm transition ${showFeedback
+                    ? "cursor-not-allowed"
+                    : "hover:border-emerald-400/60 hover:bg-emerald-400/5"
+                    }`}
                   aria-pressed={isSelected}
                   disabled={showFeedback}
                 >
-                  <span className="text-zinc-200">{option.label}</span>
+                  <span className="text-black">{option.label}</span>
                   {showFeedback && isCorrect && (
                     <span className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
                       Correct
@@ -172,16 +171,15 @@ export default function Quiz({ chapterId, title = "Quick Quiz" }) {
           type="button"
           onClick={handleAdvance}
           disabled={!showFeedback}
-          className={`rounded-xl px-5 py-2 text-sm font-semibold transition ${
-            showFeedback ? "bg-emerald-500 text-black hover:bg-emerald-400" : "cursor-not-allowed bg-zinc-800 text-zinc-500"
-          }`}
+          className={`rounded-xl px-5 py-2 text-sm font-semibold transition ${showFeedback ? "bg-emerald-500 text-black hover:bg-emerald-400" : "cursor-not-allowed bg-zinc-800 text-zinc-500"
+            }`}
         >
           {currentIndex === totalQuestions - 1 ? "See Results" : "Next Question"}
         </button>
         <button
           type="button"
           onClick={resetQuiz}
-          className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 hover:border-emerald-400 hover:text-emerald-200"
+          className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-black hover:border-emerald-400 hover:text-emerald-200"
         >
           Restart
         </button>

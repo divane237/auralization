@@ -1,14 +1,297 @@
 @config "../tailwind.config.js";
 @import "tailwindcss";
 
+/* ============================================
+   PERFECT E-BOOK READING EXPERIENCE
+   ============================================ */
+
 :root {
   color-scheme: light;
+  --color-bg-primary: 250 250 250;
+  --color-bg-secondary: 255 255 255;
+  --color-text-primary: 15 23 42;
+  --color-text-secondary: 71 85 105;
 }
 
 :root.dark {
   color-scheme: dark;
+  --color-bg-primary: 2 6 23;
+  --color-bg-secondary: 15 23 42;
+  --color-text-primary: 241 245 249;
+  --color-text-secondary: 148 163 184;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-  @apply text-gray-900 transition-colors duration-300 ease-out;
+  @apply antialiased;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "calt" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR - SUBTLE
+   ============================================ */
+
+/* Webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400 dark:bg-slate-600;
+}
+
+/* Thin scrollbar utility */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(203 213 225 / 0.5) transparent;
+}
+
+.dark .scrollbar-thin {
+  scrollbar-color: rgb(71 85 105 / 0.5) transparent;
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+
+::selection {
+  @apply bg-slate-200 text-slate-900;
+}
+
+html.dark ::selection {
+  @apply bg-slate-700 text-slate-100;
+}
+
+/* ============================================
+   FOCUS STATES
+   ============================================ */
+
+*:focus-visible {
+  @apply outline-none ring-2 ring-slate-400 ring-offset-2 ring-offset-white dark:ring-slate-600 dark:ring-offset-slate-900;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.intro-lesson {
+  max-width: 100ch !important;
+}
+/* ============================================
+   PROSE STYLES - PERFECT READING
+   ============================================ */
+
+.prose {
+  @apply max-w-none text-slate-700 dark:text-slate-300;
+  line-height: 1.75;
+}
+
+/* Headings */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply font-semibold text-slate-900 dark:text-slate-100;
+  scroll-margin-top: 6rem;
+}
+
+.prose h1 {
+  @apply text-3xl leading-tight mb-6 mt-8;
+}
+
+.prose h2 {
+  @apply text-2xl leading-snug mb-4 mt-8 pb-2 border-b border-slate-200/60 dark:border-slate-800/60;
+}
+
+.prose h3 {
+  @apply text-xl leading-snug mb-3 mt-6;
+}
+
+.prose h4 {
+  @apply text-lg leading-snug mb-2 mt-4;
+}
+
+/* Paragraphs */
+.prose p {
+  @apply mb-4 text-slate-700 dark:text-slate-300;
+}
+
+/* Links */
+.prose a {
+  @apply text-slate-900 dark:text-slate-100 
+         underline decoration-slate-300 dark:decoration-slate-700
+         underline-offset-2 decoration-1
+         transition-colors hover:decoration-slate-500 dark:hover:decoration-slate-500;
+}
+
+/* Code */
+.prose code {
+  @apply px-1.5 py-0.5 rounded text-sm
+         bg-slate-100 dark:bg-slate-800/60
+         text-slate-800 dark:text-slate-200
+         font-mono;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+/* Code blocks */
+.prose pre {
+  @apply p-4 rounded-lg overflow-x-auto
+         bg-slate-900 dark:bg-slate-950
+         border border-slate-800 dark:border-slate-700
+         shadow-lg;
+}
+
+.prose pre code {
+  @apply p-0 bg-transparent text-slate-100 text-sm;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Lists */
+.prose ul,
+.prose ol {
+  @apply my-4 pl-6;
+}
+
+.prose li {
+  @apply mb-1 text-slate-700 dark:text-slate-300;
+}
+
+.prose ul > li::marker {
+  @apply text-slate-400 dark:text-slate-600;
+}
+
+.prose ol > li::marker {
+  @apply text-slate-500 dark:text-slate-500 font-medium;
+}
+
+/* Blockquotes */
+.prose blockquote {
+  @apply border-l-2 border-slate-300 dark:border-slate-700 
+         pl-4 my-4
+         text-slate-600 dark:text-slate-400
+         not-italic font-normal;
+}
+
+/* Strong/Bold */
+.prose strong {
+  @apply font-semibold text-slate-900 dark:text-slate-100;
+}
+
+/* Emphasis/Italic */
+.prose em {
+  @apply italic text-slate-700 dark:text-slate-300;
+}
+
+/* Horizontal rules */
+.prose hr {
+  @apply my-8 border-slate-200 dark:border-slate-800;
+}
+
+/* Images */
+.prose img {
+  @apply rounded-lg shadow-md my-6;
+}
+
+/* Tables */
+.prose table {
+  @apply w-full text-sm my-6;
+}
+
+.prose thead {
+  @apply border-b-2 border-slate-200 dark:border-slate-800;
+}
+
+.prose th {
+  @apply px-3 py-2 text-left font-semibold text-slate-900 dark:text-slate-100;
+}
+
+.prose td {
+  @apply px-3 py-2 border-t border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300;
+}
+
+/* ============================================
+   MATH/KATEX
+   ============================================ */
+
+.katex {
+  @apply text-slate-900 dark:text-slate-100;
+  font-size: 1.05em;
+}
+
+.katex-display {
+  @apply my-6 overflow-x-auto overflow-y-hidden;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  nav,
+  aside,
+  header,
+  footer {
+    display: none;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    page-break-after: avoid;
+  }
+
+  .prose p {
+    orphans: 3;
+    widows: 3;
+  }
 }
