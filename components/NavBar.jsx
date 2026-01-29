@@ -207,6 +207,8 @@ function NavBar() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Learn", href: "/learn" },
+    { name: "Code", href: "/python" },
+    { name: "Explore", href: "/explore" },
   ];
 
   return (
@@ -215,7 +217,7 @@ function NavBar() {
         <div className="flex h-16 items-center justify-between gap-4 px-4 lg:px-8">
 
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Logo />
           </div>
 
@@ -316,7 +318,7 @@ function NavBar() {
                 <span className={`absolute left-0 top-[7px] block h-0.5 w-5 bg-slate-900 dark:bg-slate-100
                                transition-all duration-200 ${isMenuOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"}`} />
                 <span className={`absolute left-0 block h-0.5 w-5 bg-slate-900 dark:bg-slate-100
-                               transition-all duration-200 ${isMenuOpen ? "top-[7px] -rotate-45" : "top-[14px] rotate-0"}`} />
+                               transition-all duration-200 ${isMenuOpen ? "top-[7px] -rotate-45" : "top-3.5 rotate-0"}`} />
               </div>
             </button>
           </div>
